@@ -4,7 +4,6 @@
 #include <ctype.h>
 
 // Variables
-char ** words;
 char ** word_array; //ordenado
 int n_words;
 int max_word_len;
@@ -13,7 +12,7 @@ char inputFile[30] = "lusiadas-words.txt";
 /* Declaration of compare() as a function */
 int compare (const void *arg1, const void *arg2) /* macro is automatically */                
 {                                                                               
-	/* Compare all of both strings */                                
+	/* Compare all of both strings */              
 	return(strcmp(*(char **)arg1, *(char **)arg2));                              
 }   
 
@@ -38,8 +37,8 @@ void read_words(char * fname){
 		}   
 	}
 	printf("%d numero de palavras\n", n_words);
-	words = calloc(sizeof(char *), n_words);
-	if (words == NULL){
+	word_array = calloc(sizeof(char *), n_words);
+	if (word_array == NULL){
 		perror("malloc ");
 		exit(0);
 	}
@@ -56,8 +55,8 @@ void read_words(char * fname){
 		   for (int j = 0; linha[j]!= '\0'; j++){
 			   linha[j] = tolower(linha[j]);
 		   } 
-			words[i] = calloc(sizeof(char), max_word_len);
-			strcpy(words[i], linha);
+			word_array[i] = calloc(sizeof(char), max_word_len);
+			strcpy(word_array[i], linha);
 			i++;
 		}
 	}
@@ -71,16 +70,16 @@ int main(int argc, char *argv[]){
 
 	// Before Sorting
 	//for (int i = 0; i < n_words ; i++){
-	//	printf("%s\n", words[i]);
+	//	printf("%s\n", word_array[i]);
 	//}
 
 	// Sorting
 	//qsort((char *)words, n_words, sizeof(char *), compare);
-	qsort((char *)words, n_words, sizeof(char *), compare);
+	qsort((char *)word_array, n_words, sizeof(char *), compare);
 
 	// After Sorting
 	for (int i = 0; i < n_words ; i++){
-		printf("%s\n", words[i]);
+		printf("%s\n", word_array[i]);
 	}
 
 	exit(0);
