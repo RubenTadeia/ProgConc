@@ -13,7 +13,7 @@ char inputFile[30] = "lusiadas-words.txt";
 int compare (const void *arg1, const void *arg2) /* macro is automatically */                
 {                                                                               
 	/* Compare all of both strings */              
-	return(strcmp(*(char **)arg1, *(char **)arg2));                              
+	return(strncmp(*(char **)arg1, *(char **)arg2,1));                              
 }   
 
 // Functions
