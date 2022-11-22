@@ -22,3 +22,5 @@ make
 ./exercise-3
 
 ./exercise-4
+
+./exercise-5
