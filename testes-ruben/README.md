@@ -4,7 +4,7 @@
 
 # Desafio 1
 - Ler de um ficheiro o nome de alunos e armazenar os nomes dos alunos numa estrutura aluno;
-- Essa extrutura deverá conter um char ** Nome e um ponteiro para next;
+- Essa extrutura deverá conter um char * Nome e um ponteiro para next;
 
 # Desafio 2
 - Separar o código em main.c (que só contem o int main) e todas as outras funções relacionadas com aluno em ficheiros aluno.c e aluno.h
