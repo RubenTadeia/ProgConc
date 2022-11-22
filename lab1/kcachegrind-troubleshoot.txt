@@ -1,0 +1,7 @@
+QT_QPA_PLATFORM=offscreen kcachegrind callgrind.out.861
+
+export DISPLAY=:0.0
+
+export QT_DEBUG_PLUGINS=1
+
+kcachegrind callgrind.out.861
