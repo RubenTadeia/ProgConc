@@ -36,7 +36,7 @@ $(BINARY_exercise4): $(FILE5).c
 	$(CC) $(CFLAGS) $(FILE5).c -o $(BINARY_exercise4)
 
 $(BINARY_exercise5): $(FILE6).c
-	$(CC) $(CFLAGS) $(FILE5).c -o $(BINARY_exercise5)
+	$(CC) $(CFLAGS) $(FILE6).c -o $(BINARY_exercise5)
 
 clean:
 	$(RM) $(BINARY_LAB1)
