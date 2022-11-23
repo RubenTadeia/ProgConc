@@ -1,5 +1,11 @@
 Como ler linha a linha de um ficheiro?
 
+    R: Usar fgets (por exemplo).
+
 O fgets copia também os espaços entre os nomes?
 
+    R: Sim.
+
 o strlen contabiliza o espaço entre os nomes?
+
+    R: Sim, mas não contabiliza o "\0".
