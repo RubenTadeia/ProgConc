@@ -1,0 +1,5 @@
+Como ler linha a linha de um ficheiro?
+
+O fgets copia também os espaços entre os nomes?
+
+o strlen contabiliza o espaço entre os nomes?
