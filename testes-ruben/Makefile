@@ -3,15 +3,17 @@ CC = gcc
 
 CFLAGS = -g -Wall
 
-FILE = main
+MAIN = main
+
+ALUNO = aluno
 
 # the build of all the binary executables:
 BINARY = turma
 
 all: $(BINARY)
 
-$(BINARY): $(FILE).c
-	$(CC) $(CFLAGS) $(FILE).c -o $(BINARY)
+$(BINARY): $(MAIN).c $(ALUNO).c
+	$(CC) $(CFLAGS) $(MAIN).c $(ALUNO).c -o $(BINARY)
 
 clean:
 	$(RM) $(BINARY)
