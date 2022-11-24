@@ -1,7 +1,7 @@
 # the compiler: gcc for C program, define as g++ for C++
 CC = gcc
 
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -ansi -pedantic -std=c99
 
 MAIN = main
 
@@ -13,7 +13,7 @@ BINARY = turma
 all: $(BINARY)
 
 $(BINARY): $(MAIN).c $(ALUNO).c
-	$(CC) $(CFLAGS) $(MAIN).c $(ALUNO).c -o $(BINARY)
+	$(CC) $(CFLAGS) $(ALUNO).c $(MAIN).c -o $(BINARY)
 
 clean:
 	$(RM) $(BINARY)
