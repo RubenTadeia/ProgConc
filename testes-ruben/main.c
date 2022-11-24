@@ -1,15 +1,11 @@
 #include "aluno.h"
 
-/* DEFINES */
-#ifndef ALUNO_H
-#define ALUNO_H
-/* header file contents go here */
-#endif
-
 /* Variables */
 aluno * turma = NULL;
 int n_students;
 char inputFile[30] = "alunos.txt";
+
+int gamma = 0;
 
 /* Functions */
 void read_file(char * fname){
@@ -44,9 +40,15 @@ void read_file(char * fname){
 
 	while(fgets(linha, 100, file)){
 		if(linha[0] != '\n' && linha[0] != '\0' && isalpha(linha[0])){
+			linha[strlen(linha)-1] = '\0';
 			printf("%s -> Ruben\n", linha);
 			student_insert_begining(&turma,linha,0);
 			/* student_insert_end(&turma,linha,0); */
+			print_class(turma);
+			gamma++;
+			if (gamma == 2){
+				exit(1);
+			}
 		}
 	}
 	fclose(file);
@@ -58,7 +60,7 @@ int main(int argc, char *argv[]){
 	/* Leitura do ficheiro */
 	read_file(inputFile);
 
-	print_class(turma);
+	//print_class(turma);
 
 	exit(0);
 }
