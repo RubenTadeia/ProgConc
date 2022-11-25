@@ -34,10 +34,32 @@ void student_insert_end(aluno** head, char * studentName, int number){
 	temp->next = newStudent;
 }
 
+void order_classroom_and_print(aluno* student){
+
+	int i = 1;
+	//as linked list will end when Node is Null
+	while(student->next!=NULL){
+		student->number = i;
+		printf("Name = %s\nNumber = %d\n",student->name, student->number);
+		student = student->next;
+		i++;
+	}
+	printf("\n");
+}
+
 void print_class(aluno* student){
 
 	//as linked list will end when Node is Null
-	//while(student->next!=NULL){
+	while(student->next!=NULL){
+		printf("Name = %s\nNumber = %d\n",student->name, student->number);
+		student = student->next;
+	}
+	printf("\n");
+}
+
+void print_class_with_null(aluno* student){
+
+	//as linked list will end when Node is Null
 	while(student!=NULL){
 		printf("Name = %s\nNumber = %d\n",student->name, student->number);
 		student = student->next;

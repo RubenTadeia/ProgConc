@@ -5,8 +5,6 @@ aluno * turma = NULL;
 int n_students;
 char inputFile[30] = "alunos.txt";
 
-int gamma = 0;
-
 /* Functions */
 void read_file(char * fname){
 
@@ -41,14 +39,10 @@ void read_file(char * fname){
 	while(fgets(linha, 100, file)){
 		if(linha[0] != '\n' && linha[0] != '\0' && isalpha(linha[0])){
 			linha[strlen(linha)-1] = '\0';
-			printf("%s -> Ruben\n", linha);
-			student_insert_begining(&turma,linha,0);
-			/* student_insert_end(&turma,linha,0); */
-			print_class(turma);
-			gamma++;
-			if (gamma == 2){
-				exit(1);
-			}
+			//printf("%s -> Ruben\n", linha);
+			student_insert_begining(&turma,linha,-1);
+			//student_insert_end(&turma,linha,0);
+			//print_class(turma);
 		}
 	}
 	fclose(file);
@@ -61,6 +55,15 @@ int main(int argc, char *argv[]){
 	read_file(inputFile);
 
 	//print_class(turma);
+	//order_classroom_and_print(turma);
+
+	//if (argc == 2){
+		//printf("%s\n", argv[1]);
+	//	student_insert_begining(&turma,argv[1],-1);
+		//student_insert_end(&turma,argv[1],-1);
+
+	//	order_classroom_and_print(turma);
+	//}
 
 	exit(0);
 }

@@ -7,6 +7,8 @@ MAIN = main
 
 ALUNO = aluno
 
+StudentName = Ruben
+
 # the build of all the binary executables:
 BINARY = turma
 
@@ -17,3 +19,9 @@ $(BINARY): $(MAIN).c $(ALUNO).c
 
 clean:
 	$(RM) $(BINARY)
+
+run:
+	./$(BINARY) $(StudentName)
+#	-./$(BINARY) $(StudentName)
+#	o traco - -> Ignora os erros do make. Tudo o que não é exit(0)
+	
