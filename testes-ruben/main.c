@@ -41,7 +41,7 @@ void read_file(char * fname){
 			linha[strlen(linha)-1] = '\0';
 			//printf("%s -> Ruben\n", linha);
 			student_insert_begining(&turma,linha,-1);
-			//student_insert_end(&turma,linha,0);
+			//student_insert_end(&turma,linha,-1);
 			//print_class(turma);
 		}
 	}
@@ -54,16 +54,16 @@ int main(int argc, char *argv[]){
 	/* Leitura do ficheiro */
 	read_file(inputFile);
 
-	//print_class(turma);
+	print_class(turma);
 	//order_classroom_and_print(turma);
 
-	//if (argc == 2){
-		//printf("%s\n", argv[1]);
-	//	student_insert_begining(&turma,argv[1],-1);
-		//student_insert_end(&turma,argv[1],-1);
+	if (argc == 2){
+		printf("%s\n", argv[1]);
+		student_insert_begining(&turma,argv[1],-1);
+		student_insert_end(&turma,argv[1],-1);
 
 	//	order_classroom_and_print(turma);
-	//}
+	}
 
 	exit(0);
 }

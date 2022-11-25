@@ -4,7 +4,8 @@ void student_insert_begining(aluno** head, char * studentName, int number){
 
 	aluno* newStudent = (aluno*) malloc(sizeof(aluno));
 
-	newStudent->name = studentName;
+	newStudent->name = malloc(strlen(studentName)+1);
+	strcpy(newStudent->name,studentName);
 	newStudent->number = number;
 	newStudent->next = *head;
 
@@ -16,7 +17,8 @@ void student_insert_end(aluno** head, char * studentName, int number){
 
 	aluno* newStudent = (aluno*) malloc(sizeof(aluno));
 
-	newStudent->name = studentName;
+	newStudent->name = malloc(strlen(studentName)+1);
+	strcpy(newStudent->name,studentName);
 	newStudent->number = number;
 	newStudent->next = NULL;
 
