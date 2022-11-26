@@ -23,25 +23,32 @@ void * thread_function(void * arg){
 int main(){
 	char line[100];
 	int n_threads;
+	int j = 0;
+	int i = 0;
 	printf("How many threads: ");
 	fgets(line, 100, stdin);
 	sscanf(line, "%d", &n_threads);
-	//pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
+	pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
 	pthread_t thread_id;
 
-	int i = 0;
 	while( i < n_threads) {
 		pthread_create(&thread_id, NULL,thread_function, NULL);
-		//thread_id_list[i]= thread_id;
+		thread_id_list[i] = thread_id;
 		//pthread_create(&thread_id, NULL,thread_function, NULL);
 		i++;
 		//pthread_join(thread_id, NULL);
 	};
 
-	//pthread_join(thread_id, NULL);
-	printf("Threads concluidas com sucesso!\n");
+	while( j < n_threads) {
+		pthread_join(thread_id_list[j], NULL);
+		printf("miau\n");
+		j++;
+	};
 
 	//printf("Carregue em enter para terminar\n");
-	fgets(line, 100, stdin);
+	//fgets(line, 100, stdin);
+
+	printf("Threads concluidas com sucesso!\n");
+
 	exit(0);
 }
