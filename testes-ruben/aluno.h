@@ -15,6 +15,8 @@ void student_insert_begining(aluno** head, char * studentName, int number);
 
 void student_insert_end(aluno** head, char * studentName, int number);
 
+void sort_classroom_alphabetically(aluno* student);
+
 void order_classroom_and_print(aluno* student);
 
 void print_class(aluno* student);

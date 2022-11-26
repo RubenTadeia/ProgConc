@@ -51,19 +51,21 @@ void read_file(char * fname){
 /* Main */
 int main(int argc, char *argv[]){
 
-	/* Leitura do ficheiro */
+	//Leitura do ficheiro
 	read_file(inputFile);
 
-	print_class(turma);
-	//order_classroom_and_print(turma);
+	//Print da turma para efeitos de teste
+	//print_class(turma);
+	
+	//sort_classroom_alphabetically(turma);
 
 	if (argc == 2){
 		printf("%s\n", argv[1]);
 		student_insert_begining(&turma,argv[1],-1);
-		student_insert_end(&turma,argv[1],-1);
-
-	//	order_classroom_and_print(turma);
+		//sort_classroom_alphabetically(turma);
 	}
+
+	order_classroom_and_print(turma);
 
 	exit(0);
 }

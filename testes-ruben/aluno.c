@@ -36,6 +36,38 @@ void student_insert_end(aluno** head, char * studentName, int number){
 	temp->next = newStudent;
 }
 
+void sort_classroom_alphabetically(aluno* student){
+
+	/* Testes com as o sorting
+	char a = 'a';
+	char b = 'b';
+	printf("%c  %c\n",a , b);
+	printf("%d  %d\n",a , b); 
+	// Resultado
+	// a   b
+	// 97  98
+	*/
+	aluno *ptr;
+	aluno n;
+	n.next = student;
+	for( ptr = &n; ptr; ptr = ptr->next){
+		for(aluno *ptr2 = ptr->next; ptr2; ptr2 = ptr2->next){
+			// Vamos comparar os dois nomes deles
+			printf("%c %d\n", (char) tolower(ptr->next->name[0]), (char) tolower(ptr->next->name[0]));
+			printf("%c %d\n", (char) tolower(ptr2->next->name[0]), (char) tolower(ptr2->next->name[0]));
+			if( (char) tolower(ptr->next->name[0]) > (char) tolower(ptr2->next->name[0]) ){
+				if(ptr->next == student){
+					student = ptr2->next;
+				}
+				//then swap ptr and ptr2
+				aluno*temp = ptr->next;
+				ptr->next = ptr2->next;
+				ptr2->next = temp;
+			}
+		}
+	}
+}
+
 void order_classroom_and_print(aluno* student){
 
 	int i = 1;

@@ -30,3 +30,6 @@
 
 # Desafio 8
 - Utilizar os argc e argv no int main para receber um parametro string com o nome de um novo aluno a ser adicionado à Turma, após esta ter sido ordenada.
+
+# Desafio 9
+- Erros de memória
