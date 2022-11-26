@@ -45,4 +45,4 @@ Concurrent Programming
 
 # 2  - No exercise 3 pedido neste laboratório, quando pedem para remover o fgets. A que fgets se referem?
 
-- R:
+- R: É o ultimo fgets... :)

@@ -9,14 +9,18 @@ LIBS = -pthread -lpthread
 FILE1 = test-threads_1
 FILE2 = test-threads_2
 FILE3 = exercise-3
+FILE4 = exercise-4
+FILE5 = exercise-5
 
 # the build of all the binary executables:
 BINARY_test-threads_1 = test-threads_1
 BINARY_test-threads_2 = test-threads_2
 BINARY_test-threads_3 = exercise-3
+BINARY_test-threads_4 = exercise-4
+BINARY_test-threads_5 = exercise-5
 
 # MAKE all
-all: $(BINARY_test-threads_1) $(BINARY_test-threads_2) $(BINARY_test-threads_3) 
+all: $(BINARY_test-threads_1) $(BINARY_test-threads_2) $(BINARY_test-threads_3) $(BINARY_test-threads_4) $(BINARY_test-threads_5)
 
 $(BINARY_test-threads_1): $(FILE1).c
 	$(CC) $(CFLAGS) $(FILE1).c -o $(BINARY_test-threads_1) $(LIBS)
@@ -27,8 +31,16 @@ $(BINARY_test-threads_2): $(FILE2).c
 $(BINARY_test-threads_3): $(FILE3).c
 	$(CC) $(CFLAGS) $(FILE3).c -o $(BINARY_test-threads_3) $(LIBS)
 
+$(BINARY_test-threads_4): $(FILE4).c
+	$(CC) $(CFLAGS) $(FILE4).c -o $(BINARY_test-threads_4) $(LIBS)
+
+$(BINARY_test-threads_5): $(FILE5).c
+	$(CC) $(CFLAGS) $(FILE5).c -o $(BINARY_test-threads_5) $(LIBS)
+
 # MAKE clean
 clean:
 	$(RM) $(BINARY_test-threads_1)
 	$(RM) $(BINARY_test-threads_2)
 	$(RM) $(BINARY_test-threads_3)
+	$(RM) $(BINARY_test-threads_4)
+	$(RM) $(BINARY_test-threads_5)
