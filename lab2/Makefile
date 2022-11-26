@@ -3,7 +3,7 @@ CC = gcc
 
 CFLAGS = -g -Wall 
 
-LIBS = -pthread -lpthread 
+LIBS = -lpthread 
 
 FILE1 = test-threads_1
 
