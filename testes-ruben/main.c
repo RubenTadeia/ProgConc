@@ -57,12 +57,15 @@ int main(int argc, char *argv[]){
 	//Print da turma para efeitos de teste
 	//print_class(turma);
 	
+	// Ordena a turma por numero de aluno
 	//sort_classroom_alphabetically(turma);
+
+	bubbleSort(turma); /* Esta para ordenar apenas a primeira letra */
 
 	if (argc == 2){
 		printf("%s\n", argv[1]);
 		student_insert_begining(&turma,argv[1],-1);
-		//sort_classroom_alphabetically(turma);
+		bubbleSort(turma);
 	}
 
 	order_classroom_and_print(turma);

@@ -15,6 +15,10 @@ void student_insert_begining(aluno** head, char * studentName, int number);
 
 void student_insert_end(aluno** head, char * studentName, int number);
 
+void bubbleSort(aluno *turma); /* Esta para ordenar apenas a primeira letra */
+
+void swap(aluno *a, aluno *b);
+
 void sort_classroom_alphabetically(aluno* student);
 
 void order_classroom_and_print(aluno* student);

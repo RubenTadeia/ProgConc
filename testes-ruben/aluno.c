@@ -36,6 +36,46 @@ void student_insert_end(aluno** head, char * studentName, int number){
 	temp->next = newStudent;
 }
 
+/* Bubble sort the given linked list */
+void bubbleSort(aluno *turma){ /* Esta para ordenar apenas a primeira letra */
+// https://www.geeksforgeeks.org/c-program-bubble-sort-linked-list/	
+	int swapped;
+	aluno *ptr1;
+	aluno *lptr = NULL;
+
+	/* Checking for empty list */
+	if (turma == NULL){
+		return;
+	}
+	
+	do{
+		swapped = 0;
+		ptr1 = turma;
+
+		while (ptr1->next != lptr){
+			if (ptr1->next->name != NULL) {
+				if( (char) tolower(ptr1->name[0]) > (char) tolower(ptr1->next->name[0]) ){
+					swap(ptr1, ptr1->next);
+					swapped = 1;
+				}
+			}
+			ptr1 = ptr1->next;
+		}
+		lptr = ptr1;
+	}
+	
+	while (swapped);
+}
+
+/* function to swap data of two nodes a and b*/
+void swap(aluno *a, aluno *b)
+{
+	char * temp = malloc(70);
+	strcpy(temp,a->name);
+	strcpy(a->name,b->name);
+	strcpy(b->name,temp);
+}
+
 void sort_classroom_alphabetically(aluno* student){
 
 	/* Testes com as o sorting

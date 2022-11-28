@@ -33,3 +33,9 @@
 
 # Desafio 9
 - Erros de memória
+valgrind --leak-check=full \
+--show-leak-kinds=all \
+--track-origins=yes \
+--verbose \
+--log-file=valgrind-ruben.txt \
+./turma Ruben
