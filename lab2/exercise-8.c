@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <pthread.h>
+#include <unistd.h> 
 
 int * rand_num_array;
 
@@ -13,13 +15,62 @@ int n_mult(int n){
 	}
 	return c;
 }
+
+void * thread_function(void * arg){
+	int input_divisor = *(int *) arg;
+	
+	//sleep(0.75);
+
+	printf("input_divisor -> %d\n",input_divisor);
+
+	long int resultado = n_mult(input_divisor);
+
+	return (void *)resultado;
+}
+
 int main(){
 
 	rand_num_array = calloc(LIMIT, sizeof(int));
+	int n_threads = 5;
+	
+	int i;
+	int j = 0;
+	int gamma = 0;
+	int divisores[5] = {2, 3, 5, 7, 11};
+	int * divisor = (int *) malloc(sizeof(int));
 
-	for(int i = 0 ; i <LIMIT; i++){
+	pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
+	pthread_t thread_id;
+
+	for(i = 0 ; i <LIMIT; i++){
 		rand_num_array[i] = random();
 	}
+
+	void * thread_ret;
+	long int ret_val;
+
+	while( j < n_threads) {
+		* divisor = divisores[j];
+		printf("Valor do divisor = %d\n", *divisor);
+
+		pthread_create(&thread_id, NULL, thread_function, divisor);
+		thread_id_list[j] = thread_id;
+		
+		//pthread_join(thread_id, &thread_ret); // nao queremos isto. Perdemos a paralelizacao
+		//ret_val = (long int)thread_ret;
+		//printf("Múltiplos de %d -> %ld\n", divisores[j], ret_val);
+		j++;
+	};
+
+	while( gamma < n_threads) {
+		//pthread_join(thread_id_list[j], NULL);
+
+		pthread_join(thread_id_list[gamma], &thread_ret);
+		ret_val = (long int) thread_ret;
+		printf("Múltiplos de %d -> %ld\n", divisores[gamma], ret_val);;
+		gamma++;
+	};
+
 	int n_2 = n_mult(2);
 	int n_3 = n_mult(3);
 	int n_5 = n_mult(5);
