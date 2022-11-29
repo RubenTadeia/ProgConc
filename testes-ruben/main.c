@@ -28,8 +28,10 @@ void read_file(char * fname){
 			n_students++;
 		}   
 	}
-	printf("Existem cerca de %d alunos!\n", n_students);
+	//printf("Existem cerca de %d alunos!\n", n_students);
 	
+	fclose(file);
+
 	file = fopen(fname, "r");
 	if(file == NULL){
 		perror("opening file");
@@ -60,15 +62,18 @@ int main(int argc, char *argv[]){
 	// Ordena a turma por numero de aluno
 	//sort_classroom_alphabetically(turma);
 
-	bubbleSort(turma);
+	//bubbleSort(turma);
 
 	if (argc == 2){
-		printf("%s\n", argv[1]);
+		//printf("%s\n", argv[1]);
 		student_insert_begining(&turma,argv[1],-1);
 		bubbleSort(turma);
 	}
 
-	order_classroom_and_print(turma);
+	//order_classroom_and_print(turma);
+
+	freeTurma(turma);
+	//free(turma);
 
 	exit(0);
 }

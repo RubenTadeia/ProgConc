@@ -4,7 +4,8 @@ void student_insert_begining(aluno** head, char * studentName, int number){
 
 	aluno* newStudent = (aluno*) malloc(sizeof(aluno));
 
-	newStudent->name = malloc(strlen(studentName)+1);
+	//newStudent->name = malloc(strlen(studentName)+1);
+	newStudent->name = calloc(strlen(studentName)+1, sizeof(char *));
 	strcpy(newStudent->name,studentName);
 	newStudent->number = number;
 	newStudent->next = *head;
@@ -17,7 +18,8 @@ void student_insert_end(aluno** head, char * studentName, int number){
 
 	aluno* newStudent = (aluno*) malloc(sizeof(aluno));
 
-	newStudent->name = malloc(strlen(studentName)+1);
+	//newStudent->name = malloc(strlen(studentName)+1);
+	newStudent->name = calloc(strlen(studentName)+1, sizeof(char *));
 	strcpy(newStudent->name,studentName);
 	newStudent->number = number;
 	newStudent->next = NULL;
@@ -36,14 +38,17 @@ void student_insert_end(aluno** head, char * studentName, int number){
 	temp->next = newStudent;
 }
 
-/* Bubble sort the given linked list */
+// Bubble sort the given linked list
 void bubbleSort(aluno *turma){
 // https://www.geeksforgeeks.org/c-program-bubble-sort-linked-list/	
 	int swapped;
 	aluno *ptr1;
 	aluno *lptr = NULL;
 
-	/* Checking for empty list */
+	int i = 0;
+	int j = 0;
+
+	//Checking for empty list
 	if (turma == NULL){
 		return;
 	}
@@ -54,67 +59,50 @@ void bubbleSort(aluno *turma){
 
 		while (ptr1->next != lptr){
 			if (ptr1->next->name != NULL) {
-				//for (int i = 0; i < 6; i++){
-			//		if( (char) tolower(ptr1->name[i]) == (char) tolower(ptr1->next->name[i]) ){
-			//			continue;
-			//		}
-			//		printf("%c\n%c\n",(char) tolower(ptr1->name[i]),(char) tolower(ptr1->next->name[i]));
-					//if( (char) tolower(ptr1->name[i]) > (char) tolower(ptr1->next->name[i]) ){
-					if( (char) tolower(ptr1->name[0]) > (char) tolower(ptr1->next->name[0]) ){
-						swap(ptr1, ptr1->next);
-						swapped = 1;
-			//			break;
+				//Logica para ordernar por todos os caracters ao inves de apenas pelo primeiro
+				if( (char) tolower(ptr1->name[0]) > (char) tolower(ptr1->next->name[0]) ){
+					swap(ptr1, ptr1->next);
+					swapped = 1;
+				}
+				else if ( (char) tolower(ptr1->name[0]) == (char) tolower(ptr1->next->name[0]) ){
+					j = 1;
+					for (i = 1; i < strlen(ptr1->name); i++){
+						char * aux_one = calloc(strlen(ptr1->name)+1, sizeof(char *));
+						char * aux_two = calloc(strlen(ptr1->next->name)+1, sizeof(char *));
+						strcpy(aux_one,ptr1->name);
+						strcpy(aux_two,ptr1->next->name);
+						//printf("DEBUG: one -> %s\ntwo -> %s\n",aux_one,aux_two);
+						//printf("DEBUG: one -> %c\ntwo -> %c\n",aux_one[i],aux_two[j]);
+						if( (char) tolower(aux_one[i]) > (char) tolower(aux_two[j]) ){
+							printf("DEBUG: one -> %s\ntwo -> %s\n",aux_one,aux_two);
+							printf("DEBUG: one -> %c\ntwo -> %c\n",aux_one[i],aux_two[j]);
+							swap(ptr1, ptr1->next);
+							swapped = 1;
+							printf("\n\nSeparador\n\n");
+							free(aux_one);
+							free(aux_two);
+							break;
+						}
+						j++;
 					}
-				//}
+				}
 			}
 			ptr1 = ptr1->next;
 		}
 		lptr = ptr1;
 	}
-	
 	while (swapped);
 }
 
-/* function to swap data of two nodes a and b*/
+//function to swap data of two nodes a and b
 void swap(aluno *a, aluno *b)
 {
-	char * temp = malloc(70);
-	strcpy(temp,a->name);
-	strcpy(a->name,b->name);
-	strcpy(b->name,temp);
+	char * temp = calloc(strlen(a->name)+1, sizeof(char *));
+	strncpy(temp,a->name,strlen(a->name)+1);
+	strncpy(a->name,b->name,strlen(b->name)+1);
+	strncpy(b->name,temp,strlen(temp)+1);
+	free(temp);
 }
-
-/*void sort_classroom_alphabetically(aluno* student){
-
-	//Testes com as o sorting
-	//char a = 'a';
-	//char b = 'b';
-	//printf("%c  %c\n",a , b);
-	//printf("%d  %d\n",a , b); 
-	// Resultado
-	// a   b
-	// 97  98
-	
-	aluno *ptr;
-	aluno n;
-	n.next = student;
-	for( ptr = &n; ptr; ptr = ptr->next){
-		for(aluno *ptr2 = ptr->next; ptr2; ptr2 = ptr2->next){
-			// Vamos comparar os dois nomes deles
-			printf("%c %d\n", (char) tolower(ptr->next->name[0]), (char) tolower(ptr->next->name[0]));
-			printf("%c %d\n", (char) tolower(ptr2->next->name[0]), (char) tolower(ptr2->next->name[0]));
-			if( (char) tolower(ptr->next->name[0]) > (char) tolower(ptr2->next->name[0]) ){
-				if(ptr->next == student){
-					student = ptr2->next;
-				}
-				//then swap ptr and ptr2
-				aluno*temp = ptr->next;
-				ptr->next = ptr2->next;
-				ptr2->next = temp;
-			}
-		}
-	}
-}*/
 
 void order_classroom_and_print(aluno* student){
 
@@ -147,4 +135,18 @@ void print_class_with_null(aluno* student){
 		student = student->next;
 	}
 	printf("\n");
+}
+
+void freeTurma(aluno* head)
+{
+	aluno * tmp;
+
+	while (head != NULL)
+	{
+		tmp = head;
+		head = head->next;
+		free(tmp->name);
+		free(tmp);
+	}
+
 }

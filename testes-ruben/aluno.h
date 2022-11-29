@@ -19,10 +19,10 @@ void bubbleSort(aluno *turma);
 
 void swap(aluno *a, aluno *b);
 
-//void sort_classroom_alphabetically(aluno* student);
-
 void order_classroom_and_print(aluno* student);
 
 void print_class(aluno* student);
 
 void print_class_with_null(aluno* student);
+
+void freeTurma(aluno* head);
