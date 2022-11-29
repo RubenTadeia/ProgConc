@@ -24,4 +24,11 @@ run:
 	./$(BINARY) $(StudentName)
 #	-./$(BINARY) $(StudentName)
 #	o traco - -> Ignora os erros do make. Tudo o que não é exit(0)
-	
+
+mem:
+	valgrind --leak-check=full \
+--show-leak-kinds=all \
+--track-origins=yes \
+--verbose \
+--log-file=valgrind-ruben.txt \
+./turma Ruben

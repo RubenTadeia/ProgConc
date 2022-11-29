@@ -37,7 +37,7 @@ void student_insert_end(aluno** head, char * studentName, int number){
 }
 
 /* Bubble sort the given linked list */
-void bubbleSort(aluno *turma){ /* Esta para ordenar apenas a primeira letra */
+void bubbleSort(aluno *turma){
 // https://www.geeksforgeeks.org/c-program-bubble-sort-linked-list/	
 	int swapped;
 	aluno *ptr1;
@@ -54,10 +54,18 @@ void bubbleSort(aluno *turma){ /* Esta para ordenar apenas a primeira letra */
 
 		while (ptr1->next != lptr){
 			if (ptr1->next->name != NULL) {
-				if( (char) tolower(ptr1->name[0]) > (char) tolower(ptr1->next->name[0]) ){
-					swap(ptr1, ptr1->next);
-					swapped = 1;
-				}
+				//for (int i = 0; i < 6; i++){
+			//		if( (char) tolower(ptr1->name[i]) == (char) tolower(ptr1->next->name[i]) ){
+			//			continue;
+			//		}
+			//		printf("%c\n%c\n",(char) tolower(ptr1->name[i]),(char) tolower(ptr1->next->name[i]));
+					//if( (char) tolower(ptr1->name[i]) > (char) tolower(ptr1->next->name[i]) ){
+					if( (char) tolower(ptr1->name[0]) > (char) tolower(ptr1->next->name[0]) ){
+						swap(ptr1, ptr1->next);
+						swapped = 1;
+			//			break;
+					}
+				//}
 			}
 			ptr1 = ptr1->next;
 		}
@@ -76,17 +84,17 @@ void swap(aluno *a, aluno *b)
 	strcpy(b->name,temp);
 }
 
-void sort_classroom_alphabetically(aluno* student){
+/*void sort_classroom_alphabetically(aluno* student){
 
-	/* Testes com as o sorting
-	char a = 'a';
-	char b = 'b';
-	printf("%c  %c\n",a , b);
-	printf("%d  %d\n",a , b); 
+	//Testes com as o sorting
+	//char a = 'a';
+	//char b = 'b';
+	//printf("%c  %c\n",a , b);
+	//printf("%d  %d\n",a , b); 
 	// Resultado
 	// a   b
 	// 97  98
-	*/
+	
 	aluno *ptr;
 	aluno n;
 	n.next = student;
@@ -106,7 +114,7 @@ void sort_classroom_alphabetically(aluno* student){
 			}
 		}
 	}
-}
+}*/
 
 void order_classroom_and_print(aluno* student){
 

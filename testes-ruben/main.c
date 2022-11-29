@@ -60,7 +60,7 @@ int main(int argc, char *argv[]){
 	// Ordena a turma por numero de aluno
 	//sort_classroom_alphabetically(turma);
 
-	bubbleSort(turma); /* Esta para ordenar apenas a primeira letra */
+	bubbleSort(turma);
 
 	if (argc == 2){
 		printf("%s\n", argv[1]);

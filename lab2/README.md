@@ -37,6 +37,24 @@ Concurrent Programming
 
 ---
 
+# RESPOSTAS EXERCISE 4.2 Exercise 6 – bad way to send data into threads.
+
+# 1 - Execute the program various times with various numbers of threads and try to explain what is happening.
+- R: Nós diriamos... Que o problema está em utilizar uma variável que é alterada aquando a criação de várias threads. Existindo um possível Deadlock, porque estamos a tentar aceder a uma varial comum a várias threads, não sendo possível dizer qual é o seu valor num periodo específico no tempo.
+
+---
+
+# RESPOSTAS EXERCISE 5 - Shared Data
+
+# 1 - What happens to the variable n?
+- R: A variavel n vai incrementando ao longo do tempo. A variavel n vai ter um valor superior a 10 (consoante as threads que dermos de input), porque como existe um sleep dentro da linha 10 -> **while(n <10){**, todas as threads vão conseguir entrar no ciclo e **SÓ DEPOIS** é que incrementam o valor da variável n
+
+# 2 - Where is variable n declared?
+- R: A variavel n está declarada fora do main, e por isso acaba por ser uma variável global em todo o código.
+
+---
+
+
 # DUVIDAS 
 
 # 1  - Com 2 thread's o programa imprime a mensagem (prima enter para terminar) antes da 2º thread ser iniciada, porquê?
