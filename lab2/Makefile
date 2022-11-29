@@ -15,6 +15,7 @@ FILE6 = test-threads_3
 FILE7 = test-threads_4
 FILE8 = exercise-7
 FILE9 = exercise-8
+FILE10 = exercise-7-paralelismo
 
 # the build of all the binary executables:
 BINARY_test-threads_1 = test-threads_1
@@ -26,9 +27,10 @@ BINARY_test-threads_6 = exercise-6
 BINARY_test-threads_7 = test-threads_4
 BINARY_test-threads_8 = exercise-7
 BINARY_test-threads_9 = exercise-8
+BINARY_test-threads_10 = exercise-7-paralelismo
 
 # MAKE all
-all: $(BINARY_test-threads_1) $(BINARY_test-threads_2) $(BINARY_test-threads_3) $(BINARY_test-threads_4) $(BINARY_test-threads_5) $(BINARY_test-threads_6) $(BINARY_test-threads_7) $(BINARY_test-threads_8) $(BINARY_test-threads_9)
+all: $(BINARY_test-threads_1) $(BINARY_test-threads_2) $(BINARY_test-threads_3) $(BINARY_test-threads_4) $(BINARY_test-threads_5) $(BINARY_test-threads_6) $(BINARY_test-threads_7) $(BINARY_test-threads_8) $(BINARY_test-threads_9) $(BINARY_test-threads_10)
 
 $(BINARY_test-threads_1): $(FILE1).c
 	$(CC) $(CFLAGS) $(FILE1).c -o $(BINARY_test-threads_1) $(LIBS)
@@ -57,6 +59,9 @@ $(BINARY_test-threads_8): $(FILE8).c
 $(BINARY_test-threads_9): $(FILE9).c
 	$(CC) $(CFLAGS) $(FILE9).c -o $(BINARY_test-threads_9) $(LIBS)
 
+$(BINARY_test-threads_10): $(FILE10).c
+	$(CC) $(CFLAGS) $(FILE10).c -o $(BINARY_test-threads_10) $(LIBS)
+
 # MAKE clean
 clean:
 	$(RM) $(BINARY_test-threads_1)
@@ -68,3 +73,4 @@ clean:
 	$(RM) $(BINARY_test-threads_7)
 	$(RM) $(BINARY_test-threads_8)
 	$(RM) $(BINARY_test-threads_9)
+	$(RM) $(BINARY_test-threads_10)
