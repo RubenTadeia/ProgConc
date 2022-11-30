@@ -3,6 +3,14 @@
 #include <string.h>
 #include <ctype.h>
 
+//////////////////////////////////////////////////////////////////////////////
+// Variables
+char ** word_array; //ordenado
+int n_words;
+int max_word_len;
+char inputFile[30] = "lusiadas-words.txt";
+
+//////////////////////////////////////////////////////////////////////////////
 // Structure
 typedef struct word_info_class{
 	char * word;
@@ -10,20 +18,52 @@ typedef struct word_info_class{
 	struct word_info_class * next;
 } word_info;
 
-// Variables
-char ** word_array; //ordenado
-int n_words;
-int max_word_len;
-int word_info_count;
-char inputFile[30] = "lusiadas-words.txt";
+//////////////////////////////////////////////////////////////////////////////
+// Structure Functions
+void word_info_insert_begining(word_info** head, char * palavra, int number){
 
+	word_info* uniqueWord = (word_info*) malloc(sizeof(word_info));
+
+	uniqueWord->word = calloc(strlen(palavra)+1, sizeof(char *));
+	strcpy(uniqueWord->word,palavra);
+	uniqueWord->count = number;
+	uniqueWord->next = *head;
+
+	//changing the new head to this freshly entered node
+	*head = uniqueWord; 
+}
+
+void print_word_info(word_info* palavra){
+
+	//as linked list will end when Node is Null
+	while(palavra->next!=NULL){
+		printf("Word = %s\nCount = %d\n",palavra->word, palavra->count);
+		palavra = palavra->next;
+	}
+	printf("\n");
+}
+
+void free_word_info(word_info* palavra)
+{
+	word_info * tmp;
+
+	while (palavra != NULL)
+	{
+		tmp = palavra;
+		palavra = palavra->next;
+		free(tmp->word);
+		free(tmp);
+	}
+
+}
+//////////////////////////////////////////////////////////////////////////////
 /* Declaration of compare() as a function */
 int compare (const void *arg1, const void *arg2) /* macro is automatically */                
 {                                                                               
 	/* Compare all of both strings */              
 	return(strncmp(*(char **)arg1, *(char **)arg2,1));                              
 }   
-
+//////////////////////////////////////////////////////////////////////////////
 // Functions
 void read_words(char * fname){
 
@@ -72,64 +112,56 @@ void read_words(char * fname){
 }
 
 word_info * find_unique_word(char **word_array, int n_total_words, char letter){
+	word_info * word_list = (word_info * ) calloc(1, sizeof(word_info));
 	int i = 0;
-	int j = 0;
 	int y = 0;
-	int gamma = 0;
-	
-	word_info * word_list = calloc(n_total_words, sizeof(word_info));
+	int j = 0;
 
 	while (i < n_total_words){
 
 		if ( word_array[i][0] == letter ){
-			word_info aux;
-			aux.count = 1;
-			aux.word = word_array[i];
-
-			if (j == 0){
-				word_list[j].word = malloc(strlen(aux.word)-1);
-				strcpy(word_list[j].word , aux.word);
-				word_list[j].count = aux.count;
-				j++;
-			}
-			else {
-				for (y = 0; y < j ; y++){
-					// A palavra existe
-					if(strcmp(word_list[y].word, aux.word) == 0){
-						word_list[y].count++;
-						gamma = 1;
-						break;
-					}	
+			if( j == 1){
+				// Ja existe uma palavra
+				y = 0;
+				word_info * tmp = word_list;
+				// As linked list will end when Node is Null
+				while(tmp->next!=NULL){
+					if(strcmp(word_array[i], tmp->word) == 0){
+						tmp->count = tmp->count + 1;
+						y = 1;
+					}
+					tmp = tmp->next;
 				}
-				// Cria palavra for nova
-				if (gamma == 0) {
-					word_list[j].word = malloc(strlen(aux.word)-1);
-					strcpy(word_list[j].word , aux.word);
-					word_list[j].count = aux.count;
-					j++;
+				if (y == 0){
+					// A palavra nao existe
+					word_info_insert_begining(&word_list,word_array[i],1);
 				}
-				gamma = 0;
 			}
+			else if ( j == 0){
+				// Nao existem palavras
+				word_info_insert_begining(&word_list,word_array[i],1);
+				j = 1;
+			}
+		}
+		i++;
 	}
-
-	i++;
-	}
-	word_info_count = j;
-
-	/*
-	// Test Function to see to word_list content
-	for (int u =0; u < word_info_count; u++) {
-		printf("------------\n");
-		printf("palavra = %s\n", word_list[u].word);
-		printf("contagem = %d\n", word_list[u].count);
-		printf("------------\n");
-	}*/
 
 	return word_list;
 }
 
 void print_unique_words_count(word_info *word_list, char c){
-	printf("%c %d\n", c ,word_info_count);
+	// As linked list will end when Node is Null
+	int contaPalavras = 0;
+
+	while(word_list->next!=NULL){
+		if ((char) word_list->word[0] == c){
+			contaPalavras = contaPalavras + 1;
+		}
+		word_list = word_list->next;
+	}
+	printf("%c %d\n", c ,contaPalavras);
+
+	free_word_info(word_list);
 }
 
 int count_words(char **word_array, int n_words, char letter){
@@ -145,24 +177,18 @@ int count_words(char **word_array, int n_words, char letter){
 }
 
 word_info * more_freq_words(word_info * word_list){
-	word_info * max_word_count = malloc(sizeof(word_info));
-
-	word_info aux;
-	aux.word = malloc(50 * sizeof(char));
-	aux.count = 1;
+	word_info * max_word_count = (word_info*) calloc(1,sizeof(word_info));
 	
 	int max = 0;
-	for (int i =0; i < word_info_count; i++) {
-		if (word_list[i].count > max){
-			max = word_list[i].count;
-			aux.count = max;    
-			strcpy(aux.word ,  word_list[i].word);
+	while(word_list->next!=NULL){
+		if (word_list->count > max){
+			max = word_list->count;
+			max_word_count->word = calloc(strlen(word_list->word)+1, sizeof(char *));
+			strcpy(max_word_count->word,word_list->word);
+			max_word_count->count = max;
 		}
+		word_list = word_list->next;
 	}
-
-	max_word_count[0].word = malloc(strlen(aux.word)-1);
-	strcpy(max_word_count[0].word , aux.word);
-	max_word_count[0].count = aux.count;
 
 	return max_word_count;
 }
@@ -176,11 +202,6 @@ int main(int argc, char *argv[]){
 	// Sorting
 	qsort((char *)word_array, n_words, sizeof(char *), compare);
 
-	// After Sorting
-	//for (int i = 0; i < n_words ; i++){
-	//	printf("%s\n", word_array[i]);
-	//}
-
 	////////////////////////////////////////////////////////
 	// Exercise 2
 	////////////////////////////////////////////////////////
@@ -188,14 +209,19 @@ int main(int argc, char *argv[]){
 
 	word_info * word_list = NULL;
 	word_info * word_count = NULL;
-	//int n_unique_words = 0;
 	for (char c = 'a'; c <='z'; c++){
 		number_of_character_words = count_words(word_array, n_words, c);
 		printf("%c %d\n", c ,number_of_character_words);
 		
+		////////////////////////////////////////////////////////
+		// Exercise 3
+		////////////////////////////////////////////////////////
 		word_list = find_unique_word(word_array, n_words, c);
 		print_unique_words_count(word_list, c);
 		
+		////////////////////////////////////////////////////////
+		// Exercise 4
+		////////////////////////////////////////////////////////
 		word_count = more_freq_words(word_list);
 		printf("%d %s\n\n", word_count->count , word_count->word);
 	}
