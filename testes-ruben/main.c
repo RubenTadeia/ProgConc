@@ -14,7 +14,8 @@ void read_file(char * fname){
 		perror("Opening file");
 		exit(-1);
 	}
-	turma = (aluno *) malloc (sizeof(aluno));
+
+	turma = (aluno *) calloc (1,sizeof(aluno));
 
 	if (turma == NULL){
 		perror("malloc ");
