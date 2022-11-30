@@ -46,7 +46,6 @@ void bubbleSort(aluno *turma){
 	aluno *lptr = NULL;
 
 	int i = 0;
-	int j = 0;
 
 	//Checking for empty list
 	if (turma == NULL){
@@ -65,26 +64,29 @@ void bubbleSort(aluno *turma){
 					swapped = 1;
 				}
 				else if ( (char) tolower(ptr1->name[0]) == (char) tolower(ptr1->next->name[0]) ){
-					j = 1;
+					char * aux_one = calloc(strlen(ptr1->name)+1, sizeof(char *));
+					char * aux_two = calloc(strlen(ptr1->next->name)+1, sizeof(char *));
+					strcpy(aux_one,ptr1->name);
+					strcpy(aux_two,ptr1->next->name);
+
 					for (i = 1; i < strlen(ptr1->name); i++){
-						char * aux_one = calloc(strlen(ptr1->name)+1, sizeof(char *));
-						char * aux_two = calloc(strlen(ptr1->next->name)+1, sizeof(char *));
-						strcpy(aux_one,ptr1->name);
-						strcpy(aux_two,ptr1->next->name);
-						//printf("DEBUG: one -> %s\ntwo -> %s\n",aux_one,aux_two);
-						//printf("DEBUG: one -> %c\ntwo -> %c\n",aux_one[i],aux_two[j]);
-						if( (char) tolower(aux_one[i]) > (char) tolower(aux_two[j]) ){
-							printf("DEBUG: one -> %s\ntwo -> %s\n",aux_one,aux_two);
-							printf("DEBUG: one -> %c\ntwo -> %c\n",aux_one[i],aux_two[j]);
+						if( (char) tolower(aux_one[i]) > (char) tolower(aux_two[i]) ){
+							//printf("DEBUG: one -> %s\ntwo -> %s\n",aux_one,aux_two);
+							//printf("DEBUG: one -> %c\ntwo -> %c\n",aux_one[i],aux_two[i]);
 							swap(ptr1, ptr1->next);
 							swapped = 1;
-							printf("\n\nSeparador\n\n");
-							free(aux_one);
-							free(aux_two);
+							//printf("\n\nSeparador\n\n");
 							break;
 						}
-						j++;
+						else if( (char) tolower(aux_one[i]) < (char) tolower(aux_two[i]) ){
+							break;
+						}
+						else if( (char) tolower(aux_one[i]) == (char) tolower(aux_two[i]) ){
+							continue;
+						}
 					}
+					free(aux_one);
+					free(aux_two);
 				}
 			}
 			ptr1 = ptr1->next;

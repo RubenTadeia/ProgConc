@@ -62,7 +62,7 @@ int main(int argc, char *argv[]){
 	// Ordena a turma por numero de aluno
 	//sort_classroom_alphabetically(turma);
 
-	//bubbleSort(turma);
+	bubbleSort(turma);
 
 	if (argc == 2){
 		//printf("%s\n", argv[1]);
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]){
 		bubbleSort(turma);
 	}
 
-	//order_classroom_and_print(turma);
+	order_classroom_and_print(turma);
 
 	freeTurma(turma);
 	//free(turma);
