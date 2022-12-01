@@ -5,7 +5,7 @@
 - [ ] **Tarefa 3** - Funções das imagens funcionam da seguinte Forma. **1º** watermark | **2º** resize + watermark | **3º** thumbnail + watermark 
 - [ ] **Tarefa 4** - As imagens geradas têm que ter o nome das imagens originais mas serão colocadas em directorias diferentes. Resize-dir | Thumbnail-dir | Watermark-dir
 - [ ] **Tarefa 5** - Nome dos binários gerados têm que ser **ap-paralelo-1** e **ap-paralelo-2**
-- [ ] **Tarefa 6** - **ap-paralelo-1** -> Cada thtread gera as três imagens transformadas e existe um loop de joins apenas no fim. Ou seja, a função de thread tem lá dentro a chamada às função watermark, resize e thumbnail.
+- [ ] **Tarefa 6** - **ap-paralelo-1** -> Cada thread gera as três imagens transformadas e existe um loop de joins apenas no fim. Ou seja, a função de thread tem lá dentro a chamada às função watermark, resize e thumbnail.
 - [ ] **Tarefa 7** - **ap-paralelo-2** -> Só existem 3 threads distintas. Ou seja, existem 3 funções de threads. a função de thread tem lá dentro a chamada às função watermark, resize e thumbnail.
 - [ ] **Tarefa 8** - **ap-paralelo-2** -> O professor na página 9/14 diz que podemos colocar os joins noutro lado. **Só podemos usar 3 threads.** Temos que confirmar se vale a pena ter um join depois das threads de watermark e e só aí chamar as outras threads **OU** se o melhor é ter cada thread a repetir a chamada à função watermark. **DICA:** Colocar o tempo e verificar qual o mais baixo.
 - [ ] **Tarefa 9** - **Argumentos APP 1** ./ap-paralelo-1 Directoria-Imagens-Originais Numero-De-Threads
