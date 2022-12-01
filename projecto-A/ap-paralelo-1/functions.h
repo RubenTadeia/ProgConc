@@ -1,6 +1,16 @@
+/* Libraries */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <errno.h>
+#include <ctype.h>
 
 /* Function to read_file*/
-void read_image_file(char * fname);
+void check_arguments (int argc, char * argv[]);
+
+/* Function to read_file*/
+char ** read_image_file(char * imagesDirectory, char * fname, int numero_imagens_validas);
+
+void print_image_array(char ** images_array, int array_size);

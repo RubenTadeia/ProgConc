@@ -1,3 +1,4 @@
+/* Libraries */
 #include "image-lib.h"
 #include <sys/stat.h>
 #include <dirent.h>

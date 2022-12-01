@@ -2,47 +2,129 @@
 #include "functions.h"
 
 /* Functions */
-void read_file(char * fname){
+/* Function to check input arguments*/
+void check_arguments (int argc, char * argv[]){
+	// Se passar
+	if(argc != 3){
+		printf("ERRO: Os argumentos não foram colocados na fora correta!\n");
+		printf("Não se esqueça que o número de threads tem que ser um inteiro positivo.\n");
+		printf("Por favor insira os argumentos da maneira apresenta abaixo como exemplo:\n");
+		printf("ap-paralelo-1 dir-1 4\n");
+		exit(1);
+	}
+	
+	DIR* dir = opendir(argv[1]);
+	if (dir) {
+		/* Directory exists. */
+		closedir(dir);
+	} else if (ENOENT == errno) {
+		/* Directory does not exist. */
+		printf("ERRO: Não foi possível encontrar a diretoria das imagens!\n");
+		exit(1);
+	} else {
+		/* opendir() failed for some other reason. */
+		printf("ERRO: Não foi possível encontrar a diretoria das imagens!\n");
+		exit(1);
+	}
 
+	if (atoi(argv[2]) <= 0){
+		printf("ERRO: Por favor coloca um numero de threads que seja inteiro positivo!\n");
+		exit(1);
+	}
+}
+
+/* Function to read input file of images*/
+char ** read_image_file(char * imagesDirectory, char * fname, int numero_imagens_validas){
+
+	char * fullPath_to_file = (char * ) calloc (strlen(imagesDirectory)+1+strlen(fname)+1, sizeof(char));
+	strcpy(fullPath_to_file,imagesDirectory);
+	strcat(fullPath_to_file,"/");
+	strcat(fullPath_to_file,fname);
+	//printf("Full path to image = %s\n",fullPath_to_file);
+
+	if( access( fullPath_to_file, F_OK ) != -1){
+		printf("%s encontrado\n", fullPath_to_file);
+	}else{
+		printf("ERRO: %s nao encontrado. Por favor coloque-o na diretoria das imagens!\n", fname);
+		exit(2);
+	}	
+
+	// Vamos iniciar a leitura do ficheiro
 	char linha[100];
-	FILE * file = fopen(fname, "r");
+	FILE * file = fopen(fullPath_to_file, "r");
 	if(file == NULL){
-		perror("Opening file");
-		exit(-1);
+		perror("ERRO: Ao abrir o ficheiro");
+		exit(2);
 	}
 
-	turma = (aluno *) calloc (1,sizeof(aluno));
-
-	if (turma == NULL){
-		perror("malloc ");
-		exit(0);
-	}
-	n_students = 0;
+	int max_word_len = 0;
 
 	while(fgets(linha, 100, file)){
-		if(linha[0] != '\n' &&  linha[0] != '\0' && isalpha(linha[0])){
-			/* The isalpha() function checks whether a character is an alphabet or not. */
-			n_students++;
+		if(linha[0] != '\n' &&  linha[0] != '\0' && strlen(linha) >= 5){
+			// Encontra a ultima ocorrencia de . na string e devolve o resto da string
+			char * aux = strrchr(linha, '.');
+			
+			// Colocar a extensao do ficheiro que podia ser .PNG em .png
+			aux[strlen(aux)-1] = '\0';
+			for (int j = 0; aux[j]!= '\0'; j++){
+				aux[j] = tolower(aux[j]);
+		   	}
+			//printf("Aux = %s\n",aux);
+			if (strcmp(aux, ".png") == 0){
+				numero_imagens_validas++;
+				if(strlen(linha)-1 > max_word_len){
+					max_word_len = strlen(linha)-1;
+				}
+			}
 		}   
 	}
-	//printf("Existem cerca de %d alunos!\n", n_students);
-	
+
 	fclose(file);
+	printf("Numero de imagens validas = %d\n",numero_imagens_validas);
 
-	file = fopen(fname, "r");
-	if(file == NULL){
-		perror("opening file");
-		exit(-1);
+	char ** images_array = calloc(numero_imagens_validas,sizeof(char *));
+	
+	if (images_array == NULL){
+		perror("malloc in images_array");
+		exit(0);
 	}
+	max_word_len = max_word_len + 1;
+	file = fopen(fullPath_to_file, "r");
 
+	int i = 0;
 	while(fgets(linha, 100, file)){
-		if(linha[0] != '\n' && linha[0] != '\0' && isalpha(linha[0])){
-			linha[strlen(linha)-1] = '\0';
-			//printf("%s -> Ruben\n", linha);
-			student_insert_begining(&turma,linha,-1);
-			//student_insert_end(&turma,linha,-1);
-			//print_class(turma);
+		if(linha[0] != '\n' && linha[0] != '\0' && strlen(linha) >= 5){
+			// Encontra a ultima ocorrencia de . na string e devolve o resto da string
+			char * aux = strrchr(linha, '.');
+			
+			// Colocar a extensao do ficheiro que podia ser .PNG em .png
+			aux[strlen(aux)-1] = '\0';
+			for (int j = 0; aux[j]!= '\0'; j++){
+				aux[j] = tolower(aux[j]);
+		   	}
+			//printf("Aux = %s\n",aux);
+			if (strcmp(aux, ".png") == 0){
+				printf("Vou copiar\n");
+				images_array[i] = calloc(sizeof(char), max_word_len);
+				strcpy(images_array[i], linha);
+				printf("Copiei\n");
+				i++;
+			}
 		}
 	}
+
+	// DEBUG: Aqui vou funcionar 
+	print_image_array (images_array,numero_imagens_validas);
+
 	fclose(file);
+	free(fullPath_to_file);
+
+	return images_array;
+}
+
+
+void print_image_array(char ** images_array, int array_size){
+	for (int i = 0; i < array_size; i++){
+		printf("%s\n",images_array[i]);
+	}
 }

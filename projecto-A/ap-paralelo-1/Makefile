@@ -21,7 +21,7 @@ $(BINARY): $(MAIN).c $(IMAGE_FILE).c $(IMAGE_FILE).h $(FUNCTIONS).c $(FUNCTIONS)
 
 # MAKE run
 run:
-	./$(BINARY)
+	./$(BINARY) imagens 4
 
 # MAKE clean
 clean:
