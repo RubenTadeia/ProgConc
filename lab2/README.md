@@ -59,8 +59,8 @@ Concurrent Programming
 
 # 1  - Com 2 thread's o programa imprime a mensagem (prima enter para terminar) antes da 2º thread ser iniciada, porquê?
 
-- R:
+- R: Isso é porque as "threads têm vontade própria" e fazem as suas tarefas em alturas consoante a "vontade" do sistema operativo.
 
 # 2  - No exercise 3 pedido neste laboratório, quando pedem para remover o fgets. A que fgets se referem?
 
-- R: É o ultimo fgets... :)
+- R: É o ultimo fgets... :) Para ficar à espera de um input do utilizador, caso contrário, o programa para e não vemos output.
