@@ -29,7 +29,7 @@
 int max_word_len = 0;
 char ** images_array;
 
-// Contem o numero de nomes validos. De notar que podem nao existir as imagens
+// Contem o numero de nomes validos de imagens
 int nomes_validos_imagens = 0; 
 
 /******************************************************************************
@@ -46,15 +46,16 @@ int nomes_validos_imagens = 0;
  *****************************************************************************/
 
 int main (int argc, char * argv[]){
-    /* Variaveis*/
-
-    /* Main Functions*/
+    
+    /* First Function To check input arguments */
     check_arguments (argc, argv);
-
+    
+    /* Variaveis*/
     //int n_threads = atoi(argv[2]);
     char * images_directory = (char *) calloc(strlen(argv[1])+1,sizeof(char));
     strcpy(images_directory,argv[1]);
-
+    
+    /* Leitura do ficheiro com os nomes das imagens */
     read_image_file(images_directory, IMAGE_FILE);
     
     // DEBUG PRINTF's
@@ -62,11 +63,12 @@ int main (int argc, char * argv[]){
     print_image_array(images_array, nomes_validos_imagens);
 
     // Libertar memoria
+    printf("Vamos começar a libertar a memoria!\n");
     free_image_array(images_array,nomes_validos_imagens);
     free(images_directory);
 
     // Mensagem de conclusao correta do programa
-    printf("Até agora está tudo a correr bem\n");
+    printf("Programa concluido com sucesso!\nObrigado por processar imagens conosco! :)\n");
     
     // Sair corretamente do programa
     exit(0);
