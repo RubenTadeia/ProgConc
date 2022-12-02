@@ -46,30 +46,30 @@ int nomes_validos_imagens = 0;
  *****************************************************************************/
 
 int main (int argc, char * argv[]){
-    
-    /* First Function To check input arguments */
-    check_arguments (argc, argv);
-    
-    /* Variaveis*/
-    //int n_threads = atoi(argv[2]);
-    char * images_directory = (char *) calloc(strlen(argv[1])+1,sizeof(char));
-    strcpy(images_directory,argv[1]);
-    
-    /* Leitura do ficheiro com os nomes das imagens */
-    read_image_file(images_directory, IMAGE_FILE);
-    
-    // DEBUG PRINTF's
-    printf("DEBUG: Numero nomes validos para imagens = %d\n",nomes_validos_imagens);
-    print_image_array(images_array, nomes_validos_imagens);
+	
+	/* First Function To check input arguments */
+	check_arguments (argc, argv);
+	
+	/* Variaveis*/
+	//int n_threads = atoi(argv[2]);
+	char * images_directory = (char *) calloc(strlen(argv[1])+1,sizeof(char));
+	strcpy(images_directory,argv[1]);
+	
+	/* Leitura do ficheiro com os nomes das imagens */
+	read_image_file(images_directory, IMAGE_FILE);
+	
+	// DEBUG PRINTF's
+	printf("DEBUG: Numero nomes validos para imagens = %d\n",nomes_validos_imagens);
+	print_image_array(images_array, nomes_validos_imagens);
 
-    // Libertar memoria
-    printf("Vamos começar a libertar a memoria!\n");
-    free_image_array(images_array,nomes_validos_imagens);
-    free(images_directory);
+	// Libertar memoria
+	printf("Vamos começar a libertar a memoria!\n");
+	free_image_array(images_array,nomes_validos_imagens);
+	free(images_directory);
 
-    // Mensagem de conclusao correta do programa
-    printf("Programa concluido com sucesso!\nObrigado por processar imagens conosco! :)\n");
-    
-    // Sair corretamente do programa
-    exit(0);
+	// Mensagem de conclusao correta do programa
+	printf("Programa concluido com sucesso!\nObrigado por processar imagens conosco! :)\n");
+	
+	// Sair corretamente do programa
+	exit(0);
 }
