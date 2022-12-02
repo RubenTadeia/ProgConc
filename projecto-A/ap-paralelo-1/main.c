@@ -11,14 +11,8 @@
 
 /*****************************************************************************/
 /* Libraries*/
-#include "image-lib.h"
+#include "threads.h"
 #include "functions.h"
-
-/*****************************************************************************/
-/* the directories wher output files will be placed */
-#define RESIZE_DIR "/Resize-dir/"
-#define THUMB_DIR "/Thumbnail-dir/"
-#define WATER_DIR "/Watermark-dir/"
 
 /*****************************************************************************/
 /* Input Image File */
@@ -30,7 +24,7 @@ int max_word_len = 0;
 char ** images_array;
 
 // Contem o numero de nomes validos de imagens
-int nomes_validos_imagens = 0; 
+int numero_imagens_validas = 0; 
 
 /******************************************************************************
  * main()
@@ -51,20 +45,51 @@ int main (int argc, char * argv[]){
 	check_arguments (argc, argv);
 	
 	/* Variaveis*/
-	//int n_threads = atoi(argv[2]);
+	int i = 0;
+	int j = 0;
+	int n_threads = atoi(argv[2]);
 	char * images_directory = (char *) calloc(strlen(argv[1])+1,sizeof(char));
 	strcpy(images_directory,argv[1]);
+	pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
+	pthread_t thread_id;
 	
 	/* Leitura do ficheiro com os nomes das imagens */
 	read_image_file(images_directory, IMAGE_FILE);
 	
 	// DEBUG PRINTF's
-	printf("DEBUG: Numero nomes validos para imagens = %d\n",nomes_validos_imagens);
-	print_image_array(images_array, nomes_validos_imagens);
+	printf("DEBUG: Numero nomes validos para imagens = %d\n",numero_imagens_validas);
+	print_image_array(images_array, numero_imagens_validas);
+
+	// Main loop
+	for (i = 0; i < numero_imagens_validas;) {
+		// Thread Creation
+		j = 0;
+		while( j < n_threads ){
+			/* Structure to send to the threads*/
+			image_info * image_information = (image_info *) malloc (sizeof(image_info));
+			image_information->image_folder = (char *) calloc(strlen(images_directory)+1, sizeof(char));
+			strcpy(image_information->image_folder,images_directory);
+			image_information->image_name = (char *) calloc(strlen(images_array[i])+1, sizeof(char));
+			strcpy(image_information->image_name,images_array[i]);
+			/*******************************************************/
+			printf("DEBUG: Nome do caminho = %s\n", image_information->image_folder);
+			printf("DEBUG: Nome da imagem = %s\n", image_information->image_name);
+			//pthread_create(&thread_id, NULL, thread_function_wm_tn_rs, image_information);
+			thread_id_list[j] = thread_id;	
+			j++;
+			i++;
+			// Situacao em que acabaram as imagens
+			if (i >= numero_imagens_validas){
+				break;
+			}
+		};
+	}
+
+	// Thread Join
 
 	// Libertar memoria
 	printf("Vamos começar a libertar a memoria!\n");
-	free_image_array(images_array,nomes_validos_imagens);
+	free_image_array(images_array,numero_imagens_validas);
 	free(images_directory);
 
 	// Mensagem de conclusao correta do programa

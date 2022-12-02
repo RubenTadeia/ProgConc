@@ -13,6 +13,7 @@ NUMBER_OF_THREADS = 4
 FUNCTIONS = functions
 IMAGE_FILE = image-lib
 MAIN = main
+THREADS = threads
 
 # the build of all the binary executables:
 BINARY = ap-paralelo-1
@@ -20,8 +21,8 @@ BINARY = ap-paralelo-1
 # MAKE all
 all: $(BINARY)
 
-$(BINARY): $(MAIN).c $(IMAGE_FILE).c $(IMAGE_FILE).h $(FUNCTIONS).c $(FUNCTIONS).h
-	$(CC) $(CFLAGS) $(MAIN).c $(IMAGE_FILE).c $(FUNCTIONS).c -o $(BINARY) $(LIBS)
+$(BINARY): $(MAIN).c $(IMAGE_FILE).c $(IMAGE_FILE).h $(FUNCTIONS).c $(FUNCTIONS).h $(THREADS).c $(THREADS).h
+	$(CC) $(CFLAGS) $(MAIN).c $(IMAGE_FILE).c $(FUNCTIONS).c $(THREADS).c -o $(BINARY) $(LIBS)
 
 # MAKE run
 run:

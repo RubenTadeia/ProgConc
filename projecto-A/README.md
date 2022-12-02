@@ -1,7 +1,7 @@
 # To Do List Projecto - A
 
 - [X] **Tarefa 1** - Função de Leitura do ficheiro image-list.txt (em cada linha o nome de uma imagem a ser processada). Esta função deve ignorar tudo o que não terminar em .png (usando to lower). Ou seja, ultimos 4 caracteres da string em tolower() e verificar se é ".png"
-- [ ] **Tarefa 2** - Função de Validação se existe a imagem, cujo nome apareceu no ficheiro anterior
+- [X] **Tarefa 2** - Função de Validação se existe a imagem, cujo nome apareceu no ficheiro anterior
 - [ ] **Tarefa 3** - Funções das imagens funcionam da seguinte Forma. **1º** watermark | **2º** resize + watermark | **3º** thumbnail + watermark 
 - [ ] **Tarefa 4** - As imagens geradas têm que ter o nome das imagens originais mas serão colocadas em directorias diferentes. Resize-dir | Thumbnail-dir | Watermark-dir
 - [ ] **Tarefa 5** - Nome dos binários gerados têm que ser **ap-paralelo-1** e **ap-paralelo-2**

@@ -58,7 +58,7 @@ void read_image_file(char * imagesDirectory, char * fname){
 	}
 
 	/* Variaveis Globais vindas do main */
-	extern int nomes_validos_imagens;
+	extern int numero_imagens_validas;
 	extern int max_word_len;
 	extern char ** images_array;
 
@@ -75,19 +75,25 @@ void read_image_file(char * imagesDirectory, char * fname){
 		   	}
 			//printf("Aux = %s\n",aux);
 			if (strcmp(aux, ".png") == 0){
-				// Se utilizarmos a valida imagens, devemos colocar aqui neste loop
-				nomes_validos_imagens++;
-				if(strlen(linha)-1 > max_word_len){
-					max_word_len = strlen(linha)-1;
+				char * fullPath_to_image = (char * ) calloc (strlen(imagesDirectory)+1+strlen(linha)+1, sizeof(char));
+				strcpy(fullPath_to_image,imagesDirectory);
+				strcat(fullPath_to_image,"/");
+				strcat(fullPath_to_image,linha);
+				if(check_images(fullPath_to_image) == 1){
+					numero_imagens_validas++;
+					if(strlen(linha)-1 > max_word_len){
+						max_word_len = strlen(linha)-1;
+					}
 				}
+				free(fullPath_to_image);
 			}
 		}   
 	}
 
 	fclose(file);
-	//printf("Numero de imagens validas = %d\n",nomes_validos_imagens);
+	//printf("Numero de imagens validas = %d\n",numero_imagens_validas);
 	
-	images_array = calloc(nomes_validos_imagens,sizeof(char *));
+	images_array = calloc(numero_imagens_validas,sizeof(char *));
 	
 	if (images_array == NULL){
 		perror("malloc in images_array");
@@ -110,16 +116,22 @@ void read_image_file(char * imagesDirectory, char * fname){
 		   	}
 			//printf("Aux = %s\n",aux);
 			if (strcmp(aux, ".png") == 0){
-				// Se utilizarmos a valida imagens, devemos colocar aqui neste loop
-				images_array[i] = calloc(sizeof(char), max_word_len+1);
-				strcpy(images_array[i], linha);
-				i++;
+				char * fullPath_to_image = (char * ) calloc (strlen(imagesDirectory)+1+strlen(linha)+1, sizeof(char));
+				strcpy(fullPath_to_image,imagesDirectory);
+				strcat(fullPath_to_image,"/");
+				strcat(fullPath_to_image,linha);
+				if(check_images(fullPath_to_image) == 1){
+					images_array[i] = calloc(sizeof(char), max_word_len+1);
+					strcpy(images_array[i], linha);
+					i++;	
+				}
+				free(fullPath_to_image);
 			}
 		}
 	}
 
 	// DEBUG: Aqui vou funcionar 
-	//print_image_array (images_array,nomes_validos_imagens);
+	//print_image_array (images_array,numero_imagens_validas);
 
 	fclose(file);
 	free(fullPath_to_file);
@@ -138,4 +150,15 @@ void free_image_array(char ** images_array, int array_size){
 		free(images_array[i]);
 	}
 	free(images_array);
+}
+
+/* Function to check if images exist in folder*/
+int check_images(char * image_string){
+	// Devolve 1 se encontrar, caso contrário 0
+	if( access( image_string, F_OK ) != -1){
+ 		return 1;
+	}else{
+ 		printf("%s nao encontrado\n", image_string);
+		return 0;
+	}
 }
