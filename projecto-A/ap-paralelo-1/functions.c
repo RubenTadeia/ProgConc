@@ -34,7 +34,7 @@ void check_arguments (int argc, char * argv[]){
 }
 
 /* Function to read input file of images*/
-char ** read_image_file(char * imagesDirectory, char * fname, int numero_imagens_validas){
+void read_image_file(char * imagesDirectory, char * fname){
 
 	char * fullPath_to_file = (char * ) calloc (strlen(imagesDirectory)+1+strlen(fname)+1, sizeof(char));
 	strcpy(fullPath_to_file,imagesDirectory);
@@ -57,21 +57,26 @@ char ** read_image_file(char * imagesDirectory, char * fname, int numero_imagens
 		exit(2);
 	}
 
-	int max_word_len = 0;
+	/* Variaveis */
+	extern int nome_imagens_validas;
+	extern int max_word_len;
+	extern char ** images_array;
 
 	while(fgets(linha, 100, file)){
 		if(linha[0] != '\n' &&  linha[0] != '\0' && strlen(linha) >= 5){
+			// Colocar a extensao do ficheiro que podia ser .PNG em .png
+			linha[strlen(linha)-1] = '\0';
+
 			// Encontra a ultima ocorrencia de . na string e devolve o resto da string
 			char * aux = strrchr(linha, '.');
 			
-			// Colocar a extensao do ficheiro que podia ser .PNG em .png
-			aux[strlen(aux)-1] = '\0';
 			for (int j = 0; aux[j]!= '\0'; j++){
 				aux[j] = tolower(aux[j]);
 		   	}
 			//printf("Aux = %s\n",aux);
 			if (strcmp(aux, ".png") == 0){
-				numero_imagens_validas++;
+				// Este 
+				nome_imagens_validas++;
 				if(strlen(linha)-1 > max_word_len){
 					max_word_len = strlen(linha)-1;
 				}
@@ -80,9 +85,9 @@ char ** read_image_file(char * imagesDirectory, char * fname, int numero_imagens
 	}
 
 	fclose(file);
-	printf("Numero de imagens validas = %d\n",numero_imagens_validas);
-
-	char ** images_array = calloc(numero_imagens_validas,sizeof(char *));
+	//printf("Numero de imagens validas = %d\n",nome_imagens_validas);
+	
+	images_array = calloc(nome_imagens_validas,sizeof(char *));
 	
 	if (images_array == NULL){
 		perror("malloc in images_array");
@@ -94,37 +99,42 @@ char ** read_image_file(char * imagesDirectory, char * fname, int numero_imagens
 	int i = 0;
 	while(fgets(linha, 100, file)){
 		if(linha[0] != '\n' && linha[0] != '\0' && strlen(linha) >= 5){
+			// Colocar a extensao do ficheiro que podia ser .PNG em .png
+			linha[strlen(linha)-1] = '\0';
+			
 			// Encontra a ultima ocorrencia de . na string e devolve o resto da string
 			char * aux = strrchr(linha, '.');
-			
-			// Colocar a extensao do ficheiro que podia ser .PNG em .png
-			aux[strlen(aux)-1] = '\0';
+
 			for (int j = 0; aux[j]!= '\0'; j++){
 				aux[j] = tolower(aux[j]);
 		   	}
 			//printf("Aux = %s\n",aux);
 			if (strcmp(aux, ".png") == 0){
-				printf("Vou copiar\n");
-				images_array[i] = calloc(sizeof(char), max_word_len);
+				images_array[i] = calloc(sizeof(char), max_word_len+1);
 				strcpy(images_array[i], linha);
-				printf("Copiei\n");
 				i++;
 			}
 		}
 	}
 
 	// DEBUG: Aqui vou funcionar 
-	print_image_array (images_array,numero_imagens_validas);
+	//print_image_array (images_array,nome_imagens_validas);
 
 	fclose(file);
 	free(fullPath_to_file);
-
-	return images_array;
 }
 
-
+/* Function to print image array */
 void print_image_array(char ** images_array, int array_size){
 	for (int i = 0; i < array_size; i++){
 		printf("%s\n",images_array[i]);
 	}
+}
+
+/* Function to free image array */
+void free_image_array(char ** images_array, int array_size){
+	for (int i = 0; i < array_size; i++){
+		free(images_array[i]);
+	}
+	free(images_array);
 }

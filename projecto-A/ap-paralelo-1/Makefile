@@ -23,6 +23,10 @@ $(BINARY): $(MAIN).c $(IMAGE_FILE).c $(IMAGE_FILE).h $(FUNCTIONS).c $(FUNCTIONS)
 run:
 	./$(BINARY) imagens 4
 
+# MAKE valgrind
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all ./ap-paralelo-1 imagens 4
+
 # MAKE clean
 clean:
 	$(RM) $(BINARY)

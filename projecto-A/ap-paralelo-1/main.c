@@ -9,18 +9,28 @@
  *           
  *****************************************************************************/
 
+/*****************************************************************************/
 /* Libraries*/
 #include "image-lib.h"
 #include "functions.h"
 
+/*****************************************************************************/
 /* the directories wher output files will be placed */
 #define RESIZE_DIR "/Resize-dir/"
 #define THUMB_DIR "/Thumbnail-dir/"
 #define WATER_DIR "/Watermark-dir/"
 
+/*****************************************************************************/
 /* Input Image File */
 #define IMAGE_FILE "image-list.txt"
 
+/*****************************************************************************/
+/* Variaveis Globais */
+int max_word_len = 0;
+char ** images_array;
+
+// Contem o numero de nomes validos. De notar que podem nao existir as imagens
+int nome_imagens_validas = 0; 
 
 /******************************************************************************
  * main()
@@ -37,8 +47,7 @@
 
 int main (int argc, char * argv[]){
     /* Variaveis*/
-    char ** images_array;
-    int numero_imagens_validas = 0;
+
     /* Main Functions*/
     check_arguments (argc, argv);
 
@@ -46,12 +55,19 @@ int main (int argc, char * argv[]){
     char * images_directory = (char *) calloc(strlen(argv[1])+1,sizeof(char));
     strcpy(images_directory,argv[1]);
 
-    images_array = read_image_file(images_directory, IMAGE_FILE, numero_imagens_validas);
-    print_image_array(images_array, numero_imagens_validas);
+    read_image_file(images_directory, IMAGE_FILE);
     
-    printf("Teste %d\n",numero_imagens_validas);
-    printf("Até agora está tudo a correr bem\n");
+    // DEBUG PRINTF's
+    printf("DEBUG: Numero de imagens validas = %d\n",nome_imagens_validas);
+    print_image_array(images_array, nome_imagens_validas);
 
+    // Libertar memoria
+    free_image_array(images_array,nome_imagens_validas);
     free(images_directory);
+
+    // Mensagem de conclusao correta do programa
+    printf("Até agora está tudo a correr bem\n");
+    
+    // Sair corretamente do programa
     exit(0);
 }
