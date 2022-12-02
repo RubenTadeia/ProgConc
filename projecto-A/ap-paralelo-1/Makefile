@@ -5,6 +5,10 @@ CFLAGS = -g -Wall -pedantic
 
 LIBS = -pthread -lpthread -lgd
 
+# INPUT VARIABLE
+IMAGES_FOLDER = imagens
+NUMBER_OF_THREADS = 4
+
 # Files
 FUNCTIONS = functions
 IMAGE_FILE = image-lib
@@ -21,11 +25,11 @@ $(BINARY): $(MAIN).c $(IMAGE_FILE).c $(IMAGE_FILE).h $(FUNCTIONS).c $(FUNCTIONS)
 
 # MAKE run
 run:
-	./$(BINARY) imagens 4
+	./$(BINARY) $(IMAGES_FOLDER) $(NUMBER_OF_THREADS)
 
 # MAKE valgrind
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all ./ap-paralelo-1 imagens 4
+	valgrind --leak-check=full --show-leak-kinds=all ./$(BINARY) $(IMAGES_FOLDER) $(NUMBER_OF_THREADS)
 
 # MAKE clean
 clean:
@@ -33,6 +37,5 @@ clean:
 
 # MAKE clean folders
 clean-data:
-	rm -fr ./Resize-dir ./Thumbnail-dir ./Watermark-dir
-	rmdir Resize-dir Thumbnail-dir Watermark-dir
+	rm -fr ./$(IMAGES_FOLDER)/Resize-dir ./$(IMAGES_FOLDER)/Thumbnail-dir ./$(IMAGES_FOLDER)/Watermark-dir
 	
