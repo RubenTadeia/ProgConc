@@ -58,7 +58,7 @@ void read_image_file(char * imagesDirectory, char * fname){
 	}
 
 	/* Variaveis */
-	extern int nome_imagens_validas;
+	extern int nomes_validos_imagens;
 	extern int max_word_len;
 	extern char ** images_array;
 
@@ -76,7 +76,7 @@ void read_image_file(char * imagesDirectory, char * fname){
 			//printf("Aux = %s\n",aux);
 			if (strcmp(aux, ".png") == 0){
 				// Este 
-				nome_imagens_validas++;
+				nomes_validos_imagens++;
 				if(strlen(linha)-1 > max_word_len){
 					max_word_len = strlen(linha)-1;
 				}
@@ -85,9 +85,9 @@ void read_image_file(char * imagesDirectory, char * fname){
 	}
 
 	fclose(file);
-	//printf("Numero de imagens validas = %d\n",nome_imagens_validas);
+	//printf("Numero de imagens validas = %d\n",nomes_validos_imagens);
 	
-	images_array = calloc(nome_imagens_validas,sizeof(char *));
+	images_array = calloc(nomes_validos_imagens,sizeof(char *));
 	
 	if (images_array == NULL){
 		perror("malloc in images_array");
@@ -118,7 +118,7 @@ void read_image_file(char * imagesDirectory, char * fname){
 	}
 
 	// DEBUG: Aqui vou funcionar 
-	//print_image_array (images_array,nome_imagens_validas);
+	//print_image_array (images_array,nomes_validos_imagens);
 
 	fclose(file);
 	free(fullPath_to_file);

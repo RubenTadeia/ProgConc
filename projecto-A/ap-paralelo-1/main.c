@@ -30,7 +30,7 @@ int max_word_len = 0;
 char ** images_array;
 
 // Contem o numero de nomes validos. De notar que podem nao existir as imagens
-int nome_imagens_validas = 0; 
+int nomes_validos_imagens = 0; 
 
 /******************************************************************************
  * main()
@@ -58,11 +58,11 @@ int main (int argc, char * argv[]){
     read_image_file(images_directory, IMAGE_FILE);
     
     // DEBUG PRINTF's
-    printf("DEBUG: Numero de imagens validas = %d\n",nome_imagens_validas);
-    print_image_array(images_array, nome_imagens_validas);
+    printf("DEBUG: Numero nomes validos para imagens = %d\n",nomes_validos_imagens);
+    print_image_array(images_array, nomes_validos_imagens);
 
     // Libertar memoria
-    free_image_array(images_array,nome_imagens_validas);
+    free_image_array(images_array,nomes_validos_imagens);
     free(images_directory);
 
     // Mensagem de conclusao correta do programa
