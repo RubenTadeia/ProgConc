@@ -12,8 +12,8 @@ NUMBER_OF_THREADS = 4
 # Files
 FUNCTIONS = functions
 IMAGE_FILE = image-lib
-MAIN = main
 THREADS = threads
+MAIN = main
 
 # the build of all the binary executables:
 BINARY = ap-paralelo-1
@@ -31,6 +31,9 @@ run:
 # MAKE valgrind
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all ./$(BINARY) $(IMAGES_FOLDER) $(NUMBER_OF_THREADS)
+
+time:
+	time -p ./$(BINARY) $(IMAGES_FOLDER) $(NUMBER_OF_THREADS)
 
 # MAKE clean
 clean:

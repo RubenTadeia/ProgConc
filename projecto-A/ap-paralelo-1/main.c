@@ -50,8 +50,8 @@ int main (int argc, char * argv[]){
 	int n_threads = atoi(argv[2]);
 	char * images_directory = (char *) calloc(strlen(argv[1])+1,sizeof(char));
 	strcpy(images_directory,argv[1]);
-	pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
-	pthread_t thread_id;
+	//pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
+	//pthread_t thread_id;
 	
 	/* Leitura do ficheiro com os nomes das imagens */
 	read_image_file(images_directory, IMAGE_FILE);
@@ -75,7 +75,7 @@ int main (int argc, char * argv[]){
 			printf("DEBUG: Nome do caminho = %s\n", image_information->image_folder);
 			printf("DEBUG: Nome da imagem = %s\n", image_information->image_name);
 			//pthread_create(&thread_id, NULL, thread_function_wm_tn_rs, image_information);
-			thread_id_list[j] = thread_id;	
+			//thread_id_list[j] = thread_id;	
 			j++;
 			i++;
 			// Situacao em que acabaram as imagens
@@ -92,8 +92,10 @@ int main (int argc, char * argv[]){
 	free_image_array(images_array,numero_imagens_validas);
 	free(images_directory);
 
+	// Tempo de execucao
+
 	// Mensagem de conclusao correta do programa
-	printf("Programa concluido com sucesso!\nObrigado por processar imagens conosco! :)\n");
+	printf("Programa concluido com sucesso!\nObrigado por processar imagens conosco! :)\n\n");
 	
 	// Sair corretamente do programa
 	exit(0);
