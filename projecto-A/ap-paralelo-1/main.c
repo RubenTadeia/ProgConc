@@ -46,7 +46,6 @@ int main (int argc, char * argv[]){
 	
 	/* Variaveis*/
 	int i = 0;
-	int j = 0;
 	int n_threads = atoi(argv[2]);
 	char * images_directory = (char *) calloc(strlen(argv[1])+1,sizeof(char));
 	strcpy(images_directory,argv[1]);
@@ -60,30 +59,44 @@ int main (int argc, char * argv[]){
 	printf("DEBUG: Numero nomes validos para imagens = %d\n",numero_imagens_validas);
 	print_image_array(images_array, numero_imagens_validas);
 
-	// Main loop
-	for (i = 0; i < numero_imagens_validas;) {
-		// Thread Creation
-		j = 0;
-		while( j < n_threads ){
-			/* Structure to send to the threads*/
-			image_info * image_information = (image_info *) malloc (sizeof(image_info));
-			image_information->image_folder = (char *) calloc(strlen(images_directory)+1, sizeof(char));
-			strcpy(image_information->image_folder,images_directory);
-			image_information->image_name = (char *) calloc(strlen(images_array[i])+1, sizeof(char));
-			strcpy(image_information->image_name,images_array[i]);
-			/*******************************************************/
-			printf("DEBUG: Nome do caminho = %s\n", image_information->image_folder);
-			printf("DEBUG: Nome da imagem = %s\n", image_information->image_name);
-			//pthread_create(&thread_id, NULL, thread_function_wm_tn_rs, image_information);
-			//thread_id_list[j] = thread_id;	
-			j++;
-			i++;
-			// Situacao em que acabaram as imagens
-			if (i >= numero_imagens_validas){
+	// Main Switch case for the project
+	switch (get_images_threads_difference(numero_imagens_validas,n_threads)) {
+			case 1:
+				printf("DEBUG: Numero de Threads igual ao numero de imagens\n");
+				// Fazer o resultado da divisao
+				/// Fazer o resultado do resto da divisao inteiro
+				int numero_imagens_por_thread = 1;
 				break;
-			}
-		};
+			case 2:
+				printf("DEBUG: Numero de Threads menor que o numero de imagens\n");
+				//int numero_imagens_por_thread = resultado da divisao inteira das imagens pelas threads;
+				//int extra_imagens_add = resto da divisao inteira das imagens pelas threads;
+				break;
+			case 3:
+				// Pegamos no numero de imagens e metemos cada thread com uma imagem
+				// Assim que ultrapassarmos o numero de imagens
+				// Colocamos os indices que entram as threads a -1 para nao fazerem nada
+				printf("DEBUG: Numero de Threads maior que o numero de imagens\n");
+				break;
+			default:
+				printf("ERRO: Existiu um problema com a relacao entre as imagens e as threads\n");
+				exit(5);
+				break;
 	}
+
+	// Main loop
+	// Thread Creation
+	while( i < n_threads ){
+		/* Structure to send to the threads*/
+		thread_input_info * thread_information = (thread_input_info *) malloc (sizeof(thread_input_info));
+		thread_information->image_folder = (char *) calloc(strlen(images_directory)+1, sizeof(char));
+		strcpy(thread_information->image_folder,images_directory);
+		/*******************************************************/
+		printf("DEBUG: Nome do caminho = %s\n", thread_information->image_folder);
+		//pthread_create(&thread_id, NULL, thread_function_wm_tn_rs, thread_information);
+		//thread_id_list[j] = thread_id;	
+		i++;
+	};
 
 	// Thread Join
 
