@@ -57,7 +57,7 @@ void read_image_file(char * imagesDirectory, char * fname){
 		exit(2);
 	}
 
-	/* Variaveis */
+	/* Variaveis Globais vindas do main */
 	extern int nomes_validos_imagens;
 	extern int max_word_len;
 	extern char ** images_array;
@@ -75,7 +75,7 @@ void read_image_file(char * imagesDirectory, char * fname){
 		   	}
 			//printf("Aux = %s\n",aux);
 			if (strcmp(aux, ".png") == 0){
-				// Este 
+				// Se utilizarmos a valida imagens, devemos colocar aqui neste loop
 				nomes_validos_imagens++;
 				if(strlen(linha)-1 > max_word_len){
 					max_word_len = strlen(linha)-1;
@@ -110,6 +110,7 @@ void read_image_file(char * imagesDirectory, char * fname){
 		   	}
 			//printf("Aux = %s\n",aux);
 			if (strcmp(aux, ".png") == 0){
+				// Se utilizarmos a valida imagens, devemos colocar aqui neste loop
 				images_array[i] = calloc(sizeof(char), max_word_len+1);
 				strcpy(images_array[i], linha);
 				i++;
