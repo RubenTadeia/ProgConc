@@ -162,3 +162,37 @@ int check_images(char * image_string){
 		return 0;
 	}
 }
+
+/* Function to create images directories */
+void create_directories(char * images_folder){
+	
+	char * fullPath_to_resize_dir_folder = (char * ) calloc (strlen(images_folder)+strlen(RESIZE_DIR)+1, sizeof(char));
+	strcpy(fullPath_to_resize_dir_folder,images_folder);
+	strcat(fullPath_to_resize_dir_folder,RESIZE_DIR);
+
+	char * fullPath_to_resize_thumb_folder = (char * ) calloc (strlen(images_folder)+strlen(THUMB_DIR)+1, sizeof(char));
+	strcpy(fullPath_to_resize_thumb_folder,images_folder);
+	strcat(fullPath_to_resize_thumb_folder,THUMB_DIR);
+
+	char * fullPath_to_resize_water_folder = (char * ) calloc (strlen(images_folder)+strlen(WATER_DIR)+1, sizeof(char));
+	strcpy(fullPath_to_resize_water_folder,images_folder);
+	strcat(fullPath_to_resize_water_folder,WATER_DIR);
+
+	/* creation of output directories */
+	if (create_directory(fullPath_to_resize_dir_folder) == 0){
+		fprintf(stderr, "Impossible to create %s directory\n", fullPath_to_resize_dir_folder);
+		exit(-1);
+	}
+	if (create_directory(fullPath_to_resize_thumb_folder) == 0){
+		fprintf(stderr, "Impossible to create %s directory\n", fullPath_to_resize_thumb_folder);
+		exit(-1);
+	}
+	if (create_directory(fullPath_to_resize_water_folder) == 0){
+		fprintf(stderr, "Impossible to create %s directory\n", fullPath_to_resize_water_folder);
+		exit(-1);
+	}
+
+	free(fullPath_to_resize_dir_folder);
+	free(fullPath_to_resize_thumb_folder);
+	free(fullPath_to_resize_water_folder);
+}

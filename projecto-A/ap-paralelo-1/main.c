@@ -11,7 +11,6 @@
 
 /*****************************************************************************/
 /* Libraries*/
-#include "threads.h"
 #include "functions.h"
 
 /*****************************************************************************/
@@ -76,6 +75,9 @@ int main (int argc, char * argv[]){
 	/* Leitura do ficheiro com os nomes das imagens */
 	read_image_file(images_directory, IMAGE_FILE);
 	
+	/* Criar as pastas de destino */
+	create_directories(images_directory);
+
 	// DEBUG PRINTF's
 	printf("DEBUG: Numero nomes validos para imagens = %d\n",numero_imagens_validas);
 	print_image_array(images_array, numero_imagens_validas);

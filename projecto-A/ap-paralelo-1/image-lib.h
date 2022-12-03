@@ -1,5 +1,33 @@
 #include "gd.h"
+#include <string.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <dirent.h>
+#include <errno.h>
+#include <ctype.h>
 
+/*****************************************************************************/
+/* the directories wher output files will be placed */
+#define RESIZE_DIR "/Resize-dir/"
+#define THUMB_DIR "/Thumbnail-dir/"
+#define WATER_DIR "/Watermark-dir/"
+
+/******************************************************************************
+ * add_watermark_in_image()
+ *
+ * Arguments: char * filename - name of the file to get watermark
+ *            char * images_folder - folder of the images
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Adds watermark to image given the filename
+ *
+ *****************************************************************************/
+void add_watermark_in_image(char * fileName, char * images_folder);
 
 /******************************************************************************
  * add_watermark()

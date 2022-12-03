@@ -25,6 +25,8 @@ void * thread_function_wm_tn_rs(void * arg){
 			// Aqui dentro chamamos a funcao de tratamento de imagens
 			printf("DEBUG THREAD: Thread numero = %d vai processar a imagem %s\n"
 				, thread_argument->thread_id, images_array[iterator]);
+
+			add_watermark_in_image(images_array[iterator],thread_argument->image_folder);
 		}
 	}
 	else{
