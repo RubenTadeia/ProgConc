@@ -18,6 +18,7 @@ typedef struct thread_input_info_struct{
 	char * image_folder;
 	int first_image_index;
 	int last_image_index;
+	int thread_id;
 } thread_input_info;
 
 /* Functions */
