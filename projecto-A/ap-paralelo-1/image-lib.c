@@ -50,7 +50,7 @@ void add_watermark_in_image(char * fileName, char * images_folder){
 		/* add watermark */
 		out_watermark_img = add_watermark(in_img, watermark_img);
 		if (out_watermark_img == NULL) {
-			fprintf(stderr, "Impossible to create thumbnail of %s image\n", fileName);
+			fprintf(stderr, "Impossible to create watermark of %s image\n", fileName);
 		}else{
 			/* save watermark */
 			if(write_png_file(out_watermark_img, out_file_name) == 0){
@@ -58,11 +58,156 @@ void add_watermark_in_image(char * fileName, char * images_folder){
 			}
 			gdImageDestroy(out_watermark_img);
 		}
+		gdImageDestroy(watermark_img);
 		gdImageDestroy(in_img);
 		free(fullPath_to_image);
 		free(out_file_name);
 	}
 }
+
+/******************************************************************************
+ * add_resize_to_image()
+ *
+ * Arguments: char * filename - name of the file to get watermark
+ *            char * images_folder - folder of the images
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Add resize to image given the filename
+ *
+ *****************************************************************************/
+
+void add_resize_to_image(char * fileName, char * images_folder){
+	/* Variables*/
+	// input images
+	gdImagePtr in_img;
+	//gdImagePtr watermark_img;
+	/* output images */
+	gdImagePtr out_resized_img;
+	//gdImagePtr out_watermark_img;
+	
+	/* Nome do ficheiro de output */
+	char * out_file_name = (char * ) calloc (strlen(images_folder)+strlen(RESIZE_DIR)+strlen(fileName)+1, sizeof(char));
+	strcpy(out_file_name,images_folder); 
+	strcat(out_file_name,RESIZE_DIR);
+	strcat(out_file_name,fileName);
+
+	if( access( out_file_name, F_OK ) != -1){
+		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem à watermark! \n", out_file_name);
+		free(out_file_name);
+	}else{
+		/*watermark_img = read_png_file("watermark.png");
+		if(watermark_img == NULL){
+			fprintf(stderr, "Impossible to read %s image\n", "watermark.png");
+			exit(7);
+		}*/
+		printf("Resize %s\n", fileName);
+		/* Nome do ficheiro de input */
+		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+strlen(WATER_DIR)+strlen(fileName)+1, sizeof(char));
+		strcpy(fullPath_to_image,images_folder);
+		strcat(fullPath_to_image,WATER_DIR);
+		strcat(fullPath_to_image,fileName);
+
+		in_img = read_png_file(fullPath_to_image);
+		if (in_img == NULL){
+			fprintf(stderr, "Impossible to read %s image\n", fullPath_to_image);
+			return;
+		}
+		/* apply resize */
+		out_resized_img = resize_image(in_img, 800);
+		if (out_resized_img == NULL) {
+			fprintf(stderr, "Impossible to resize of %s image\n", fileName);
+		}else{
+			/* save watermark */
+			if(write_png_file(out_resized_img, out_file_name) == 0){
+				fprintf(stderr, "Impossible to write %s image\n", out_file_name);
+			}
+			gdImageDestroy(out_resized_img);
+		}
+		//gdImageDestroy(watermark_img);
+		gdImageDestroy(in_img);
+		free(fullPath_to_image);
+		free(out_file_name);
+	}
+}
+
+/******************************************************************************
+ * add_thumbnail_to_image()
+ *
+ * Arguments: char * filename - name of the file to get watermark
+ *            char * images_folder - folder of the images
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Add thumbnail to image given the filename
+ *
+ *****************************************************************************/
+
+void add_thumbnail_to_image(char * fileName, char * images_folder){
+	/* Variables*/
+	// input images
+	gdImagePtr in_img;
+	//gdImagePtr watermark_img;
+	/* output images */
+	gdImagePtr out_thumb_img;
+	//gdImagePtr out_watermark_img;
+	
+	/* Nome do ficheiro de output */
+	char * out_file_name = (char * ) calloc (strlen(images_folder)+strlen(THUMB_DIR)+strlen(fileName)+1, sizeof(char));
+	strcpy(out_file_name,images_folder); 
+	strcat(out_file_name,THUMB_DIR);
+	strcat(out_file_name,fileName);
+
+	if( access( out_file_name, F_OK ) != -1){
+		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem à watermark! \n", out_file_name);
+		free(out_file_name);
+	}else{
+		/*watermark_img = read_png_file("watermark.png");
+		if(watermark_img == NULL){
+			fprintf(stderr, "Impossible to read %s image\n", "watermark.png");
+			exit(7);
+		}*/
+		printf("Thumbnail %s\n", fileName);
+		/* Nome do ficheiro de input */
+		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+strlen(WATER_DIR)+strlen(fileName)+1, sizeof(char));
+		strcpy(fullPath_to_image,images_folder);
+		strcat(fullPath_to_image,WATER_DIR);
+		strcat(fullPath_to_image,fileName);
+
+		in_img = read_png_file(fullPath_to_image);
+		if (in_img == NULL){
+			fprintf(stderr, "Impossible to read %s image\n", fullPath_to_image);
+			return;
+		}
+		/* apply resize */
+		out_thumb_img = make_thumb(in_img, 150);
+		if (out_thumb_img == NULL) {
+			fprintf(stderr, "Impossible to Thumbnail the %s image\n", fileName);
+		}else{
+			/* save watermark */
+			if(write_png_file(out_thumb_img, out_file_name) == 0){
+				fprintf(stderr, "Impossible to write %s image\n", out_file_name);
+			}
+			gdImageDestroy(out_thumb_img);
+		}
+		//gdImageDestroy(watermark_img);
+		gdImageDestroy(in_img);
+		free(fullPath_to_image);
+		free(out_file_name);
+	}
+}
+
+/******************************************************************************
+ * add_watermark()
+ *
+ * Arguments: in - pointer to image
+ *            watermark - pointer to image watermark
+ * Returns: out - pointer to image with watermark, or NULL in case of failure
+ * Side-Effects: none
+ *
+ * Description: creates clone of image and puts a watermark on it
+ *
+ *****************************************************************************/
 
 gdImagePtr add_watermark(gdImagePtr in_img, gdImagePtr watermark){
 	

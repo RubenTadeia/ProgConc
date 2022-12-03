@@ -30,6 +30,32 @@
 void add_watermark_in_image(char * fileName, char * images_folder);
 
 /******************************************************************************
+ * add_resize_to_image()
+ *
+ * Arguments: char * filename - name of the file to get watermark
+ *            char * images_folder - folder of the images
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Add resize to image given the filename
+ *
+ *****************************************************************************/
+void add_resize_to_image(char * fileName, char * images_folder);
+
+/******************************************************************************
+ * add_thumbnail_to_image()
+ *
+ * Arguments: char * filename - name of the file to get watermark
+ *            char * images_folder - folder of the images
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Add thumbnail to image given the filename
+ *
+ *****************************************************************************/
+void add_thumbnail_to_image(char * fileName, char * images_folder);
+
+/******************************************************************************
  * add_watermark()
  *
  * Arguments: in - pointer to image

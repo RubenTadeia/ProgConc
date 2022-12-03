@@ -27,6 +27,8 @@ void * thread_function_wm_tn_rs(void * arg){
 				, thread_argument->thread_id, images_array[iterator]);
 
 			add_watermark_in_image(images_array[iterator],thread_argument->image_folder);
+			add_resize_to_image(images_array[iterator],thread_argument->image_folder);
+			add_thumbnail_to_image(images_array[iterator],thread_argument->image_folder);
 		}
 	}
 	else{
