@@ -39,25 +39,39 @@ int numero_imagens_validas = 0;
  *
  *****************************************************************************/
 
+
 int main (int argc, char * argv[]){
 	
+	/*************************************************************************/
+
 	/* First Function To check input arguments */
 	check_arguments (argc, argv);
-	
-	/* Variaveis*/
+
+	/*************************************************************************/
+
+	/* Variaveis */
 	int i = 0;
-	
+	int gamma = 0;
+	// This variable below, has the value of extra images
+	// To be added to each thread
+	int extra_images = 0; 	
 	int n_threads = atoi(argv[2]);
 	char * images_directory = (char *) calloc(strlen(argv[1])+1,sizeof(char));
 	strcpy(images_directory,argv[1]);
-	//pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
-	//pthread_t thread_id;
 	int aux_index_threads = 0;
 	int numero_imagens_por_thread = 0;
 	
-	// This variable below, has the value of extra images
-	// To be added to each thread
-	int extra_images = 0; 
+	/* Variaveis de Threads */
+	pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
+	pthread_t thread_id;
+	void * thread_ret;
+	long int ret_val;
+
+	/* Variaveis de Tempo */
+	//struct timespec begin_main_time, end_main_time;
+	//clock_gettime(CLOCK_REALTIME, &begin_main_time);
+
+ 	/*************************************************************************/
 
 	/* Leitura do ficheiro com os nomes das imagens */
 	read_image_file(images_directory, IMAGE_FILE);
@@ -69,22 +83,18 @@ int main (int argc, char * argv[]){
 	// Main Switch case for the project
 	switch (get_images_threads_difference(numero_imagens_validas,n_threads)) {
 			case 1:
+				// Numero de Threads igual ao numero de imagens
 				printf("DEBUG: Numero de Threads igual ao numero de imagens\n");
-				// Fazer o resultado da divisao
-				/// Fazer o resultado do resto da divisao inteiro
 				numero_imagens_por_thread = 1;
 				break;
 			case 2:
+				// Numero de Threads menor que o numero de imagens
 				printf("DEBUG: Numero de Threads menor que o numero de imagens\n");
-				//int numero_imagens_por_thread = resultado da divisao inteira das imagens pelas threads;
-				//int extra_imagens_add = resto da divisao inteira das imagens pelas threads;
 				numero_imagens_por_thread = numero_imagens_validas / n_threads;
 				extra_images = numero_imagens_validas % n_threads;
 				break;
 			case 3:
-				// Pegamos no numero de imagens e metemos cada thread com uma imagem
-				// Assim que ultrapassarmos o numero de imagens
-				// Colocamos os indices que entram as threads a -1 para nao fazerem nada
+				// Numero de Threads maior que o numero de imagens
 				printf("DEBUG: Numero de Threads maior que o numero de imagens\n");
 				numero_imagens_por_thread = 1;
 				break;
@@ -93,6 +103,8 @@ int main (int argc, char * argv[]){
 				exit(5);
 				break;
 	}
+	
+	/*************************************************************************/
 
 	// Main loop
 	// Thread Creation
@@ -135,27 +147,42 @@ int main (int argc, char * argv[]){
 		
 		/*******************************************************/
 		// DEBUG PRINTS
-		printf("DEBUG: Thread numero = %d\n", thread_information->thread_id);
-		printf("DEBUG: Thread primeiro index = %d\n", thread_information->first_image_index);
-		printf("DEBUG: Thread ultimo index = %d\n", thread_information->last_image_index);
-		printf("DEBUG: Nome do caminho = %s\n\n", thread_information->image_folder);
+		//printf("DEBUG: Thread numero = %d\n", thread_information->thread_id);
+		//printf("DEBUG: Thread primeiro index = %d\n", thread_information->first_image_index);
+		//printf("DEBUG: Thread ultimo index = %d\n", thread_information->last_image_index);
+		//printf("DEBUG: Nome do caminho = %s\n\n", thread_information->image_folder);
 		
-		//pthread_create(&thread_id, NULL, thread_function_wm_tn_rs, thread_information);
-		//thread_id_list[j] = thread_id;
+		pthread_create(&thread_id, NULL, thread_function_wm_tn_rs, thread_information);
+		thread_id_list[i] = thread_id;
 		i++;
 		aux_index_threads++;
 	};
 
+	/*************************************************************************/
+
 	// Thread Join
+	while( gamma < n_threads) {
+		pthread_join(thread_id_list[gamma], &thread_ret);
+		ret_val = (long int) thread_ret;
+		printf("Valor que se queira returnar da thread -> %ld\n", ret_val);;
+		gamma++;
+	};
+
+	/*************************************************************************/
 
 	// Libertar memoria
 	printf("Vamos começar a libertar a memoria!\n");
 	free_image_array(images_array,numero_imagens_validas);
 	free(images_directory);
+	free(thread_id_list);
+
+	/*************************************************************************/
 
 	// Mensagem de conclusao correta do programa
 	printf("Programa concluido com sucesso!\nObrigado por processar imagens conosco! :)\n\n");
 	
+	/*************************************************************************/
+
 	// Sair corretamente do programa
 	exit(0);
 }
