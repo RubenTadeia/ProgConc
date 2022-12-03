@@ -32,6 +32,9 @@ run:
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all ./$(BINARY) $(IMAGES_FOLDER) $(NUMBER_OF_THREADS)
 
+callgrind:
+	valgrind --tool=callgrind ./$(BINARY) $(IMAGES_FOLDER) $(NUMBER_OF_THREADS)
+
 time:
 	time -p ./$(BINARY) $(IMAGES_FOLDER) $(NUMBER_OF_THREADS)
 
