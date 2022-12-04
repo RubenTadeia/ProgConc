@@ -11,7 +11,6 @@
 
 #include "gd.h"
 #include "image-lib.h"
-#include "time.h"
 
 /* the directories wher output files will be placed */
 #define RESIZE_DIR "./serial-Resize/"
@@ -66,8 +65,6 @@ int main(){
 		exit(-1);
 	}
 
-	clock_t t;
-   	double total_time = 0;
 
 	/* 
 	 * Add the watermarks
@@ -81,7 +78,7 @@ int main(){
 			fprintf(stderr, "Impossible to read %s image\n", files[i]);
 			continue;
 		}
-		t = clock();
+
 		/* add watermark */
 		out_watermark_img = add_watermark(in_img, watermark_img);
   		if (out_watermark_img == NULL) {
@@ -92,19 +89,15 @@ int main(){
 			if(write_png_file(out_watermark_img, out_file_name) == 0){
 	            fprintf(stderr, "Impossible to write %s image\n", out_file_name);
 			}
-			t = clock() - t;
-   			double time_taken = ((double)t)/CLOCKS_PER_SEC; // calculate the elapsed time
-   			printf("WATERMARK: O programa demorou %f segundos a executar\n", time_taken);
 			gdImageDestroy(out_watermark_img);
-			total_time = total_time + time_taken;
 		}
 		gdImageDestroy(in_img);
+
 	}
 
-	printf("WATERMARK: O tempo total foi de %f\n",total_time);
 
-	clock_t t_resize;
-	total_time = 0;
+
+
 
 	/* 
 	 * To resize images and add watermark
@@ -123,7 +116,6 @@ int main(){
 		if (out_watermark_img == NULL) {
 			fprintf(stderr, "Impossible to add watermark to %s image\n", files[i]);
 		}else{
-			t_resize = clock();
 			out_resized_img = resize_image(out_watermark_img, 800);
 			if (out_resized_img == NULL) {
 				fprintf(stderr, "Impossible to resize %s image\n", files[i]);
@@ -133,20 +125,12 @@ int main(){
 				if(write_png_file(out_resized_img, out_file_name) == 0){
 					fprintf(stderr, "Impossible to write %s image\n", out_file_name);
 				}
-				t_resize = clock() - t_resize;
-				double time_taken = ((double)t_resize)/CLOCKS_PER_SEC; // calculate the elapsed time
-				printf("RESIZE: O programa demorou %f segundos a executar\n", time_taken);
-				total_time = total_time + time_taken;
 				gdImageDestroy(out_resized_img);
 			}
 			gdImageDestroy(out_watermark_img);
 		}
 		gdImageDestroy(in_img);
 	}
-	printf("RESIZE: O tempo total foi de %f\n",total_time);
-
-	clock_t t_thumb;
-	total_time = 0;
 
 	/* 
 	 * Add watermark and create thumbnails
@@ -170,16 +154,11 @@ int main(){
 			if (out_thumb_img == NULL) {
 				fprintf(stderr, "Impossible to creat thumbnail of %s image\n", files[i]);
 			}else{
-				t_thumb = clock();
 				/* save thumbnail image */
 				sprintf(out_file_name, "%s%s", THUMB_DIR, files[i]);
 				if(write_png_file(out_thumb_img, out_file_name) == 0){
 					fprintf(stderr, "Impossible to write %s image\n", out_file_name);
 				}
-				t_thumb = clock() - t_thumb;
-				double time_taken = ((double)t_thumb)/CLOCKS_PER_SEC; // calculate the elapsed time
-				printf("RESIZE: O programa demorou %f segundos a executar\n", time_taken);
-				total_time = total_time + time_taken;
 				gdImageDestroy(out_thumb_img);
 			}
 			gdImageDestroy(out_watermark_img);
@@ -187,7 +166,6 @@ int main(){
 		gdImageDestroy(in_img);
 
 	}
-	printf("THUMBNAIL: O tempo total foi de %f\n",total_time);
 
 	gdImageDestroy(watermark_img);
 	exit(0);

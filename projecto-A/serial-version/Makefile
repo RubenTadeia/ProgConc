@@ -8,4 +8,4 @@ clean:
 	rm serial-basic
 
 clean-data:
-	rm -fry ./Resize-dir ./Thumbnail-dir ./Watermark-dir
+	rm -fr ./Resize-dir ./Thumbnail-dir ./Watermark-dir

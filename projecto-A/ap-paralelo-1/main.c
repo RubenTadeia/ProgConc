@@ -66,11 +66,14 @@ int main (int argc, char * argv[]){
 	void * thread_ret;
 	long int ret_val;
 
-	/* Variaveis de Tempo */
-	//struct timespec begin_main_time, end_main_time;
-	//clock_gettime(CLOCK_REALTIME, &begin_main_time);
+	// Variaveis de tempo
+	clock_t t;
+   	double time_taken = 0;
 
  	/*************************************************************************/
+	
+	/* Inicio do clock */
+	t = clock();
 
 	/* Leitura do ficheiro com os nomes das imagens */
 	read_image_file(images_directory, IMAGE_FILE);
@@ -166,17 +169,24 @@ int main (int argc, char * argv[]){
 	while( gamma < n_threads) {
 		pthread_join(thread_id_list[gamma], &thread_ret);
 		ret_val = (long int) thread_ret;
-		printf("Valor que se queira returnar da thread -> %ld\n", ret_val);;
+		printf("Valor que se queira returnar da thread -> %ld\n", ret_val);
 		gamma++;
 	};
 
 	/*************************************************************************/
-
+	
 	// Libertar memoria
 	printf("Vamos começar a libertar a memoria!\n");
 	free_image_array(images_array,numero_imagens_validas);
 	free(images_directory);
 	free(thread_id_list);
+
+	/*************************************************************************/
+
+	// Tempo
+	t = clock() - t;
+	time_taken = ((double)t)/CLOCKS_PER_SEC; // calculate the elapsed time
+   	printf("O programa demorou %f segundos a executar\n", time_taken);
 
 	/*************************************************************************/
 

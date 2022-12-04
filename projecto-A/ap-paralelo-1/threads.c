@@ -7,8 +7,10 @@ void * thread_function_wm_tn_rs(void * arg){
 	extern char ** images_array;
 
 	// Variaveis de tempo
-	//struct timespec begin_thread_time, end_thread_time;
-	//clock_gettime(CLOCK_REALTIME, &begin_thread_time);
+	clock_t start_t, end_t;
+	clock_t end_time_resize, end_time_thumbnail, end_time_watermark;
+	start_t = clock();
+   	double time_taken = 0;
 
 	// Inicio
 	printf("DEBUG THREAD: A Thread %d começou agora...\n",thread_argument->thread_id);
@@ -22,13 +24,31 @@ void * thread_function_wm_tn_rs(void * arg){
 	if (thread_argument->first_image_index != -1){
 		int iterator;
 		for (iterator = thread_argument->first_image_index; iterator <= thread_argument->last_image_index; iterator++){
+			
 			// Aqui dentro chamamos a funcao de tratamento de imagens
 			printf("DEBUG THREAD: Thread numero = %d vai processar a imagem %s\n"
 				, thread_argument->thread_id, images_array[iterator]);
 
+			clock_t start_image_water = clock();
 			add_watermark_in_image(images_array[iterator],thread_argument->image_folder);
+			end_time_watermark = clock();
+			time_taken = (double)(end_time_watermark - start_image_water) / CLOCKS_PER_SEC; // calculate the elapsed time
+			printf("WATERMARK: A Thread %d demorou %f segundos a executar a imagem %s\n"
+				, thread_argument->thread_id, time_taken,images_array[iterator]);
+			
+			clock_t start_image_resize = clock();
 			add_resize_to_image(images_array[iterator],thread_argument->image_folder);
+			end_time_resize = clock();
+			time_taken = (double)(end_time_resize - start_image_resize) / CLOCKS_PER_SEC; // calculate the elapsed time
+			printf("RESIZE: A Thread %d demorou %f segundos a executar a imagem %s\n",
+				 thread_argument->thread_id, time_taken,images_array[iterator]);
+			
+			clock_t start_image_thumbnail = clock();
 			add_thumbnail_to_image(images_array[iterator],thread_argument->image_folder);
+			end_time_thumbnail = clock();
+			time_taken = (double)(end_time_thumbnail - start_image_thumbnail) / CLOCKS_PER_SEC; // calculate the elapsed time
+			printf("THUMBNAIL: A Thread %d demorou %f segundos a executar a imagem %s\n", 
+				thread_argument->thread_id, time_taken,images_array[iterator]);
 		}
 	}
 	else{
@@ -41,9 +61,11 @@ void * thread_function_wm_tn_rs(void * arg){
 	// Fim
 	printf("DEBUG THREAD: Thread %d Concluida - A libertar memoria ...\n"
 			,thread_argument->thread_id);
-	//clock_gettime(CLOCK_REALTIME, &end_thread_time); 
-	//printf("DEBUG THREAD: Thread %d Concluida em %lld.%.9ld - A libertar memoria ...\n"
-			//,thread_argument->thread_id,(long long)end_thread_time.tv_sec, end_thread_time.tv_nsec);
+
+	// Tempo
+	end_t = clock();
+	time_taken = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+	printf("A Thread %d demorou %f segundos a executar\n", thread_argument->thread_id, time_taken);
 
 	// Libertacao de memoria
 	free(thread_argument->image_folder);
