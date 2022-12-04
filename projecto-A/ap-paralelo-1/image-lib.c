@@ -93,7 +93,7 @@ void add_resize_to_image(char * fileName, char * images_folder){
 	strcat(out_file_name,fileName);
 
 	if( access( out_file_name, F_OK ) != -1){
-		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem à watermark! \n", out_file_name);
+		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem ao resize! \n", out_file_name);
 		free(out_file_name);
 	}else{
 		/*watermark_img = read_png_file("watermark.png");
@@ -159,7 +159,7 @@ void add_thumbnail_to_image(char * fileName, char * images_folder){
 	strcat(out_file_name,fileName);
 
 	if( access( out_file_name, F_OK ) != -1){
-		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem à watermark! \n", out_file_name);
+		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem ao thumbnail! \n", out_file_name);
 		free(out_file_name);
 	}else{
 		/*watermark_img = read_png_file("watermark.png");

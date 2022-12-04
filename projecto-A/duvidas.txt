@@ -1,0 +1,32 @@
+1ª É preciso returnar alguma coisa coisa das threads na parte 1? A nosso ver não...
+
+2ª Porque é que não conseguimos returnar das threads um double ou um float, mas conseguimos um int?
+
+3ª Na parte 2... O que se pretende é um problema de optimização... Isso é mudar o enunciado completamente
+    Segundo o professor:
+            O fundamental do ap-paralelo-2 é terem:
+            - 3 threads 
+	        - E cada uma das threads efectuar um determinado conjunto de operaçoes sobre TODAS as imagens 
+            Se acharem que há uma organização melhor, então podem implementar essa organização."
+4ª 
+    O ficheiro ja existe imagens/Watermark-dir/IST-1.png! Vamos dar skip nesta imagem à watermark! 
+    WATERMARK: A Thread 1 demorou 0.000422 segundos a executar a imagem IST-1.png
+    Resize IST-1.png
+    GD Warning: gd-png: fatal libpng error: Read Error: truncated data
+    GD Warning: gd-png error: setjmp returns error condition 3
+    Impossible to read imagens/Watermark-dir/IST-1.png image
+
+
+    WATERMARK: A Thread 1 demorou 0.000024 segundos a executar a imagem IST-1.png
+    O ficheiro ja existe imagens/Resize-dir/IST-1.png! Vamos dar skip nesta imagem ao resize da imagem! 
+    RESIZE: A Thread 1 demorou 0.000026 segundos a executar a imagem IST-1.png
+    DEBUG THREAD: Thread numero = 1 vai processar a imagem IST-2.png
+    watermark  IST-2.png
+    RESIZE: A Thread 2 demorou 0.629198 segundos a executar a imagem IST-1.png
+    DEBUG THREAD: Thread numero = 2 vai processar a imagem IST-2.png
+    O ficheiro ja existe imagens/Watermark-dir/IST-2.png! Vamos dar skip nesta imagem à watermark! 
+    WATERMARK: A Thread 2 demorou 0.000007 segundos a executar a imagem IST-2.png
+    Resize IST-2.png
+    GD Warning: gd-png: fatal libpng error: Read Error: truncated data
+    GD Warning: gd-png error: setjmp returns error condition 3
+    Impossible to read imagens/Watermark-dir/IST-2.png image

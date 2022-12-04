@@ -7,7 +7,7 @@ LIBS = -pthread -lpthread -lgd
 
 # INPUT VARIABLE
 IMAGES_FOLDER = imagens
-NUMBER_OF_THREADS = 4
+NUMBER_OF_THREADS = 3
 
 # Files
 FUNCTIONS = functions
