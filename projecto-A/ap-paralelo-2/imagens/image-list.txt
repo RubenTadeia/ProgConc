@@ -3,7 +3,6 @@
 00846.png
 00849.PnG
 IST-1.PNG
-IST-2.png
-IST-3.png
+IST-4.PNG
 Lisboa-1.png
-
+Lisboa-2.png
