@@ -17,3 +17,8 @@
 - [ ] **Tarefa 14** - **Submissão** Ficheiro zip com as pastas ap-paralelo-1 e ap-paralelo-2 com make file + **relatório** pconc- relatorio-A.pdf
 - [ ] **Tarefa 15** - Calcular o tempo de speedup https://man7.org/linux/man-pages/man1/time.1.html - Consoante o que é pedido no relatório
 - [X] **Tarefa 16** - **Valgrind** -> Para imagens usar esta função como free -> gdImageDestroy()
+- [ ] **Tarefa 17** - **Comentarios** -> Adicionar comentarios como image-lib.h a TODAS as nossas funções
+- [ ] **Tarefa 18** - **Comentarios** -> Remover os comentarios desnecessários que estão nas funções
+- [ ] **Tarefa 19** - **Callgrind** -> Analisar o callgrind de cada parte
+- [ ] **Tarefa 20** - **Erros GD** -> Verificar os erros do GD com o professor
+- [ ] **Tarefa 21** - **Logica Parte 2** -> Verificar com o professor a lógica da parte 2 do projecto A
