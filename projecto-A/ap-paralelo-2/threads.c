@@ -39,7 +39,8 @@ void * thread_function_wm(void * arg){
 		printf("DEBUG THREAD: Thread numero = %d não tem imagem para processar\n", thread_argument->thread_id);
 	}
 
-	long int resultado = 1;
+	float * resultado = malloc(sizeof(float));
+	*resultado = 1;
 	
 	// Fim
 	printf("DEBUG THREAD: Thread %d Concluida - A libertar memoria ...\n"
@@ -129,7 +130,8 @@ void * thread_function_wm_rs(void * arg){
 		printf("DEBUG THREAD: Thread numero = %d não tem imagem para processar\n", thread_argument->thread_id);
 	}
 
-	long int resultado = 1;
+	float * resultado = malloc(sizeof(float));
+	*resultado = 1;
 	
 	// Fim
 	printf("DEBUG THREAD: Thread %d Concluida - A libertar memoria ...\n"
@@ -196,7 +198,8 @@ void * thread_function_wm_tn(void * arg){
 		printf("DEBUG THREAD: Thread numero = %d não tem imagem para processar\n", thread_argument->thread_id);
 	}
 
-	long int resultado = 1;
+	float * resultado = malloc(sizeof(float));
+	*resultado = 1;
 	
 	// Fim
 	printf("DEBUG THREAD: Thread %d Concluida - A libertar memoria ...\n"
@@ -270,7 +273,8 @@ void * thread_function_wm_tn_rs(void * arg){
 		printf("DEBUG THREAD: Thread numero = %d não tem imagem para processar\n", thread_argument->thread_id);
 	}
 
-	long int resultado = 1;
+	float * resultado = malloc(sizeof(float));
+	*resultado = 1;
 	
 	// Fim
 	printf("DEBUG THREAD: Thread %d Concluida - A libertar memoria ...\n"

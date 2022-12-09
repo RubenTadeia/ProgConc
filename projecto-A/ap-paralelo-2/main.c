@@ -50,7 +50,6 @@ int main (int argc, char * argv[]){
 
 	/* Variaveis */
 	int i = 0;
-	int gamma = 0;
 	// This variable below, has the value of extra images
 	// To be added to each thread
 	int n_threads = 3;
@@ -60,8 +59,7 @@ int main (int argc, char * argv[]){
 	/* Variaveis de Threads */
 	pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
 	pthread_t thread_id;
-	void * thread_ret;
-	long int ret_val;
+
 
 	// Variaveis de tempo
 	clock_t t;
@@ -125,6 +123,7 @@ int main (int argc, char * argv[]){
 			// Descomentar a linha abaixo se quisermos
 			// Ter a thread 1 a fazer tambem resize
 			//pthread_create(&thread_id, NULL, thread_function_wm_rs, thread_information);
+			pthread_join(thread_id, NULL);
 		}
 		// Thread 2
 		else if ( i == 1 ){
@@ -143,12 +142,16 @@ int main (int argc, char * argv[]){
 	};
 
 	/*************************************************************************/
+	void * thread_ret;
+	float ret_val;
+	int gamma = 1;
 
 	// Thread Join
 	while( gamma < n_threads) {
 		pthread_join(thread_id_list[gamma], &thread_ret);
-		ret_val = (long int) thread_ret;
-		printf("Valor que se queira returnar da thread -> %ld\n", ret_val);
+		ret_val = *(float *) thread_ret;
+		free(thread_ret);
+		printf("Valor que se queira returnar da thread -> %f\n", ret_val);
 		gamma++;
 	};
 
