@@ -121,7 +121,10 @@ int main (int argc, char * argv[]){
 		if ( i == 0 ){
 			thread_information->first_image_index = 0;	
 			thread_information->last_image_index = numero_imagens_validas - 1;
-			pthread_create(&thread_id, NULL, thread_function_wm_rs, thread_information);
+			pthread_create(&thread_id, NULL, thread_function_wm, thread_information);
+			// Descomentar a linha abaixo se quisermos
+			// Ter a thread 1 a fazer tambem resize
+			//pthread_create(&thread_id, NULL, thread_function_wm_rs, thread_information);
 		}
 		// Thread 2
 		else if ( i == 1 ){

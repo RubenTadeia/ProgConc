@@ -45,6 +45,8 @@ void add_watermark_in_image(char * fileName, char * images_folder){
 		in_img = read_png_file(fullPath_to_image);
 		if (in_img == NULL){
 			fprintf(stderr, "Impossible to read %s image\n", fullPath_to_image);
+			free(fullPath_to_image);
+			free(out_file_name);
 			return;
 		}
 		/* add watermark */
@@ -111,6 +113,8 @@ void add_resize_to_image(char * fileName, char * images_folder){
 		in_img = read_png_file(fullPath_to_image);
 		if (in_img == NULL){
 			fprintf(stderr, "Impossible to read %s image\n", fullPath_to_image);
+			free(fullPath_to_image);
+			free(out_file_name);
 			return;
 		}
 		/* apply resize */
@@ -177,6 +181,8 @@ void add_thumbnail_to_image(char * fileName, char * images_folder){
 		in_img = read_png_file(fullPath_to_image);
 		if (in_img == NULL){
 			fprintf(stderr, "Impossible to read %s image\n", fullPath_to_image);
+			free(fullPath_to_image);
+			free(out_file_name);
 			return;
 		}
 		/* apply resize */
