@@ -42,6 +42,8 @@ void add_watermark_in_image(char * fileName, char * images_folder);
  *****************************************************************************/
 void add_resize_to_image(char * fileName, char * images_folder);
 
+void add_resize_to_image_with_wm(char * fileName, char * images_folder);
+
 /******************************************************************************
  * add_thumbnail_to_image()
  *
@@ -54,6 +56,8 @@ void add_resize_to_image(char * fileName, char * images_folder);
  *
  *****************************************************************************/
 void add_thumbnail_to_image(char * fileName, char * images_folder);
+
+void add_thumbnail_to_image_with_wm(char * fileName, char * images_folder);
 
 /******************************************************************************
  * add_watermark()

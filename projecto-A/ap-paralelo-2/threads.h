@@ -15,6 +15,18 @@ typedef struct thread_input_info_struct{
 // Function that only does watermark
 void * thread_function_wm(void * arg);
 
+// Function that only does watermark
+void * thread_function_rs(void * arg);
+
+// Function that only does watermark
+void * thread_function_rs_with_wm(void * arg);
+
+// Function that only does watermark
+void * thread_function_tn(void * arg);
+
+// Function that only does watermark
+void * thread_function_tn_with_wm(void * arg);
+
 // Function that does watermark and resize
 void * thread_function_wm_rs(void * arg);
 
