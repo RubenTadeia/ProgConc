@@ -4,6 +4,8 @@
  *
  * Projecto - ParteA - Paralelização 1
  *           
+ * Grupo 11
+ * 
  *****************************************************************************/
 
 /*****************************************************************************/
@@ -105,8 +107,6 @@ int main (int argc, char * argv[]){
 			
 			thread_information->first_image_index = aux_index_threads;
 			
-			// Isto é que pode não funcionar... Porque o main
-			// E as threads têm velocidades diferentes
 			if (extra_images != 0){
 				extra_images = extra_images - 1;
 				aux_index_threads = aux_index_threads + 1;
