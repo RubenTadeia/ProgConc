@@ -1,8 +1,17 @@
-/* Libraries */
+// Libraries
 #include "functions.h"
 
-/* Functions */
-/* Function to check input arguments*/
+/******************************************************************************
+ * check_arguments()
+ *
+ * Arguments: int argc
+ * 			  char * argv[]
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Verifica se os argumentos estão na forma correta
+ *
+ *****************************************************************************/
 void check_arguments (int argc, char * argv[]){
 	// Se passar
 	if(argc != 3){
@@ -15,14 +24,14 @@ void check_arguments (int argc, char * argv[]){
 	
 	DIR* dir = opendir(argv[1]);
 	if (dir) {
-		/* Directory exists. */
+		// Directory exists
 		closedir(dir);
 	} else if (ENOENT == errno) {
-		/* Directory does not exist. */
+		// Directory does not exist
 		printf("ERRO: Não foi possível encontrar a diretoria das imagens!\n");
 		exit(1);
 	} else {
-		/* opendir() failed for some other reason. */
+		// opendir() failed for some other reason
 		printf("ERRO: Não foi possível encontrar a diretoria das imagens!\n");
 		exit(1);
 	}
@@ -33,14 +42,24 @@ void check_arguments (int argc, char * argv[]){
 	}
 }
 
-/* Function to read input file of images*/
+/******************************************************************************
+ * read_image_file()
+ *
+ * Arguments: char * imagesDirectory
+ * 			  char * fname
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Lê o ficheiro que contém o nome das imagens a serem tratadas. 
+ * 				Retira o núemro de imagens válidas e um array que contém o nome dessas mesmas imagens
+ *
+ *****************************************************************************/
 void read_image_file(char * imagesDirectory, char * fname){
 
 	char * fullPath_to_file = (char * ) calloc (strlen(imagesDirectory)+1+strlen(fname)+1, sizeof(char));
 	strcpy(fullPath_to_file,imagesDirectory);
 	strcat(fullPath_to_file,"/");
 	strcat(fullPath_to_file,fname);
-	//printf("Full path to image = %s\n",fullPath_to_file);
 
 	if( access( fullPath_to_file, F_OK ) != -1){
 		printf("%s encontrado\n", fullPath_to_file);
@@ -57,11 +76,12 @@ void read_image_file(char * imagesDirectory, char * fname){
 		exit(2);
 	}
 
-	/* Variaveis Globais vindas do main */
+	// Variaveis Globais vindas do main
 	extern int numero_imagens_validas;
 	extern int max_word_len;
 	extern char ** images_array;
 
+	// Contabiliza o número de imagens válidas
 	while(fgets(linha, 100, file)){
 		if(linha[0] != '\n' &&  linha[0] != '\0' && strlen(linha) >= 5){
 			// Colocar a extensao do ficheiro que podia ser .PNG em .png
@@ -73,7 +93,7 @@ void read_image_file(char * imagesDirectory, char * fname){
 			for (int j = 0; aux[j]!= '\0'; j++){
 				aux[j] = tolower(aux[j]);
 		   	}
-			//printf("Aux = %s\n",aux);
+	
 			if (strcmp(aux, ".png") == 0){
 				char * fullPath_to_image = (char * ) calloc (strlen(imagesDirectory)+1+strlen(linha)+1, sizeof(char));
 				strcpy(fullPath_to_image,imagesDirectory);
@@ -91,8 +111,8 @@ void read_image_file(char * imagesDirectory, char * fname){
 	}
 
 	fclose(file);
-	//printf("Numero de imagens validas = %d\n",numero_imagens_validas);
 	
+	// Cria um array que contém o nome das imagens a serem tratadas
 	images_array = calloc(numero_imagens_validas,sizeof(char *));
 	
 	if (images_array == NULL){
@@ -114,7 +134,7 @@ void read_image_file(char * imagesDirectory, char * fname){
 			for (int j = 0; aux[j]!= '\0'; j++){
 				aux[j] = tolower(aux[j]);
 		   	}
-			//printf("Aux = %s\n",aux);
+
 			if (strcmp(aux, ".png") == 0){
 				char * fullPath_to_image = (char * ) calloc (strlen(imagesDirectory)+1+strlen(linha)+1, sizeof(char));
 				strcpy(fullPath_to_image,imagesDirectory);
@@ -130,21 +150,38 @@ void read_image_file(char * imagesDirectory, char * fname){
 		}
 	}
 
-	// DEBUG: Aqui vou funcionar 
-	//print_image_array (images_array,numero_imagens_validas);
-
 	fclose(file);
 	free(fullPath_to_file);
 }
 
-/* Function to print image array */
+/******************************************************************************
+ * print_image_array()
+ *
+ * Arguments: char ** images_array
+ * 			  int array_size
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Escreve no terminal o que images_array contém
+ *
+ *****************************************************************************/
 void print_image_array(char ** images_array, int array_size){
 	for (int i = 0; i < array_size; i++){
 		printf("%s\n",images_array[i]);
 	}
 }
 
-/* Function to free image array */
+/******************************************************************************
+ * free_image_array()
+ *
+ * Arguments: char ** images_array
+ * 			  int array_size
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Dá free ao images_array
+ *
+ *****************************************************************************/
 void free_image_array(char ** images_array, int array_size){
 	for (int i = 0; i < array_size; i++){
 		free(images_array[i]);
@@ -152,7 +189,17 @@ void free_image_array(char ** images_array, int array_size){
 	free(images_array);
 }
 
-/* Function to check if images exist in folder*/
+/******************************************************************************
+ * check_images()
+ *
+ * Arguments: char ** images_array
+ * 			  int array_size
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Verifica se as imagens existem na pasta fornecida
+ *
+ *****************************************************************************/
 int check_images(char * image_string){
 	// Devolve 1 se encontrar, caso contrário 0
 	if( access( image_string, F_OK ) != -1){
@@ -163,7 +210,17 @@ int check_images(char * image_string){
 	}
 }
 
-/* Function to create images directories */
+/******************************************************************************
+ * create_directories()
+ *
+ * Arguments: char ** images_array
+ * 			  int array_size
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Cria as respetivas diretorias
+ *
+ *****************************************************************************/
 void create_directories(char * images_folder){
 	
 	char * fullPath_to_resize_dir_folder = (char * ) calloc (strlen(images_folder)+strlen(RESIZE_DIR)+1, sizeof(char));
@@ -178,7 +235,7 @@ void create_directories(char * images_folder){
 	strcpy(fullPath_to_resize_water_folder,images_folder);
 	strcat(fullPath_to_resize_water_folder,WATER_DIR);
 
-	/* creation of output directories */
+	// creation of output directories
 	if (create_directory(fullPath_to_resize_dir_folder) == 0){
 		fprintf(stderr, "Impossible to create %s directory\n", fullPath_to_resize_dir_folder);
 		exit(-1);
