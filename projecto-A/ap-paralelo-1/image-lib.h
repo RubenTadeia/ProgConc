@@ -11,7 +11,7 @@
 #include <ctype.h>
 
 /*****************************************************************************/
-/* the directories wher output files will be placed */
+// the directories wher output files will be placed
 #define RESIZE_DIR "/Resize-dir/"
 #define THUMB_DIR "/Thumbnail-dir/"
 #define WATER_DIR "/Watermark-dir/"
@@ -32,7 +32,7 @@ void add_watermark_in_image(char * fileName, char * images_folder);
 /******************************************************************************
  * add_resize_to_image()
  *
- * Arguments: char * filename - name of the file to get watermark
+ * Arguments: char * filename - name of the file to get resize
  *            char * images_folder - folder of the images
  * Returns: none
  * Side-Effects: none
@@ -45,7 +45,7 @@ void add_resize_to_image(char * fileName, char * images_folder);
 /******************************************************************************
  * add_thumbnail_to_image()
  *
- * Arguments: char * filename - name of the file to get watermark
+ * Arguments: char * filename - name of the file to get thumbnail
  *            char * images_folder - folder of the images
  * Returns: none
  * Side-Effects: none

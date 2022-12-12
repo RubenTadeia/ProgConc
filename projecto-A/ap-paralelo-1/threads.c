@@ -1,8 +1,19 @@
-/* Libraries*/
+// Libraries
 #include "threads.h"
 
+/******************************************************************************
+ * thread_function_wm_tn_rs()
+ *
+ * Arguments: void * arg 
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Adds watermark, resize and thumbnail to image
+ *
+ *****************************************************************************/
+
 void * thread_function_wm_tn_rs(void * arg){
-	// Variaveis
+	
 	thread_input_info * thread_argument = (thread_input_info *) arg;
 	extern char ** images_array;
 
@@ -14,11 +25,6 @@ void * thread_function_wm_tn_rs(void * arg){
 
 	// Inicio
 	printf("DEBUG THREAD: A Thread %d começou agora...\n",thread_argument->thread_id);
-
-	//printf("DEBUG THREAD: Thread numero = %d\n", thread_argument->thread_id);
-	printf("DEBUG THREAD: Thread primeiro index = %d\n", thread_argument->first_image_index);
-	printf("DEBUG THREAD: Thread ultimo index = %d\n", thread_argument->last_image_index);
-	//printf("DEBUG THREAD: Nome do caminho = %s\n\n", thread_argument->image_folder);
 
 	// Aqui dentro deste if a thread tem pelo menos uma imagem para processar
 	if (thread_argument->first_image_index != -1){
@@ -73,6 +79,19 @@ void * thread_function_wm_tn_rs(void * arg){
 
 	return (void *)resultado;
 }
+
+/******************************************************************************
+ * get_images_threads_difference()
+ *
+ * Arguments: int number_images - número de imagens
+ * 			  int number_threads - número de threads em que o programa vai executar
+ * Returns: 1 (Numero de threads igual ao numero de imagens) , 2 (Numero de threads menor que o numero de imagens)
+ * 			3 (Numero de threads maior que o numero de imagens)
+ * Side-Effects: none
+ *
+ * Description: compare number_images with number_threads
+ *
+ *****************************************************************************/
 
 int get_images_threads_difference(int number_images, int number_threads){
 	// Numero de threads igual ao numero de imagens
