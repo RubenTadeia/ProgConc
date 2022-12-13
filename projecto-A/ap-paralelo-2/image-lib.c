@@ -211,15 +211,13 @@ void add_resize_to_image_with_wm(char * fileName, char * images_folder){
  *****************************************************************************/
 
 void add_thumbnail_to_image(char * fileName, char * images_folder){
-	/* Variables*/
+
 	// input images
 	gdImagePtr in_img;
-	//gdImagePtr watermark_img;
-	/* output images */
+	// output images
 	gdImagePtr out_thumb_img;
-	//gdImagePtr out_watermark_img;
 	
-	/* Nome do ficheiro de output */
+	// Nome do ficheiro de output
 	char * out_file_name = (char * ) calloc (strlen(images_folder)+strlen(THUMB_DIR)+strlen(fileName)+1, sizeof(char));
 	strcpy(out_file_name,images_folder); 
 	strcat(out_file_name,THUMB_DIR);
@@ -229,13 +227,8 @@ void add_thumbnail_to_image(char * fileName, char * images_folder){
 		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem ao thumbnail! \n", out_file_name);
 		free(out_file_name);
 	}else{
-		/*watermark_img = read_png_file("watermark.png");
-		if(watermark_img == NULL){
-			fprintf(stderr, "Impossible to read %s image\n", "watermark.png");
-			exit(7);
-		}*/
 		printf("Thumbnail %s\n", fileName);
-		/* Nome do ficheiro de input */
+		// Nome do ficheiro de input
 		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+strlen(WATER_DIR)+strlen(fileName)+1, sizeof(char));
 		strcpy(fullPath_to_image,images_folder);
 		strcat(fullPath_to_image,WATER_DIR);
@@ -248,33 +241,43 @@ void add_thumbnail_to_image(char * fileName, char * images_folder){
 			free(out_file_name);
 			return;
 		}
-		/* apply resize */
+		// apply thumbnail
 		out_thumb_img = make_thumb(in_img, 150);
 		if (out_thumb_img == NULL) {
 			fprintf(stderr, "Impossible to Thumbnail the %s image\n", fileName);
 		}else{
-			/* save watermark */
+			// save thumbnail
 			if(write_png_file(out_thumb_img, out_file_name) == 0){
 				fprintf(stderr, "Impossible to write %s image\n", out_file_name);
 			}
 			gdImageDestroy(out_thumb_img);
 		}
-		//gdImageDestroy(watermark_img);
 		gdImageDestroy(in_img);
 		free(fullPath_to_image);
 		free(out_file_name);
 	}
 }
 
+/******************************************************************************
+ * add_thumbnail_to_image_with_wm()
+ *
+ * Arguments: char * filename - name of the file to get watermark
+ *            char * images_folder - folder of the images
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Add watermark and thumbnail to image given the filename
+ *
+ *****************************************************************************/
 void add_thumbnail_to_image_with_wm(char * fileName, char * images_folder){
-	/* Variables*/
+
 	// input images
 	gdImagePtr in_img;
-	/* output images */
+	// output images
 	gdImagePtr out_thumb_img;
 	gdImagePtr watermark_img, out_watermark_img;
 	
-	/* Nome do ficheiro de output */
+	// Nome do ficheiro de output
 	char * out_file_name = (char * ) calloc (strlen(images_folder)+strlen(THUMB_DIR)+strlen(fileName)+1, sizeof(char));
 	strcpy(out_file_name,images_folder); 
 	strcat(out_file_name,THUMB_DIR);
@@ -291,7 +294,7 @@ void add_thumbnail_to_image_with_wm(char * fileName, char * images_folder){
 			exit(7);
 		}
 		printf("Thumbnail %s\n", fileName);
-		/* Nome do ficheiro de input */
+		// Nome do ficheiro de input 
 		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+1+strlen(fileName)+1, sizeof(char));
 		strcpy(fullPath_to_image,images_folder);
 		strcat(fullPath_to_image,"/");
@@ -305,17 +308,17 @@ void add_thumbnail_to_image_with_wm(char * fileName, char * images_folder){
 			return;
 		}
 
-		/* add watermark */
+		// add watermark
 		out_watermark_img = add_watermark(in_img, watermark_img);
 		if (out_watermark_img == NULL) {
 			fprintf(stderr, "Impossible to create watermark of %s image\n", fileName);
 		}else{
-			/* apply thumbnail */
+			// apply thumbnail
 			out_thumb_img = make_thumb(out_watermark_img, 150);
 			if (out_thumb_img == NULL) {
 				fprintf(stderr, "Impossible to Thumbnail the %s image\n", fileName);
 			}else{
-				/* save watermark */
+				// save thumbnail
 				if(write_png_file(out_thumb_img, out_file_name) == 0){
 					fprintf(stderr, "Impossible to write %s image\n", out_file_name);
 				}
@@ -330,7 +333,6 @@ void add_thumbnail_to_image_with_wm(char * fileName, char * images_folder){
 	}
 }
 
-
 /******************************************************************************
  * add_watermark()
  *
@@ -342,7 +344,6 @@ void add_thumbnail_to_image_with_wm(char * fileName, char * images_folder){
  * Description: creates clone of image and puts a watermark on it
  *
  *****************************************************************************/
-
 gdImagePtr add_watermark(gdImagePtr in_img, gdImagePtr watermark){
 	
 	gdImagePtr out_img;
