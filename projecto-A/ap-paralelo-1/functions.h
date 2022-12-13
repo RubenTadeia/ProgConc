@@ -59,7 +59,7 @@ void free_image_array(char ** images_array, int array_size);
  *
  * Arguments: char ** images_array
  * 			  int array_size
- * Returns: none
+ * Returns: Devolve um inteiro com valor 1 se encontrar, caso contrário 0 
  * Side-Effects: none
  *
  * Description: Verifica se as imagens existem na pasta fornecida

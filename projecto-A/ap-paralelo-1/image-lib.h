@@ -66,7 +66,7 @@ void add_thumbnail_to_image(char * fileName, char * images_folder);
  * Description: creates clone of image and puts a watermark on it
  *
  *****************************************************************************/
-gdImagePtr  add_watermark(gdImagePtr in_img, gdImagePtr watermark);
+gdImagePtr add_watermark(gdImagePtr in_img, gdImagePtr watermark);
 
 
 /******************************************************************************
@@ -81,7 +81,7 @@ gdImagePtr  add_watermark(gdImagePtr in_img, gdImagePtr watermark);
  *              width
  *
  *****************************************************************************/
-gdImagePtr  resize_image(gdImagePtr in_img ,int new_width);
+gdImagePtr resize_image(gdImagePtr in_img ,int new_width);
 
 /******************************************************************************
  * make_thumb()
@@ -94,7 +94,7 @@ gdImagePtr  resize_image(gdImagePtr in_img ,int new_width);
  * Description: thumbnail of image with smalles dimension equal to target size
  *
  *****************************************************************************/
-gdImagePtr  make_thumb(gdImagePtr in_img, int size);
+gdImagePtr make_thumb(gdImagePtr in_img, int size);
 
 /******************************************************************************
  * read_png_file()
