@@ -191,7 +191,7 @@ void add_resize_to_image_with_wm(char * fileName, char * images_folder){
 				gdImageDestroy(out_watermark_img);
 			}
 		}
-		//gdImageDestroy(watermark_img);
+		gdImageDestroy(watermark_img);
 		gdImageDestroy(in_img);
 		free(fullPath_to_image);
 		free(out_file_name);
@@ -323,7 +323,7 @@ void add_thumbnail_to_image_with_wm(char * fileName, char * images_folder){
 				gdImageDestroy(out_watermark_img);
 			}
 		}
-		//gdImageDestroy(watermark_img);
+		gdImageDestroy(watermark_img);
 		gdImageDestroy(in_img);
 		free(fullPath_to_image);
 		free(out_file_name);

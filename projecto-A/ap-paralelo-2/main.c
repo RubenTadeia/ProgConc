@@ -124,19 +124,21 @@ int main (int argc, char * argv[]){
 			// Ter a thread 1 a fazer tambem resize
 			//pthread_create(&thread_id, NULL, thread_function_wm_rs, thread_information);
 			
-			pthread_join(thread_id, NULL);
+			//pthread_join(thread_id, NULL);
 		}
 		// Thread 2
 		else if ( i == 1 ){
 			thread_information->first_image_index = 0;	
 			thread_information->last_image_index =  numero_imagens_validas - 1;
-			pthread_create(&thread_id, NULL, thread_function_rs, thread_information);
+			//pthread_create(&thread_id, NULL, thread_function_rs, thread_information);
+			pthread_create(&thread_id, NULL, thread_function_rs_with_wm, thread_information);
 		}
 		// Thread 3
 		else if ( i == 2 ){
 			thread_information->first_image_index = 0;	
 			thread_information->last_image_index =  numero_imagens_validas - 1;
-			pthread_create(&thread_id, NULL, thread_function_tn, thread_information);
+			//pthread_create(&thread_id, NULL, thread_function_tn, thread_information);
+			pthread_create(&thread_id, NULL, thread_function_tn_with_wm, thread_information);
 		}
 		thread_id_list[i] = thread_id;
 		i++;
@@ -145,7 +147,7 @@ int main (int argc, char * argv[]){
 	/*************************************************************************/
 	void * thread_ret;
 	float ret_val;
-	int gamma = 1;
+	int gamma = 0;
 
 	// Thread Join
 	while( gamma < n_threads) {
