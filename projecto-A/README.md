@@ -6,19 +6,19 @@
 - [X] **Tarefa 4** - As imagens geradas têm que ter o nome das imagens originais mas serão colocadas em directorias diferentes. Resize-dir | Thumbnail-dir | Watermark-dir
 - [X] **Tarefa 5** - Nome dos binários gerados têm que ser **ap-paralelo-1** e **ap-paralelo-2**
 - [X] **Tarefa 6** - **ap-paralelo-1** -> Cada thread gera as três imagens transformadas e existe um loop de joins apenas no fim. Ou seja, a função de thread tem lá dentro a chamada às função watermark, resize e thumbnail.
-- [ ] **Tarefa 7** - **ap-paralelo-2** -> Só existem 3 threads distintas. Ou seja, existem 3 funções de threads. a função de thread tem lá dentro a chamada às função watermark, resize e thumbnail.
-- [ ] **Tarefa 8** - **ap-paralelo-2** -> O professor na página 9/14 diz que podemos colocar os joins noutro lado. **Só podemos usar 3 threads.** Temos que confirmar se vale a pena ter um join depois das threads de watermark e e só aí chamar as outras threads **OU** se o melhor é ter cada thread a repetir a chamada à função watermark. **DICA:** Colocar o tempo e verificar qual o mais baixo.
+- [X] **Tarefa 7** - **ap-paralelo-2** -> Só existem 3 threads distintas. Ou seja, existem 3 funções de threads. a função de thread tem lá dentro a chamada às função watermark, resize e thumbnail.
+- [X] **Tarefa 8** - **ap-paralelo-2** -> O professor na página 9/14 diz que podemos colocar os joins noutro lado. **Só podemos usar 3 threads.** Temos que confirmar se vale a pena ter um join depois das threads de watermark e e só aí chamar as outras threads **OU** se o melhor é ter cada thread a repetir a chamada à função watermark. **DICA:** Colocar o tempo e verificar qual o mais baixo.
 - [X] **Tarefa 8.1** - **ap-paralelo-2** -> Relativamente à tarefa anterior: Há aqui uma questão. "_É nos dito na ultima parte que há 3 threads e que a primeira realiza a watermark, a segunda realiza a watermark + resize e só depois guarda o ficheiro, por fim a terceira realiza a watermark + thumbnail. No entanto, o professor diz que podemos organizar a sequênciação, execução e responsabilidade destas threads de outra forma. Quer dizer que podemos mudar o enunciado? Por exemplo, colocar qualquer uma das threads que faça watermark a gravar o resultado, poupando assim o tempo às seguintes que já não têm que aplicar a watermark cada o ficheiro exista. Isto é uma solução válida, ou todas as threads têm que realizar o watermark e só no fim da sua execução é que guardam ficheiros?_"
 - [X] **Tarefa 9** - **Argumentos APP 1** ./ap-paralelo-1 Directoria-Imagens-Originais Numero-De-Threads
 - [X] **Tarefa 10** - **Argumentos APP 2** ./ap-paralelo-2 Directoria-Imagens-Originais
 - [X] **Tarefa 11** - Para a primeira aplicação o número de threads deve ser um qualquer número inteiro positivo 
 - [X] **Tarefa 12** - Confirmar que as sub-diretorias das imagens deverão ser criadas pelas aplicações na diretoria indicada na linha de comando pelo utilizador e onde se encontram as imagens originais.
 - [X] **Tarefa 13** - Interrupção de execução - Se o utilizador voltar a executar a aplicação, não deverá ser necessário voltar a produzir os ficheiros resultado já existentes. A aplicação só deverá processar e gastar tempo na criação dos ficheiros em falta. **DICA:** Verificar página 12/14 do enunciado.
-- [ ] **Tarefa 14** - **Submissão** Ficheiro zip com as pastas ap-paralelo-1 e ap-paralelo-2 com make file + **relatório** pconc- relatorio-A.pdf
-- [ ] **Tarefa 15** - Calcular o tempo de speedup https://man7.org/linux/man-pages/man1/time.1.html - Consoante o que é pedido no relatório
+- [X] **Tarefa 14** - **Submissão** Ficheiro zip com as pastas ap-paralelo-1 e ap-paralelo-2 com make file + **relatório** pconc- relatorio-A.pdf
+- [X] **Tarefa 15** - Calcular o tempo de speedup https://man7.org/linux/man-pages/man1/time.1.html - Consoante o que é pedido no relatório
 - [X] **Tarefa 16** - **Valgrind** -> Para imagens usar esta função como free -> gdImageDestroy()
-- [ ] **Tarefa 17** - **Comentarios** -> Adicionar comentarios como image-lib.h a TODAS as nossas funções
-- [ ] **Tarefa 18** - **Comentarios** -> Remover os comentarios desnecessários que estão nas funções
-- [ ] **Tarefa 19** - **Callgrind** -> Analisar o callgrind de cada parte
-- [ ] **Tarefa 20** - **Erros GD** -> Verificar os erros do GD com o professor
-- [ ] **Tarefa 21** - **Logica Parte 2** -> Verificar com o professor a lógica da parte 2 do projecto A
+- [X] **Tarefa 17** - **Comentarios** -> Adicionar comentarios como image-lib.h a TODAS as nossas funções
+- [X] **Tarefa 18** - **Comentarios** -> Remover os comentarios desnecessários que estão nas funções
+- [X] **Tarefa 19** - **Callgrind** -> Analisar o callgrind de cada parte
+- [X] **Tarefa 20** - **Erros GD** -> Verificar os erros do GD com o professor
+- [X] **Tarefa 21** - **Logica Parte 2** -> Verificar com o professor a lógica da parte 2 do projecto A
