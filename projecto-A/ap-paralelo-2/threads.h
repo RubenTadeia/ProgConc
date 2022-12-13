@@ -1,4 +1,4 @@
-/* Libraries*/
+// Libraries
 #include "image-lib.h"
 
 /*****************************************************************************/
@@ -10,30 +10,64 @@ typedef struct thread_input_info_struct{
 	int thread_id;
 } thread_input_info;
 
-/* Functions */
-
-// Function that only does watermark
+/******************************************************************************
+ * thread_function_wm()
+ *
+ * Arguments: void * arg 
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Adds watermark to image
+ *
+ *****************************************************************************/
 void * thread_function_wm(void * arg);
 
-// Function that only does watermark
-void * thread_function_rs(void * arg);
-
-// Function that only does watermark
+/******************************************************************************
+ * thread_function_rs_with_wm()
+ *
+ * Arguments: void * arg 
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Adds watermark and resize to image
+ *
+ *****************************************************************************/
 void * thread_function_rs_with_wm(void * arg);
 
-// Function that only does watermark
-void * thread_function_tn(void * arg);
-
-// Function that only does watermark
+/******************************************************************************
+ * thread_function_tn_with_wm()
+ *
+ * Arguments: void * arg 
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Adds watermark and thumbnail to image
+ *
+ *****************************************************************************/
 void * thread_function_tn_with_wm(void * arg);
 
-// Function that does watermark and resize
-void * thread_function_wm_rs(void * arg);
-
-// Function that does watermark and thumbnail
+/******************************************************************************
+ * thread_function_wm_tn()
+ *
+ * Arguments: void * arg 
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Adds watermark and thumbnail to image
+ *
+ *****************************************************************************/
 void * thread_function_wm_tn(void * arg);
 
-// Function that does watermark, thumbnail and resize
-void * thread_function_wm_tn_rs(void * arg);
-
+/******************************************************************************
+ * get_images_threads_difference()
+ *
+ * Arguments: int number_images - número de imagens
+ * 			  int number_threads - número de threads em que o programa vai executar
+ * Returns: 1 (Numero de threads igual ao numero de imagens) , 2 (Numero de threads menor que o numero de imagens)
+ * 			3 (Numero de threads maior que o numero de imagens)
+ * Side-Effects: none
+ *
+ * Description: compare number_images with number_threads
+ *
+ *****************************************************************************/
 int get_images_threads_difference(int number_images, int number_threads);

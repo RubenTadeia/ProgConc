@@ -1,4 +1,4 @@
-/* Libraries */
+// Libraries
 #include "image-lib.h"
 
 
@@ -14,13 +14,13 @@
  *
  *****************************************************************************/
 void add_watermark_in_image(char * fileName, char * images_folder){
-	/* Variables*/
+
 	// input images
 	gdImagePtr in_img,  watermark_img;
-	/* output images */
+	// output images
 	gdImagePtr out_watermark_img;
 	
-	/* Nome do ficheiro de output */
+	// Nome do ficheiro de output
 	char * out_file_name = (char * ) calloc (strlen(images_folder)+strlen(WATER_DIR)+strlen(fileName)+1, sizeof(char));
 	strcpy(out_file_name,images_folder);
 	strcat(out_file_name,WATER_DIR);
@@ -36,7 +36,7 @@ void add_watermark_in_image(char * fileName, char * images_folder){
 			exit(7);
 		}
 		printf("watermark  %s\n", fileName);
-		/* Nome do ficheiro de input */
+		// Nome do ficheiro de input
 		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+1+strlen(fileName)+1, sizeof(char));
 		strcpy(fullPath_to_image,images_folder);
 		strcat(fullPath_to_image,"/");
@@ -49,12 +49,12 @@ void add_watermark_in_image(char * fileName, char * images_folder){
 			free(out_file_name);
 			return;
 		}
-		/* add watermark */
+		// add watermark
 		out_watermark_img = add_watermark(in_img, watermark_img);
 		if (out_watermark_img == NULL) {
 			fprintf(stderr, "Impossible to create watermark of %s image\n", fileName);
 		}else{
-			/* save watermark */
+			// save watermark
 			if(write_png_file(out_watermark_img, out_file_name) == 0){
 				fprintf(stderr, "Impossible to write %s image\n", out_file_name);
 			}
@@ -78,17 +78,14 @@ void add_watermark_in_image(char * fileName, char * images_folder){
  * Description: Add resize to image given the filename
  *
  *****************************************************************************/
-
 void add_resize_to_image(char * fileName, char * images_folder){
-	/* Variables*/
+	
 	// input images
 	gdImagePtr in_img;
-	//gdImagePtr watermark_img;
-	/* output images */
+	// output images
 	gdImagePtr out_resized_img;
-	//gdImagePtr out_watermark_img;
 	
-	/* Nome do ficheiro de output */
+	// Nome do ficheiro de output
 	char * out_file_name = (char * ) calloc (strlen(images_folder)+strlen(RESIZE_DIR)+strlen(fileName)+1, sizeof(char));
 	strcpy(out_file_name,images_folder); 
 	strcat(out_file_name,RESIZE_DIR);
@@ -98,13 +95,8 @@ void add_resize_to_image(char * fileName, char * images_folder){
 		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem ao resize da imagem! \n", out_file_name);
 		free(out_file_name);
 	}else{
-		/*watermark_img = read_png_file("watermark.png");
-		if(watermark_img == NULL){
-			fprintf(stderr, "Impossible to read %s image\n", "watermark.png");
-			exit(7);
-		}*/
 		printf("Resize %s\n", fileName);
-		/* Nome do ficheiro de input */
+		// Nome do ficheiro de input
 		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+strlen(WATER_DIR)+strlen(fileName)+1, sizeof(char));
 		strcpy(fullPath_to_image,images_folder);
 		strcat(fullPath_to_image,WATER_DIR);
@@ -117,33 +109,43 @@ void add_resize_to_image(char * fileName, char * images_folder){
 			free(out_file_name);
 			return;
 		}
-		/* apply resize */
+		// apply resize
 		out_resized_img = resize_image(in_img, 800);
 		if (out_resized_img == NULL) {
 			fprintf(stderr, "Impossible to resize of %s image\n", fileName);
 		}else{
-			/* save watermark */
+			// save resize
 			if(write_png_file(out_resized_img, out_file_name) == 0){
 				fprintf(stderr, "Impossible to write %s image\n", out_file_name);
 			}
 			gdImageDestroy(out_resized_img);
 		}
-		//gdImageDestroy(watermark_img);
 		gdImageDestroy(in_img);
 		free(fullPath_to_image);
 		free(out_file_name);
 	}
 }
 
+/******************************************************************************
+ * add_resize_to_image_with_wm()
+ *
+ * Arguments: char * filename - name of the file to get watermark
+ *            char * images_folder - folder of the images
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Add watermark and resize to image given the filename
+ *
+ *****************************************************************************/
 void add_resize_to_image_with_wm(char * fileName, char * images_folder){
-	/* Variables*/
+	
 	// input images
 	gdImagePtr in_img;
-	/* output images */
+	// output images
 	gdImagePtr out_resized_img;
 	gdImagePtr watermark_img, out_watermark_img;
 	
-	/* Nome do ficheiro de output */
+	// Nome do ficheiro de output
 	char * out_file_name = (char * ) calloc (strlen(images_folder)+strlen(RESIZE_DIR)+strlen(fileName)+1, sizeof(char));
 	strcpy(out_file_name,images_folder); 
 	strcat(out_file_name,RESIZE_DIR);
@@ -159,7 +161,7 @@ void add_resize_to_image_with_wm(char * fileName, char * images_folder){
 			exit(7);
 		}
 		printf("Resize %s\n", fileName);
-		/* Nome do ficheiro de input */
+		// Nome do ficheiro de input
 		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+1+strlen(fileName)+1, sizeof(char));
 		strcpy(fullPath_to_image,images_folder);
 		strcat(fullPath_to_image,"/");
@@ -172,18 +174,18 @@ void add_resize_to_image_with_wm(char * fileName, char * images_folder){
 			free(out_file_name);
 			return;
 		}
-		/* add watermark */
+		// add watermark
 		out_watermark_img = add_watermark(in_img, watermark_img);
 		if (out_watermark_img == NULL) {
 			fprintf(stderr, "Impossible to create watermark of %s image\n", fileName);
 		}else{
 
-			/* apply resize */
+			// apply resize
 			out_resized_img = resize_image(out_watermark_img, 800);
 			if (out_resized_img == NULL) {
 				fprintf(stderr, "Impossible to resize of %s image\n", fileName);
 			}else{
-				/* save watermark */
+				// save resize
 				if(write_png_file(out_resized_img, out_file_name) == 0){
 					fprintf(stderr, "Impossible to write %s image\n", out_file_name);
 				}
@@ -209,7 +211,6 @@ void add_resize_to_image_with_wm(char * fileName, char * images_folder){
  * Description: Add thumbnail to image given the filename
  *
  *****************************************************************************/
-
 void add_thumbnail_to_image(char * fileName, char * images_folder){
 
 	// input images

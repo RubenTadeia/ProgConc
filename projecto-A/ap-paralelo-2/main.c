@@ -1,27 +1,29 @@
-/******************************************************************************
+/*/******************************************************************************
  * Programacao Concorrente
  * MEEC 21/22
  *
- * Projecto - Parte1
- * 
- * 
- * 
+ * Projecto - ParteA - Paralelização 2
  *           
+ * Grupo 11
+ * 
+ * Ruben Tadeia | 75268
+ * 
+ * Bernardo Costa | 102777
+ * 
  *****************************************************************************/
 
 /*****************************************************************************/
-/* Libraries*/
+// Libraries
 #include "functions.h"
 
 /*****************************************************************************/
-/* Input Image File */
+// Input Image File
 #define IMAGE_FILE "image-list.txt"
 
 /*****************************************************************************/
-/* Variaveis Globais */
+// Variaveis Globais
 int max_word_len = 0;
 char ** images_array;
-
 // Contem o numero de nomes validos de imagens
 int numero_imagens_validas = 0; 
 
@@ -33,22 +35,13 @@ int numero_imagens_validas = 0;
  * Side-Effects: creates thumbnail, resized copy and watermarked copies
  *               of images
  *
- * Description: implementation of the complex serial version 
- *              This application only works for a fixed pre-defined set of files
+ * Description: Implementa a versão da paralelização da parte B
  *
  *****************************************************************************/
-
-
 int main (int argc, char * argv[]){
-	
-	/*************************************************************************/
 
-	/* First Function To check input arguments */
 	check_arguments (argc, argv);
 
-	/*************************************************************************/
-
-	/* Variaveis */
 	int i = 0;
 	// This variable below, has the value of extra images
 	// To be added to each thread
@@ -56,7 +49,7 @@ int main (int argc, char * argv[]){
 	char * images_directory = (char *) calloc(strlen(argv[1])+1,sizeof(char));
 	strcpy(images_directory,argv[1]);
 	
-	/* Variaveis de Threads */
+	// Variaveis de Threads
 	pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
 	pthread_t thread_id;
 
@@ -64,41 +57,32 @@ int main (int argc, char * argv[]){
 	// Variaveis de tempo
 	clock_t t;
    	double time_taken = 0;
-
- 	/*************************************************************************/
 	
-	/* Inicio do clock */
+	//Inicio do clock
 	t = clock();
 
-	/* Leitura do ficheiro com os nomes das imagens */
 	read_image_file(images_directory, IMAGE_FILE);
 	
-	/* Criar as pastas de destino */
 	create_directories(images_directory);
 
 	// DEBUG PRINTF's
 	printf("DEBUG: Numero nomes validos para imagens = %d\n",numero_imagens_validas);
 	print_image_array(images_array, numero_imagens_validas);
-	
-	/*************************************************************************/
 
 	// Main loop
 	// Thread Creation
 	while( i < n_threads ){
 		thread_input_info * thread_information = (thread_input_info *) malloc (sizeof(thread_input_info));
 		// Ainda temos imagens para ser processadas
-		// Resolve as situacoes em que numero de threads e igual ou menor que o numero de imagens
 		if (numero_imagens_validas > 0){
-			/* Structure to send to the threads*/
+			// Structure to send to the threads
 			thread_information->image_folder = (char *) calloc(strlen(images_directory)+1, sizeof(char));
 			strcpy(thread_information->image_folder,images_directory);
 			thread_information->thread_id = i + 1;
 		}
-
 		// Ja nao temos imagens para ser processadas. Threads Sem trabalho
-		// Resolve a situacao em que numero de threads e maior que o numero de imagens
 		else{
-			/* Structure to send to the threads*/
+			// Structure to send to the threads
 			thread_information->image_folder = NULL;
 			
 			thread_information->first_image_index = -1;
@@ -107,13 +91,6 @@ int main (int argc, char * argv[]){
 
 			thread_information->thread_id = i + 1;
 		}
-		
-		/*******************************************************/
-		// DEBUG PRINTS
-		//printf("DEBUG: Thread numero = %d\n", thread_information->thread_id);
-		//printf("DEBUG: Thread primeiro index = %d\n", thread_information->first_image_index);
-		//printf("DEBUG: Thread ultimo index = %d\n", thread_information->last_image_index);
-		//printf("DEBUG: Nome do caminho = %s\n\n", thread_information->image_folder);
 		
 		// Thread 1
 		if ( i == 0 ){
@@ -144,7 +121,6 @@ int main (int argc, char * argv[]){
 		i++;
 	};
 
-	/*************************************************************************/
 	void * thread_ret;
 	float ret_val;
 	int gamma = 0;
@@ -158,27 +134,19 @@ int main (int argc, char * argv[]){
 		gamma++;
 	};
 
-	/*************************************************************************/
-	
 	// Libertar memoria
 	printf("Vamos começar a libertar a memoria!\n");
 	free_image_array(images_array,numero_imagens_validas);
 	free(images_directory);
 	free(thread_id_list);
 
-	/*************************************************************************/
-
 	// Tempo
 	t = clock() - t;
 	time_taken = ((double)t)/CLOCKS_PER_SEC; // calculate the elapsed time
    	printf("O programa demorou %f segundos a executar\n", time_taken);
 
-	/*************************************************************************/
-
 	// Mensagem de conclusao correta do programa
 	printf("Programa concluido com sucesso!\nObrigado por processar imagens conosco! :)\n\n");
-	
-	/*************************************************************************/
 
 	// Sair corretamente do programa
 	exit(0);
