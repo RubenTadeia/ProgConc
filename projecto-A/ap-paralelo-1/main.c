@@ -56,8 +56,8 @@ int main (int argc, char * argv[]){
 	// Variaveis de Threads
 	pthread_t * thread_id_list = (pthread_t *) calloc (n_threads,sizeof(pthread_t));
 	pthread_t thread_id;
-	void * thread_ret;
-	long int ret_val;
+	//void * thread_ret;
+	//long int ret_val;
 
 	// Variaveis de tempo
 	clock_t t;
@@ -143,9 +143,11 @@ int main (int argc, char * argv[]){
 
 	// Thread Join
 	while( gamma < n_threads) {
-		pthread_join(thread_id_list[gamma], &thread_ret);
+		// Se tivessemos return
+		/*pthread_join(thread_id_list[gamma], &thread_ret);
 		ret_val = (long int) thread_ret;
-		printf("Valor que se queira returnar da thread -> %ld\n", ret_val);
+		printf("Valor que se queira returnar da thread -> %ld\n", ret_val);*/
+		pthread_join(thread_id_list[gamma], NULL);
 		gamma++;
 	};
 	

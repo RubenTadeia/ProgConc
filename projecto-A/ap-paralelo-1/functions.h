@@ -6,7 +6,7 @@
  *
  * Arguments: int argc
  * 			  char * argv[]
- * Returns: none
+ * Returns: Não retorna erro se funcionar
  * Side-Effects: none
  *
  * Description: Verifica se os argumentos estão na forma correta

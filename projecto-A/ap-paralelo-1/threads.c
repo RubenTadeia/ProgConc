@@ -62,7 +62,7 @@ void * thread_function_wm_tn_rs(void * arg){
 		printf("DEBUG THREAD: Thread numero = %d não tem imagem para processar\n", thread_argument->thread_id);
 	}
 
-	long int resultado = 1;
+	//long int resultado = 1;
 	
 	// Fim
 	printf("DEBUG THREAD: Thread %d Concluida - A libertar memoria ...\n"
@@ -77,7 +77,7 @@ void * thread_function_wm_tn_rs(void * arg){
 	free(thread_argument->image_folder);
 	free(thread_argument);
 
-	return (void *)resultado;
+	return (void *)NULL;
 }
 
 /******************************************************************************
