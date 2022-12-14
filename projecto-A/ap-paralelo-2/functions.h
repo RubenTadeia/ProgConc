@@ -57,8 +57,7 @@ void free_image_array(char ** images_array, int array_size);
 /******************************************************************************
  * check_images()
  *
- * Arguments: char ** images_array
- * 			  int array_size
+ * Arguments: char * image_string
  * Returns: Devolve um inteiro com valor 1 se encontrar, caso contrário 0 
  * Side-Effects: none
  *
@@ -70,8 +69,7 @@ int check_images(char * image_string);
 /******************************************************************************
  * create_directories()
  *
- * Arguments: char ** images_array
- * 			  int array_size
+ * Arguments: char * images_folder
  * Returns: none
  * Side-Effects: none
  *

@@ -75,7 +75,8 @@ void add_watermark_in_image(char * fileName, char * images_folder){
  * Returns: none
  * Side-Effects: none
  *
- * Description: Add resize to image given the filename
+ * Description: Add resize to image given the filename but uses 
+ * 				a watermark file as inputfile
  *
  *****************************************************************************/
 void add_resize_to_image(char * fileName, char * images_folder){
@@ -134,7 +135,8 @@ void add_resize_to_image(char * fileName, char * images_folder){
  * Returns: none
  * Side-Effects: none
  *
- * Description: Add watermark and resize to image given the filename
+ * Description: Add resize to image given the filename but does
+ * 				watermark on the inputfile and doesn't save it
  *
  *****************************************************************************/
 void add_resize_to_image_with_wm(char * fileName, char * images_folder){
@@ -208,7 +210,8 @@ void add_resize_to_image_with_wm(char * fileName, char * images_folder){
  * Returns: none
  * Side-Effects: none
  *
- * Description: Add thumbnail to image given the filename
+ * Description: Add thumbnail to image given the filename but uses 
+ * 				a watermark file as inputfile
  *
  *****************************************************************************/
 void add_thumbnail_to_image(char * fileName, char * images_folder){
@@ -267,7 +270,8 @@ void add_thumbnail_to_image(char * fileName, char * images_folder){
  * Returns: none
  * Side-Effects: none
  *
- * Description: Add watermark and thumbnail to image given the filename
+ * Description: Add thumbnail to image given the filename but does
+ * 				watermark on the inputfile and doesn't save it
  *
  *****************************************************************************/
 void add_thumbnail_to_image_with_wm(char * fileName, char * images_folder){
@@ -373,7 +377,7 @@ gdImagePtr add_watermark(gdImagePtr in_img, gdImagePtr watermark){
  *              width
  *
  *****************************************************************************/
-gdImagePtr  resize_image(gdImagePtr in_img ,int new_width){
+gdImagePtr resize_image(gdImagePtr in_img ,int new_width){
 	
 	gdImagePtr out_img;
 	int width,heigth;
@@ -405,7 +409,7 @@ gdImagePtr  resize_image(gdImagePtr in_img ,int new_width){
  * Description: thumbnail of image with smalles dimension equal to target size
  *
  *****************************************************************************/
-gdImagePtr  make_thumb(gdImagePtr in_img, int size){
+gdImagePtr make_thumb(gdImagePtr in_img, int size){
 	
 	gdImagePtr out_img, aux_img;
 

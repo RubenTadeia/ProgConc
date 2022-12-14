@@ -97,16 +97,15 @@ int main (int argc, char * argv[]){
 			thread_information->first_image_index = 0;	
 			thread_information->last_image_index = numero_imagens_validas - 1;
 			pthread_create(&thread_id, NULL, thread_function_wm, thread_information);
-			// Descomentar a linha abaixo se quisermos
-			// Ter a thread 1 a fazer tambem resize
-			//pthread_create(&thread_id, NULL, thread_function_wm_rs, thread_information);
-			
+			// TESTES DOS CORES
+			// Esperar pela thread 1 antes de fazer a thread 2 e 3
 			//pthread_join(thread_id, NULL);
 		}
 		// Thread 2
 		else if ( i == 1 ){
 			thread_information->first_image_index = 0;	
 			thread_information->last_image_index =  numero_imagens_validas - 1;
+			// TESTES DOS CORES
 			//pthread_create(&thread_id, NULL, thread_function_rs, thread_information);
 			pthread_create(&thread_id, NULL, thread_function_rs_with_wm, thread_information);
 		}
@@ -114,6 +113,7 @@ int main (int argc, char * argv[]){
 		else if ( i == 2 ){
 			thread_information->first_image_index = 0;	
 			thread_information->last_image_index =  numero_imagens_validas - 1;
+			// TESTES DOS CORES
 			//pthread_create(&thread_id, NULL, thread_function_tn, thread_information);
 			pthread_create(&thread_id, NULL, thread_function_tn_with_wm, thread_information);
 		}
@@ -121,16 +121,22 @@ int main (int argc, char * argv[]){
 		i++;
 	};
 
-	void * thread_ret;
-	float ret_val;
+	// Descomentar se quisermos retornar algo da thread
+	/*void * thread_ret;
+	float ret_val;*/
+	
+	// TESTES DOS CORES
+	//int gamma = 1; 
 	int gamma = 0;
 
 	// Thread Join
 	while( gamma < n_threads) {
-		pthread_join(thread_id_list[gamma], &thread_ret);
+		// Descomentar se quisermos retornar algo da thread
+		/*pthread_join(thread_id_list[gamma], &thread_ret);
 		ret_val = *(float *) thread_ret;
 		free(thread_ret);
-		printf("Valor que se queira returnar da thread -> %f\n", ret_val);
+		printf("Valor que se queira returnar da thread -> %f\n", ret_val); */
+		pthread_join(thread_id_list[gamma], NULL);
 		gamma++;
 	};
 

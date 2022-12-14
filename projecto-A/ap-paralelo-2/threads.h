@@ -23,16 +23,43 @@ typedef struct thread_input_info_struct{
 void * thread_function_wm(void * arg);
 
 /******************************************************************************
+ * thread_function_rs()
+ *
+ * Arguments: void * arg 
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Add resize to image given the filename but uses 
+ * 				a watermark file as inputfile
+ *
+ *****************************************************************************/
+void * thread_function_rs(void * arg);
+
+/******************************************************************************
  * thread_function_rs_with_wm()
  *
  * Arguments: void * arg 
  * Returns: none
  * Side-Effects: none
  *
- * Description: Adds watermark and resize to image
+ * Description: Add resize to image given the filename but does
+ * 				watermark on the inputfile and doesn't save it
  *
  *****************************************************************************/
 void * thread_function_rs_with_wm(void * arg);
+
+/******************************************************************************
+ * thread_function_tn()
+ *
+ * Arguments: void * arg 
+ * Returns: none
+ * Side-Effects: none
+ *
+ * Description: Add thumbnail to image given the filename but uses 
+ * 				a watermark file as inputfile
+ *
+ *****************************************************************************/
+void * thread_function_tn(void * arg);
 
 /******************************************************************************
  * thread_function_tn_with_wm()
@@ -41,22 +68,11 @@ void * thread_function_rs_with_wm(void * arg);
  * Returns: none
  * Side-Effects: none
  *
- * Description: Adds watermark and thumbnail to image
+ * Description: Add thumbnail to image given the filename but does
+ * 				watermark on the inputfile and doesn't save it
  *
  *****************************************************************************/
 void * thread_function_tn_with_wm(void * arg);
-
-/******************************************************************************
- * thread_function_wm_tn()
- *
- * Arguments: void * arg 
- * Returns: none
- * Side-Effects: none
- *
- * Description: Adds watermark and thumbnail to image
- *
- *****************************************************************************/
-void * thread_function_wm_tn(void * arg);
 
 /******************************************************************************
  * get_images_threads_difference()
