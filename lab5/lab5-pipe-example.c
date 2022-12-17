@@ -32,7 +32,7 @@ int main(){
 	// two files descriptiors used to write. read on the pipe
 	int pipe_fd[2];
 	// INDEX 0 -> READS
-	// INDEX 1 -> READS
+	// INDEX 1 -> WRITES
 
 	// initialization of the pipe
 	if (pipe(pipe_fd)!=0){

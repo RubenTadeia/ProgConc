@@ -11,7 +11,7 @@ FILE2 = lab5-serial-prime
 
 # the build of all the binary executables:
 BINARY1 = exercise-1
-BINARY2 = lab5-serial-prime
+BINARY2 = exercise-2
 
 # MAKE all
 all: $(BINARY1) $(BINARY2)

@@ -1,11 +1,12 @@
 #define _GNU_SOURCE
 #include <pthread.h>
-#include<stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 //STEP 1
 
-
+int pipe_fd[2];
 
 #define N_THREADS 4
 /**
@@ -37,21 +38,23 @@ int verify_prime(int value){
 void * verify_primes_thread(void * arg){
 
 	int int_arg = *(int *) arg;
-	int number = 0;
+	//int number = 0;
 	int local_count = 0;
-	int local_n_primes = 0;
-	while (1){
-		// STEP 4
-		if(verify_prime(number) == 1){
-			printf("\t\t%d is prime\n", number);
-			local_n_primes ++;
-		}else{
-			//printf("\t\t%d is not prime\n", number);
-		}
-	} 
-	printf("Thread %d found %d primes on %d processed randoms\n", int_arg, local_n_primes, local_count);
-	pthread_exit(NULL);
-
+	long int local_n_primes = 0;
+	//while (1){
+	// STEP 4
+	int b;
+	read(pipe_fd[0],&b, sizeof(b));
+	if(verify_prime(b) == 1){
+		printf("\t\t%d is prime\n", b);
+		local_n_primes ++;
+	}else{
+		//printf("\t\t%d is not prime\n", number);
+	}
+	//} 
+	printf("Thread %d found %ld primes on %d processed randoms\n", int_arg, local_n_primes, local_count);
+	//pthread_exit(NULL);
+	return (void *) local_n_primes;
 }
 
 /**
@@ -62,40 +65,54 @@ void * verify_primes_thread(void * arg){
 int main(){
 
 	// STEP 2
+	// initialization of the pipe
+	if (pipe(pipe_fd)!=0){
+		printf("ERROR: creating the pipe\n");
+		exit(-1);
+	}
 
 	int total_randoms;
-	printf("Type how many random numbers should be verified ");
+	printf("Type how many random numbers should be verified: ");
 	if (scanf("%d", &total_randoms)!= 1 && total_randoms<1){
 		printf("invalid Number\n");
 		exit(-1);
 	}
 
-/*
-	ciclo para criar as várias threads que irão verificar os numeros
+	// Variaveis das Threads
 	pthread_t t_id[N_THREADS];
+	void * thread_ret;
+	long int ret_val;
 
-	for(int i = 0 ; i < N_THREADS; i++){
+	/*for(int i = 0 ; i < N_THREADS; i++){
 		pthread_create(&t_id[i], NULL, verify_primes_thread, (void *)i);
-	}
+	}*/
 
-*/
+
 	int number;
-	int n_primes = 0;
+	long int n_primes = 0;
 	for(int i = 0; i< total_randoms; i++){
 		number = random();
 		//STEP 3
-		if (verify_prime(number)){
+		write(pipe_fd[1],&number, sizeof(number));
+		
+		//ciclo para criar as várias threads que irão verificar os numeros
+		for(int i = 0 ; i < N_THREADS; i++){
+			pthread_create(&t_id[i], NULL, verify_primes_thread, &i);
+		}
+		//ciclo que esperara a terminação das threads
+		for(int i = 0 ; i < N_THREADS; i++){
+			pthread_join(t_id[i],  &thread_ret);
+			ret_val = (long int) thread_ret;
+			free(thread_ret);
+			n_primes = n_primes + ret_val;
+		}
+
+		/*if (verify_prime(number)){
 			printf("%d is prime\n", number);
 			n_primes ++;
-		}
+		}*/
 	}
-	printf("%d primes in %d randoms\n", n_primes, total_randoms);
+	printf("%ld primes in %d randoms\n", n_primes, total_randoms);
 
-/*
-	ciclo que esperara a terminação das threads
-	for(int i = 0 ; i < N_THREADS; i++){
-		pthread_join(t_id[i],  NULL);
-	}
-*/
 	exit(0);
 }
