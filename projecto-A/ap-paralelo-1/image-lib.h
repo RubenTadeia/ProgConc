@@ -11,7 +11,7 @@
 #include <ctype.h>
 
 /*****************************************************************************/
-// the directories wher output files will be placed
+// the directories where output files will be placed
 #define RESIZE_DIR "/Resize-dir/"
 #define THUMB_DIR "/Thumbnail-dir/"
 #define WATER_DIR "/Watermark-dir/"
