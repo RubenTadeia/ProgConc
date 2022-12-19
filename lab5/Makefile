@@ -6,8 +6,10 @@ CFLAGS = -g -Wall -pedantic
 LIBS = -pthread -lpthread -lgd
 
 # Files
-FILE1 = lab5-pipe-example
-FILE2 = lab5-serial-prime
+#FILE1 = lab5-pipe-example
+#FILE2 = lab5-serial-prime
+FILE1 = exercise-1
+FILE2 = exercise-2
 
 # the build of all the binary executables:
 BINARY1 = exercise-1
