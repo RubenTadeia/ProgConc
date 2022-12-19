@@ -51,7 +51,7 @@ void check_arguments (int argc, char * argv[]){
  * Side-Effects: none
  *
  * Description: Lê o ficheiro que contém o nome das imagens a serem tratadas. 
- * 				Retira o núemro de imagens válidas e um array que contém o nome dessas mesmas imagens
+ * 				Retira o número de imagens válidas e um array que contém o nome dessas mesmas imagens
  *
  *****************************************************************************/
 void read_image_file(char * imagesDirectory, char * fname){
