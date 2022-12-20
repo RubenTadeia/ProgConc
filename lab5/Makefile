@@ -15,6 +15,7 @@ FILE4 = exercise-2-mod
 FILE5 = exercise-3-a-mod
 FILE6 = exercise-3-b
 FILE7 = exercise-4
+FILE8 = exercise-5
 
 # the build of all the binary executables:
 BINARY1 = exercise-1
@@ -24,9 +25,10 @@ BINARY4 = exercise-2-mod
 BINARY5 = exercise-3-a-mod
 BINARY6 = exercise-3-b
 BINARY7 = exercise-4
+BINARY8 = exercise-5
 
 # MAKE all
-all: $(BINARY1) $(BINARY2) $(BINARY3) $(BINARY4) $(BINARY5) $(BINARY6) $(BINARY7)
+all: $(BINARY1) $(BINARY2) $(BINARY3) $(BINARY4) $(BINARY5) $(BINARY6) $(BINARY7) $(BINARY8)
 
 $(BINARY1): $(FILE1).c
 	$(CC) $(CFLAGS) $(FILE1).c -o $(BINARY1) $(LIBS)
@@ -49,6 +51,9 @@ $(BINARY6): $(FILE6).c
 $(BINARY7): $(FILE7).c
 	$(CC) $(CFLAGS) $(FILE7).c -o $(BINARY7) $(LIBS)
 
+$(BINARY8): $(FILE8).c
+	$(CC) $(CFLAGS) $(FILE8).c -o $(BINARY8) $(LIBS)
+
 # MAKE clean
 clean:
 	$(RM) $(BINARY1)
@@ -58,4 +63,5 @@ clean:
 	$(RM) $(BINARY5)
 	$(RM) $(BINARY6)
 	$(RM) $(BINARY7)
+	$(RM) $(BINARY8)
 	
