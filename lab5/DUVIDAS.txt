@@ -1,0 +1,7 @@
+############################
+        DUVIDAS
+############################
+
+1) No exercicio 2, podemos ter um sleep(1) depois do write? Ou precisamos de usar o pthread_join?
+
+2) Porque é que é sempre a thread 4 que faz tudo? 

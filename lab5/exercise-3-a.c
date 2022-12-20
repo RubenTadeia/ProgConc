@@ -7,8 +7,9 @@
 //STEP 1
 
 // Global variables
+
+//long int n_primes;
 int pipe_fd[2];
-long int n_primes;
 #define N_THREADS 4
 
 /**
@@ -52,14 +53,15 @@ void * verify_primes_thread(void * arg){
 	if(verify_prime(b) == 1){
 		printf("\t\t%d is prime\n", b);
 		local_n_primes ++;
-	}else{
+	}
+	else{
 		//printf("\t\t%d is not prime\n", number);
 	}
 	//} 
 	printf("Thread %d found %ld primes on %d processed randoms\n", int_arg, local_n_primes, local_count);
-	n_primes = n_primes + local_n_primes;
+	//n_primes = n_primes + local_n_primes;
+	pthread_exit((void *)local_n_primes);
 	//pthread_exit(NULL);
-	return (void *) NULL;
 	//return (void *) local_n_primes;>
 }
 
@@ -86,8 +88,6 @@ int main(){
 
 	// Variaveis das Threads
 	pthread_t t_id[N_THREADS];
-	//void * thread_ret;
-	//long int ret_val;
 
 	/*for(int i = 0 ; i < N_THREADS; i++){
 		pthread_create(&t_id[i], NULL, verify_primes_thread, (void *)i);
@@ -95,29 +95,33 @@ int main(){
 
 
 	int number;
-	//long int n_primes = 0;
+	long int n_primes = 0;
 	for(int i = 0; i< total_randoms; i++){
 		number = random();
 		//STEP 3
 		write(pipe_fd[1],&number, sizeof(number));
-		sleep(1);
+		//sleep(1);
 
 		//ciclo para criar as várias threads que irão verificar os numeros
 		for(int j = 0 ; j < N_THREADS; j++){
 			pthread_create(&t_id[j], NULL, verify_primes_thread, &j);
 		}
-		//ciclo que esperara a terminação das threads
-		/*for(int i = 0 ; i < N_THREADS; i++){
-			pthread_join(t_id[i],  &thread_ret);
-			ret_val = (long int) thread_ret;
-			free(thread_ret);
-			n_primes = n_primes + ret_val;
-		}*/
 
 		/*if (verify_prime(number)){
 			printf("%d is prime\n", number);
 			n_primes ++;
 		}*/
+	}
+
+	//ciclo que esperara a terminação das threads
+	void * thread_ret;
+	long int ret_val;
+	for(int t = 0 ; t < N_THREADS; t++){
+		//pthread_join(t_id[t],  NULL);
+		pthread_join(t_id[t],  &thread_ret);
+		ret_val = (long int) thread_ret;
+		free(thread_ret);
+		n_primes = n_primes + ret_val;
 	}
 	printf("%ld primes in %d randoms\n", n_primes, total_randoms);
 
