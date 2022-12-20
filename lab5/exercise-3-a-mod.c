@@ -43,7 +43,7 @@ void * verify_primes_thread(void * arg){
     while (1){
         // STEP 4
         read(pipe_fd[0], &number, sizeof(int));
-        // ALTERADO
+        //ALTERADO
         if( number == -1){
             printf("Thread %d found %d primes on %d processed randoms\n", int_arg, local_n_primes, local_count);
             pthread_exit(NULL);
@@ -87,7 +87,7 @@ int main(){
 
     for(int i = 0 ; i < N_THREADS; i++){
         int * int_p = malloc(sizeof(int));
-        *int_p = i;
+        *int_p = i+1;
         pthread_create(&t_id[i], NULL, verify_primes_thread, int_p);
     }
 
@@ -101,7 +101,7 @@ int main(){
     }
 
     //ALTERADO
-    for(int j = 0; j<N_THREADS; j++ ){
+    for(int j = 0; j<N_THREADS; j++){
         int new_number = -1;
         write(pipe_fd[1], &new_number, sizeof(int));
     }
