@@ -1,0 +1,4 @@
+Thread 2 found 31 primes on 580 numbers
+Thread 1 found 29 primes on 421 numbers
+From Join: Thread 0 found 29 primes
+From Join: Thread 1 found 31 primes
