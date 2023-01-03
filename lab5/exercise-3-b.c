@@ -7,6 +7,9 @@
 //GLOBAL VARIABLE
 int counter_random_number_dec;
 
+// Creation of the mutex
+pthread_mutex_t mutex;
+
 //STEP 1
 int pipe_fd[2];
 
@@ -43,17 +46,28 @@ void * verify_primes_thread(void * arg){
 	int number;
 	int local_count = 0;
 	int local_n_primes = 0;
+	//Mutex	
+	pthread_mutex_lock(&mutex);
+	int aux_counter = counter_random_number_dec;
+	counter_random_number_dec--;	
+	pthread_mutex_unlock(&mutex);
+	
 	while (1){
 		// STEP 4
-		if( counter_random_number_dec == 0){
-			printf("Sair da thread %d porque o contador vale %d\n", int_arg, counter_random_number_dec);
+		if( aux_counter == 0){
+			printf("Sair da thread %d porque o contador vale %d\n", int_arg, aux_counter);
 			printf("Thread %d found %d primes on %d processed randoms\n", int_arg, local_n_primes, local_count);
 			pthread_exit(NULL);
 		}
 
 		read(pipe_fd[0], &number, sizeof(int));
+
+		pthread_mutex_lock(&mutex);
+		aux_counter = counter_random_number_dec;
 		counter_random_number_dec--;
-		
+		pthread_mutex_unlock(&mutex);
+
+
 		if(verify_prime(number) == 1){
 			printf("\t\t%d is prime\n", number);
 			local_n_primes ++;
@@ -80,6 +94,8 @@ int main(){
 		printf("ERROR: creating the pipe\n");
 		exit(-1);
 	}
+
+	pthread_mutex_init(&mutex, NULL);
 
 	int total_randoms;
 	printf("Type how many random numbers should be verified ");
@@ -112,6 +128,8 @@ int main(){
 	for(int i = 0 ; i < N_THREADS; i++){
 		pthread_join(t_id[i],  NULL);
 	}
+
+	pthread_mutex_destroy(&mutex);
 
 	exit(0);
 }
