@@ -49,6 +49,7 @@ void * inc_thread(void * arg){
 
 	int partial_count = 0;
 	long int n_primes = 0;
+	int index_local = 0;
 
 	pthread_mutex_lock(&mutex);
 	int i = next_random;
@@ -61,9 +62,10 @@ void * inc_thread(void * arg){
 			//printf("\t\t%d %lu is prime\n", i,rand_num_array[i]);
 			n_primes ++;
 			pthread_mutex_lock(&mutex_2);
-			prime_array[prime_array_index] = rand_num_array[i];
+			index_local = prime_array_index;
 			prime_array_index++;
 			pthread_mutex_unlock(&mutex_2);
+			prime_array[index_local] = rand_num_array[i];
 		}else{
 			//printf("\t\t%d %lu is not prime\n", i,rand_num_array[i]);
 		}
