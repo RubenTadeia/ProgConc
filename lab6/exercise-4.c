@@ -76,7 +76,8 @@ void * inc_thread(void * arg){
 	}
 	printf("Thread %d found %ld primes on %d numbers\n", int_arg, n_primes, partial_count);
 
-	pthread_exit((void *)n_primes);
+	pthread_exit(NULL);
+	//pthread_exit((void *)n_primes);
 }
 
 /**
@@ -88,13 +89,6 @@ int main(){
 
 	pthread_mutex_init(&mutex, NULL);
 	pthread_mutex_init(&mutex_2,NULL);
-
-	// Inicializar o prime_array
-	for(int i = 0 ; i < LENGTH_ARRAY; i++){
-		prime_array[i] = -1;
-	}
-
-	int total_primes = 0;
 
 	for(int  i= 0 ; i < LENGTH_ARRAY; i++){
 		// if the following line is uncommented there will be 59 primes in the array
@@ -109,22 +103,13 @@ int main(){
 	}
 
 
-	long int ret_val;
-	void * thread_ret;
+	//long int ret_val;
+	//void * thread_ret;
 	for(int i = 0 ; i < N_THREADS; i++){
-		pthread_join(t_id[i], &thread_ret);
-		ret_val = (long int) thread_ret;
+		pthread_join(t_id[i], NULL);
+		//pthread_join(t_id[i], &thread_ret);
+		//ret_val = (long int) thread_ret;
 		//printf("From Join: Thread %d found %ld primes\n", i, ret_val);
-	}
-
-	// Inicializar o prime_array
-	for(int i = 0 ; i < LENGTH_ARRAY; i++){
-		if(prime_array[i] == -1){
-			break;
-		}
-		else{
-			total_primes++;
-		}
 	}
 
 	printf("main - total primes %i\n", prime_array_index); // exercise 4
