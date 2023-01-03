@@ -1,0 +1,10 @@
+Thread 5 found 2014 primes on 20819 numbers
+Thread 4 found 1891 primes on 20165 numbers
+Thread 2 found 1934 primes on 20298 numbers
+Thread 3 found 1868 primes on 19646 numbers
+Thread 1 found 1987 primes on 19835 numbers
+From Join: Thread 0 found 1987 primes
+From Join: Thread 1 found 1934 primes
+From Join: Thread 2 found 1868 primes
+From Join: Thread 3 found 1891 primes
+From Join: Thread 4 found 2014 primes
