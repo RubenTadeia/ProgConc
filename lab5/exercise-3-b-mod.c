@@ -47,19 +47,12 @@ void * verify_primes_thread(void * arg){
 	int local_count = 0;
 	int local_n_primes = 0;
 
-	//Mutex	
-	pthread_mutex_lock(&mutex);
-	int aux_counter = counter_random_number_dec;
-	counter_random_number_dec--;
-	pthread_mutex_unlock(&mutex);
-
 	while (1){
-		read(pipe_fd[0], &number, sizeof(int));
-
 		pthread_mutex_lock(&mutex);
-		aux_counter = counter_random_number_dec;
+		int aux_counter = counter_random_number_dec;
 		counter_random_number_dec--;
 		pthread_mutex_unlock(&mutex);
+		read(pipe_fd[0], &number, sizeof(int));
 
 		//ALTERADO
 		if(verify_prime(number) == 1){
