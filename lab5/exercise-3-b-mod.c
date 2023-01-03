@@ -46,13 +46,27 @@ void * verify_primes_thread(void * arg){
 	int number;
 	int local_count = 0;
 	int local_n_primes = 0;
+	int aux_counter = 0;
 
 	while (1){
+		// STEP 4
+
 		pthread_mutex_lock(&mutex);
-		int aux_counter = counter_random_number_dec;
+		aux_counter = counter_random_number_dec;
 		counter_random_number_dec--;
 		pthread_mutex_unlock(&mutex);
-		read(pipe_fd[0], &number, sizeof(int));
+
+		if( aux_counter <= 0)
+		{
+			printf("Sair da thread %d porque o contador vale %d\n", int_arg, aux_counter);
+			printf("Thread %d found %d primes on %d processed randoms\n", int_arg, local_n_primes, local_count);
+			pthread_exit(NULL);
+		}
+		else
+		{
+			read(pipe_fd[0], &number, sizeof(int));
+		}
+		
 
 		//ALTERADO
 		if(verify_prime(number) == 1){
@@ -62,13 +76,6 @@ void * verify_primes_thread(void * arg){
 		}else{
 			local_count++;
 			//printf("\t\t%d is not prime\n", number);
-		}
-
-		// STEP 4
-		if( aux_counter == 0){
-			printf("Sair da thread %d porque o contador vale %d\n", int_arg, aux_counter);
-			printf("Thread %d found %d primes on %d processed randoms\n", int_arg, local_n_primes, local_count);
-			pthread_exit(NULL);
 		}
 	} 
 	printf("Thread %d found %d primes on %d processed randoms ULTIMA\n", int_arg, local_n_primes, local_count);
