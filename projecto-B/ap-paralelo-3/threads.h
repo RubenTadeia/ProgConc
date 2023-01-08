@@ -15,7 +15,7 @@ typedef struct thread_input_info_struct{
  * Returns: none
  * Side-Effects: none
  *
- * Description: Adds watermark to image
+ * Description: Adds watermark to image and reads from the pipe
  *
  *****************************************************************************/
 void * thread_function_wm(void * arg);
@@ -28,7 +28,7 @@ void * thread_function_wm(void * arg);
  * Side-Effects: none
  *
  * Description: Add resize to image given the filename but uses 
- * 				a watermark file as inputfile
+ * 				a watermark file as inputfile and reads from the pipe
  *
  *****************************************************************************/
 void * thread_function_rs(void * arg);
@@ -41,7 +41,7 @@ void * thread_function_rs(void * arg);
  * Side-Effects: none
  *
  * Description: Add thumbnail to image given the filename but uses 
- * 				a watermark file as inputfile
+ * 				a watermark file as inputfile and reads from the pipe
  *
  *****************************************************************************/
 void * thread_function_tn(void * arg);

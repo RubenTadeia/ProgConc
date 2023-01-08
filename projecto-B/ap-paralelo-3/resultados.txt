@@ -1,0 +1,39 @@
+Resultados -> 2 threads -> Resize e thumbnail em paralelo
+- real 3.06
+- user 6.72
+- sys 0.64
+
+Resultados -> 2 threads -> thumbnail depois do resize
+real 3.11
+user 6.81
+sys 0.36
+
+Resultados -> 10 threads -> thumbnail depois do resize
+real 2.34
+user 7.59
+sys 0.63
+
+Resultados -> 10 threads -> Resize e thumbnail em paralelo
+real 2.31
+user 7.65
+sys 0.95
+
+Resultados -> 10 threads -> thumbnail depois do resize -> dataset3
+real 2.31
+user 7.65
+sys 0.95
+
+Resultados -> 10 threads -> Resize e thumbnail em paralelo -> dataset3
+real 3.82
+user 18.21
+sys 2.90
+
+Resultados -> 2 threads -> Resize e thumbnail em paralelo -> dataset3
+real 6.02
+user 14.11
+sys 1.41
+
+Resultados -> 2 threads -> thumbnail depois do resize -> dataset3
+real 5.97
+user 14.11
+sys 0.80

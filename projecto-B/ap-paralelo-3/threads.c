@@ -8,7 +8,7 @@
  * Returns: none
  * Side-Effects: none
  *
- * Description: Adds watermark to image
+ * Description: Adds watermark to image and reads from the pipe
  *
  *****************************************************************************/
 void * thread_function_wm(void * arg){
@@ -69,7 +69,7 @@ void * thread_function_wm(void * arg){
  * Side-Effects: none
  *
  * Description: Add resize to image given the filename but uses 
- * 				a watermark file as inputfile
+ * 				a watermark file as inputfile and reads from the pipe
  *
  *****************************************************************************/
 void * thread_function_rs(void * arg){
@@ -77,6 +77,7 @@ void * thread_function_rs(void * arg){
 	thread_input_info * thread_argument = (thread_input_info *) arg;
 	extern char ** images_array;
 	extern int pipe_resize[2];
+	//extern int pipe_thumbnail[2];
 	extern int numero_imagens_validas;
 	extern int numero_imagens_processadas_resize;
 	extern pthread_mutex_t resize_mutex;
@@ -127,7 +128,7 @@ void * thread_function_rs(void * arg){
  * Side-Effects: none
  *
  * Description: Add thumbnail to image given the filename but uses 
- * 				a watermark file as inputfile
+ * 				a watermark file as inputfile and reads from the pipe
  *
  *****************************************************************************/
 void * thread_function_tn(void * arg){

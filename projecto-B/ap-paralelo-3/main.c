@@ -79,8 +79,8 @@ int main (int argc, char * argv[]){
 	create_directories(images_directory);
 
 	// DEBUG PRINTF's
-	printf("Numero de imagens validas para processar = %d\n",numero_imagens_validas);
-	print_image_array(images_array, numero_imagens_validas);
+	//printf("Numero de imagens validas para processar = %d\n",numero_imagens_validas);
+	//print_image_array(images_array, numero_imagens_validas);
 
 	// Thread Creation
 	for(int i = 0 ; i < n_threads_per_stage; i++){
