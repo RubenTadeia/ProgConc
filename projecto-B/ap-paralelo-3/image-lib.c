@@ -27,7 +27,7 @@ void add_watermark_in_image(char * fileName, char * images_folder){
 	strcat(out_file_name,fileName);
 
 	if( access( out_file_name, F_OK ) != -1){
-		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem à watermark! \n", out_file_name);
+		printf("Watermark: A imagem ja existe %s! Vamos dar skip nesta imagem! \n", out_file_name);
 		free(out_file_name);
 	}else{
 		watermark_img = read_png_file("watermark.png");
@@ -35,7 +35,7 @@ void add_watermark_in_image(char * fileName, char * images_folder){
 			fprintf(stderr, "Impossible to read %s image\n", "watermark.png");
 			exit(7);
 		}
-		printf("watermark  %s\n", fileName);
+		//printf("watermark  %s\n", fileName);
 		// Nome do ficheiro de input
 		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+1+strlen(fileName)+1, sizeof(char));
 		strcpy(fullPath_to_image,images_folder);
@@ -93,10 +93,10 @@ void add_resize_to_image(char * fileName, char * images_folder){
 	strcat(out_file_name,fileName);
 
 	if( access( out_file_name, F_OK ) != -1){
-		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem ao resize da imagem! \n", out_file_name);
+		printf("Resize: A imagem ja existe %s! Vamos dar skip nesta imagem! \n", out_file_name);
 		free(out_file_name);
 	}else{
-		printf("Resize %s\n", fileName);
+		//printf("Resize %s\n", fileName);
 		// Nome do ficheiro de input
 		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+strlen(WATER_DIR)+strlen(fileName)+1, sizeof(char));
 		strcpy(fullPath_to_image,images_folder);
@@ -153,10 +153,10 @@ void add_thumbnail_to_image(char * fileName, char * images_folder){
 	strcat(out_file_name,fileName);
 
 	if( access( out_file_name, F_OK ) != -1){
-		printf("O ficheiro ja existe %s! Vamos dar skip nesta imagem ao thumbnail! \n", out_file_name);
+		printf("Thumbnail: A imagem ja existe %s! Vamos dar skip nesta imagem! \n", out_file_name);
 		free(out_file_name);
 	}else{
-		printf("Thumbnail %s\n", fileName);
+		//printf("Thumbnail %s\n", fileName);
 		// Nome do ficheiro de input
 		char * fullPath_to_image = (char * ) calloc (strlen(images_folder)+strlen(WATER_DIR)+strlen(fileName)+1, sizeof(char));
 		strcpy(fullPath_to_image,images_folder);

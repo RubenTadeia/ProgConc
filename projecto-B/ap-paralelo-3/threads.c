@@ -12,47 +12,53 @@
  *
  *****************************************************************************/
 void * thread_function_wm(void * arg){
-	// Variaveis
+	// Variaveis Globais
 	thread_input_info * thread_argument = (thread_input_info *) arg;
-	//extern char ** images_array;
-
-	// Inicio
-	printf("Watermark: A Thread %d começou agora...\n",thread_argument->thread_id);
-//
-//
-//	// Aqui dentro deste if a thread tem pelo menos uma imagem para processar
-//	if (thread_argument->first_image_index != -1){
-//		int iterator;
-//		for (iterator = thread_argument->first_image_index; iterator <= thread_argument->last_image_index; iterator++){
-//			// Aqui dentro chamamos a funcao de tratamento de imagens
-//			printf("DEBUG THREAD: Thread numero = %d vai processar a imagem %s\n"
-//				, thread_argument->thread_id, images_array[iterator]);
-//
-//			clock_t start_image_water = clock();
-//			add_watermark_in_image(images_array[iterator],thread_argument->image_folder);
-//			end_time_watermark = clock();
-//			time_taken = (double)(end_time_watermark - start_image_water) / CLOCKS_PER_SEC; // calculate the elapsed time
-//			printf("WATERMARK: A Thread %d demorou %f segundos a executar a imagem %s\n"
-//				, thread_argument->thread_id, time_taken,images_array[iterator]);
-//			
-//		}
-//	}
-//	else{
-//		// Aqui dentro significa que a thread nao tem imagem para processar
-//		printf("DEBUG THREAD: Thread numero = %d não tem imagem para processar\n", thread_argument->thread_id);
-//	}
-//
-//	/*float * resultado = malloc(sizeof(float));
-//	*resultado = 1;*/
+	extern char ** images_array;
+	extern int pipe_watermark[2];
+	extern int pipe_resize[2];
+	extern int pipe_thumbnail[2];
+	extern int numero_imagens_validas;
+	extern int numero_imagens_processadas_watermark;
+	extern pthread_mutex_t watermark_mutex;
 	
-	// Fim
-	printf("Watermark: Thread %d Concluida...\n"
-			,thread_argument->thread_id);
+	// Inicio
+	printf("Watermark: A Thread %d iniciou e está à espera de imagens...\n",thread_argument->thread_id);
 
-	// Libertacao de memoria
-	free(thread_argument);
+	while (1){
+		// Variaveis Locais
+		pthread_mutex_lock(&watermark_mutex);
+		int index_local = numero_imagens_processadas_watermark;
+		pthread_mutex_unlock(&watermark_mutex);
 
-	pthread_exit(NULL);
+		if(index_local == numero_imagens_validas){
+			// Fim
+			printf("Watermark: Thread %d Concluida...\n",thread_argument->thread_id);
+
+			// Libertacao de memoria
+			free(thread_argument->image_folder);
+			free(thread_argument);
+			pthread_exit(NULL);
+		}
+		else{
+			int image_array_index; // Variavel Local
+
+			read(pipe_watermark[0], &image_array_index, sizeof(int));
+			
+			pthread_mutex_lock(&watermark_mutex);
+			numero_imagens_processadas_watermark++;
+			index_local = numero_imagens_processadas_watermark;
+			pthread_mutex_unlock(&watermark_mutex);
+
+			printf("Watermark: A Thread %d vai processar a imagem %s\n"
+					,thread_argument->thread_id,images_array[image_array_index]);
+
+			add_watermark_in_image(images_array[image_array_index],thread_argument->image_folder);
+
+			write(pipe_resize[1], &image_array_index, sizeof(int));
+			write(pipe_thumbnail[1], &image_array_index, sizeof(int));
+		}
+	}
 }
 
 /******************************************************************************
@@ -67,45 +73,50 @@ void * thread_function_wm(void * arg){
  *
  *****************************************************************************/
 void * thread_function_rs(void * arg){
-	// Variaveis
+	// Variaveis Globais
 	thread_input_info * thread_argument = (thread_input_info *) arg;
-	//extern char ** images_array;
+	extern char ** images_array;
+	extern int pipe_resize[2];
+	extern int numero_imagens_validas;
+	extern int numero_imagens_processadas_resize;
+	extern pthread_mutex_t resize_mutex;
 
 	// Inicio
-	printf("Resize: A Thread %d começou agora...\n",thread_argument->thread_id);
+	printf("Resize: A Thread %d iniciou e está à espera de imagens...\n",thread_argument->thread_id);
 
-//	// Aqui dentro deste if a thread tem pelo menos uma imagem para processar
-//	if (thread_argument->first_image_index != -1){
-//		int iterator;
-//		for (iterator = thread_argument->first_image_index; iterator <= thread_argument->last_image_index; iterator++){
-//			// Aqui dentro chamamos a funcao de tratamento de imagens
-//			printf("DEBUG THREAD: Thread numero = %d vai processar a imagem %s\n"
-//				, thread_argument->thread_id, images_array[iterator]);
-//
-//			clock_t start_image_resize = clock();
-//			add_resize_to_image(images_array[iterator],thread_argument->image_folder);
-//			end_time_resize = clock();
-//			time_taken = (double)(end_time_resize - start_image_resize) / CLOCKS_PER_SEC; // calculate the elapsed time
-//			printf("RESIZE: A Thread %d demorou %f segundos a executar a imagem %s\n",
-//				 thread_argument->thread_id, time_taken,images_array[iterator]);
-//		} 
-//	}
-//	else{
-//		// Aqui dentro significa que a thread nao tem imagem para processar
-//		printf("DEBUG THREAD: Thread numero = %d não tem imagem para processar\n", thread_argument->thread_id);
-//	}
-//
-//	/*float * resultado = malloc(sizeof(float));
-//	*resultado = 1;*/
+	while (1){
+		// Variaveis Locais
+		pthread_mutex_lock(&resize_mutex);
+		int index_local = numero_imagens_processadas_resize;
+		pthread_mutex_unlock(&resize_mutex);
 
-	// Fim
-	printf("Resize: Thread %d Concluida...\n"
-			,thread_argument->thread_id);
+		if(index_local == numero_imagens_validas){
+			// Fim
+			printf("Resize: Thread %d Concluida...\n",thread_argument->thread_id);
 
-	// Libertacao de memoria
-	free(thread_argument);
+			// Libertacao de memoria
+			free(thread_argument->image_folder);
+			free(thread_argument);
+			pthread_exit(NULL);
+		}
+		else{
+			int image_array_index; // Variavel Local
 
-	pthread_exit(NULL);
+			read(pipe_resize[0], &image_array_index, sizeof(int));
+			
+			pthread_mutex_lock(&resize_mutex);
+			numero_imagens_processadas_resize++;
+			index_local = numero_imagens_processadas_resize;
+			pthread_mutex_unlock(&resize_mutex);
+
+			printf("Resize: A Thread %d vai processar a imagem %s\n"
+					,thread_argument->thread_id,images_array[image_array_index]);
+
+			add_resize_to_image(images_array[image_array_index],thread_argument->image_folder);
+
+			//write(pipe_thumbnail[1], &image_array_index, sizeof(int));
+		}
+	}
 }
 
 /******************************************************************************
@@ -120,44 +131,46 @@ void * thread_function_rs(void * arg){
  *
  *****************************************************************************/
 void * thread_function_tn(void * arg){
-	// Variaveis
+	// Variaveis Globais
 	thread_input_info * thread_argument = (thread_input_info *) arg;
-	//extern char ** images_array;
+	extern char ** images_array;
+	extern int pipe_thumbnail[2];
+	extern int numero_imagens_validas;
+	extern int numero_imagens_processadas_thumbnail;
+	extern pthread_mutex_t thumbnail_mutex;
 
 	// Inicio
-	printf("Thumbnail: A Thread %d começou agora...\n",thread_argument->thread_id);
-//
-//	// Aqui dentro deste if a thread tem pelo menos uma imagem para processar
-//	if (thread_argument->first_image_index != -1){
-//		int iterator;
-//		for (iterator = thread_argument->first_image_index; iterator <= thread_argument->last_image_index; iterator++){
-//
-//			// Aqui dentro chamamos a funcao de tratamento de imagens
-//			printf("DEBUG THREAD: Thread numero = %d vai processar a imagem %s\n"
-//				, thread_argument->thread_id, images_array[iterator]);
-//
-//			clock_t start_image_thumbnail = clock();
-//			add_thumbnail_to_image(images_array[iterator],thread_argument->image_folder);
-//			end_time_thumbnail = clock();
-//			time_taken = (double)(end_time_thumbnail - start_image_thumbnail) / CLOCKS_PER_SEC; // calculate the elapsed time
-//			printf("THUMBNAIL: A Thread %d demorou %f segundos a executar a imagem %s\n", 
-//				thread_argument->thread_id, time_taken,images_array[iterator]);
-//		}
-//	}
-//	else{
-//		// Aqui dentro significa que a thread nao tem imagem para processar
-//		printf("DEBUG THREAD: Thread numero = %d não tem imagem para processar\n", thread_argument->thread_id);
-//	}
-//
-//	/*float * resultado = malloc(sizeof(float));
-//	*resultado = 1;*/
+	printf("Thumbnail: A Thread %d iniciou e está à espera de imagens...\n",thread_argument->thread_id);
 
-	// Fim
-	printf("Thumbnail: Thread %d Concluida...\n"
-			,thread_argument->thread_id);
+	while (1){
+		// Variaveis Locais
+		pthread_mutex_lock(&thumbnail_mutex);
+		int index_local = numero_imagens_processadas_thumbnail;
+		pthread_mutex_unlock(&thumbnail_mutex);
 
-	// Libertacao de memoria
-	free(thread_argument);
+		if(index_local == numero_imagens_validas){
+			// Fim
+			printf("Thumbnail: Thread %d Concluida...\n",thread_argument->thread_id);
 
-	pthread_exit(NULL);
+			// Libertacao de memoria
+			free(thread_argument->image_folder);
+			free(thread_argument);
+			pthread_exit(NULL);
+		}
+		else{
+			int image_array_index; // Variavel Local
+
+			read(pipe_thumbnail[0], &image_array_index, sizeof(int));
+			
+			pthread_mutex_lock(&thumbnail_mutex);
+			numero_imagens_processadas_thumbnail++;
+			index_local = numero_imagens_processadas_thumbnail;
+			pthread_mutex_unlock(&thumbnail_mutex);
+
+			printf("Thumbnail: A Thread %d vai processar a imagem %s\n"
+					,thread_argument->thread_id,images_array[image_array_index]);
+
+			add_thumbnail_to_image(images_array[image_array_index],thread_argument->image_folder);
+		}
+	}
 }

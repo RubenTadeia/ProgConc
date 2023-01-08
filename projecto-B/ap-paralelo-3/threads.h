@@ -4,6 +4,7 @@
 /*****************************************************************************/
 // Structure
 typedef struct thread_input_info_struct{
+	char * image_folder;
 	int thread_id;
 } thread_input_info;
 

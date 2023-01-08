@@ -25,7 +25,18 @@
 int max_word_len = 0; // Tamanho maximo por palavra
 char ** images_array; // Array com o nome das imagens
 int numero_imagens_validas = 0; // Contem o numero de nomes validos de imagens
-int pipe_fd[2];
+
+int pipe_watermark[2]; // Pipe onde se vai escrever e ler para watermark
+int pipe_resize[2]; // Pipe onde se vai escrever e ler para resize
+int pipe_thumbnail[2]; // Pipe onde se vai escrever e ler para thumbnail
+
+int numero_imagens_processadas_watermark = 0; // Numero de imagens processadas - watermark
+int numero_imagens_processadas_resize = 0; // Numero de imagens processadas - resize
+int numero_imagens_processadas_thumbnail = 0; // Numero de imagens processadas- thumbnail
+
+pthread_mutex_t watermark_mutex;
+pthread_mutex_t resize_mutex;
+pthread_mutex_t thumbnail_mutex;
 
 /******************************************************************************
  * main()
@@ -44,10 +55,15 @@ int main (int argc, char * argv[]){
 	check_arguments (argc, argv);
 
 	// Inicializacao da pipe
-	if (pipe(pipe_fd)!=0){
-		printf("ERROR: creating the pipe\n");
+	if ( pipe(pipe_watermark) !=0 || pipe(pipe_resize) !=0 || pipe(pipe_thumbnail) !=0){
+		printf("ERROR: creating a pipe!\n");
 		exit(-1);
 	}
+
+	// Inicializacao dos mutex
+	pthread_mutex_init(&watermark_mutex, NULL);
+	pthread_mutex_init(&resize_mutex, NULL);
+	pthread_mutex_init(&thumbnail_mutex, NULL);
 
 	// Guardar argumentos de entrada em variaveis
 	int n_threads_per_stage = atoi(argv[2]);
@@ -63,7 +79,7 @@ int main (int argc, char * argv[]){
 	create_directories(images_directory);
 
 	// DEBUG PRINTF's
-	printf("Numero nomes validos para imagens = %d\n",numero_imagens_validas);
+	printf("Numero de imagens validas para processar = %d\n",numero_imagens_validas);
 	print_image_array(images_array, numero_imagens_validas);
 
 	// Thread Creation
@@ -71,15 +87,29 @@ int main (int argc, char * argv[]){
 		thread_input_info * thread_information_wm = (thread_input_info *) malloc (sizeof(thread_input_info));
 		thread_input_info * thread_information_rs = (thread_input_info *) malloc (sizeof(thread_input_info));
 		thread_input_info * thread_information_tn = (thread_input_info *) malloc (sizeof(thread_input_info));
+		
 		thread_information_wm->thread_id = i + 1;
 		thread_information_rs->thread_id = i + 1;
 		thread_information_tn->thread_id = i + 1;
+		
+		thread_information_wm->image_folder = (char *) calloc(strlen(images_directory)+1, sizeof(char));
+		strcpy(thread_information_wm->image_folder,images_directory);
+
+		thread_information_rs->image_folder = (char *) calloc(strlen(images_directory)+1, sizeof(char));
+		strcpy(thread_information_rs->image_folder,images_directory);
+
+		thread_information_tn->image_folder = (char *) calloc(strlen(images_directory)+1, sizeof(char));
+		strcpy(thread_information_tn->image_folder,images_directory);
+
 		pthread_create(&thread_id_list[i], NULL, thread_function_wm, thread_information_wm);
 		pthread_create(&thread_id_list[i+n_threads_per_stage], NULL, thread_function_rs, thread_information_rs);
 		pthread_create(&thread_id_list[i+n_threads_per_stage+n_threads_per_stage], NULL, thread_function_tn, thread_information_tn);
 	}
 
-	// Main loop
+	// Main loop - Escrita dos nomes das imagens a serem processadas
+	for(int image_array_index = 0; image_array_index < numero_imagens_validas; image_array_index++){
+		write(pipe_watermark[1], &image_array_index, sizeof(int));
+	}
 
 	// Final Loop to await the ending of threads
 	for(int i = 0 ; i < numero_de_stages * n_threads_per_stage; i++){
@@ -91,6 +121,11 @@ int main (int argc, char * argv[]){
 	free_image_array(images_array,numero_imagens_validas);
 	free(images_directory);
 	free(thread_id_list);
+
+	// Destruicao dos mutex
+	pthread_mutex_destroy(&watermark_mutex);
+	pthread_mutex_destroy(&resize_mutex);
+	pthread_mutex_destroy(&thumbnail_mutex);
 
 	// Mensagem de conclusao correta do programa
 	printf("Programa terminado com sucesso!\n");
