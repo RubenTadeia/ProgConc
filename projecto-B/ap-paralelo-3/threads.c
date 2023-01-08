@@ -43,12 +43,12 @@ void * thread_function_wm(void * arg){
 		else{
 			int image_array_index; // Variavel Local
 
-			read(pipe_watermark[0], &image_array_index, sizeof(int));
-			
 			pthread_mutex_lock(&watermark_mutex);
 			numero_imagens_processadas_watermark++;
 			index_local = numero_imagens_processadas_watermark;
 			pthread_mutex_unlock(&watermark_mutex);
+
+			read(pipe_watermark[0], &image_array_index, sizeof(int));
 
 			printf("Watermark: A Thread %d vai processar a imagem %s\n"
 					,thread_argument->thread_id,images_array[image_array_index]);
@@ -102,12 +102,12 @@ void * thread_function_rs(void * arg){
 		else{
 			int image_array_index; // Variavel Local
 
-			read(pipe_resize[0], &image_array_index, sizeof(int));
-			
 			pthread_mutex_lock(&resize_mutex);
 			numero_imagens_processadas_resize++;
 			index_local = numero_imagens_processadas_resize;
 			pthread_mutex_unlock(&resize_mutex);
+
+			read(pipe_resize[0], &image_array_index, sizeof(int));
 
 			printf("Resize: A Thread %d vai processar a imagem %s\n"
 					,thread_argument->thread_id,images_array[image_array_index]);
@@ -160,13 +160,13 @@ void * thread_function_tn(void * arg){
 		else{
 			int image_array_index; // Variavel Local
 
-			read(pipe_thumbnail[0], &image_array_index, sizeof(int));
-			
 			pthread_mutex_lock(&thumbnail_mutex);
 			numero_imagens_processadas_thumbnail++;
 			index_local = numero_imagens_processadas_thumbnail;
 			pthread_mutex_unlock(&thumbnail_mutex);
 
+			read(pipe_thumbnail[0], &image_array_index, sizeof(int));
+			
 			printf("Thumbnail: A Thread %d vai processar a imagem %s\n"
 					,thread_argument->thread_id,images_array[image_array_index]);
 
