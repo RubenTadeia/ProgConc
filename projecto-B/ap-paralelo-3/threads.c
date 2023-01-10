@@ -8,7 +8,7 @@
  * Returns: none
  * Side-Effects: none
  *
- * Description: Adds watermark to image and reads from the pipe
+ * Description: Adds watermark to image	 and reads from the pipe
  *
  *****************************************************************************/
 void * thread_function_wm(void * arg){
