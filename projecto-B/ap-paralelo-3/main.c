@@ -21,19 +21,22 @@
 #define IMAGE_FILE "image-list.txt"
 
 /*****************************************************************************/
-// Variaveis Globais
+// Variaveis Globais Gerais
 int max_word_len = 0; // Tamanho maximo por palavra
 char ** images_array; // Array com o nome das imagens
 int numero_imagens_validas = 0; // Contem o numero de nomes validos de imagens
 
+// Pipes
 int pipe_watermark[2]; // Pipe onde se vai escrever e ler para watermark
 int pipe_resize[2]; // Pipe onde se vai escrever e ler para resize
 int pipe_thumbnail[2]; // Pipe onde se vai escrever e ler para thumbnail
 
+// Variaveis para saída das threads
 int numero_imagens_processadas_watermark = 0; // Numero de imagens processadas - watermark
 int numero_imagens_processadas_resize = 0; // Numero de imagens processadas - resize
 int numero_imagens_processadas_thumbnail = 0; // Numero de imagens processadas- thumbnail
 
+// Mutex
 pthread_mutex_t watermark_mutex;
 pthread_mutex_t resize_mutex;
 pthread_mutex_t thumbnail_mutex;
